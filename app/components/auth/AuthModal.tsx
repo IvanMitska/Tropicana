@@ -5,7 +5,7 @@ import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
 import { ResetPasswordForm } from './ResetPasswordForm';
 import useAuthModalStore from '@/app/hooks/useAuthModalStore';
-import useAuth from '@/app/hooks/useAuth';
+import { useAuth } from '@/app/hooks/useAuth';
 
 type AuthType = 'login' | 'register' | 'reset';
 

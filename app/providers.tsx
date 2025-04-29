@@ -1,7 +1,7 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { AuthProvider } from '@/app/contexts/AuthContext';
+import { AuthProvider } from '@/app/hooks/useAuth';
 
 // Создание клиента React Query
 const queryClient = new QueryClient({

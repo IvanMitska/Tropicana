@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, User, LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useAuth } from '@/app/contexts/AuthContext';
+import { useAuth } from '@/app/hooks/useAuth';
 import { Button } from '../ui/Button';
 import { Dropdown } from '../ui/Dropdown';
 
