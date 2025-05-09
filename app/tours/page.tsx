@@ -2,11 +2,16 @@
 
 import React, { useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import MainLayout from '../components/layout/MainLayout';
 
 export default function ToursPage() {
   // Проверка режима разработки/демо - устанавливаем в false, чтобы отображать полный дизайн
   const [isDemoMode] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('Морские экскурсии');
+  
+  // Категории экскурсий
+  const categories = ['Морские экскурсии', 'Культурные места', 'Активный отдых', 'Природные красоты', 'Гастрономические туры'];
   
   // Используем динамический импорт только если не в режиме демо
   const TourMap = useMemo(() => {
@@ -21,6 +26,11 @@ export default function ToursPage() {
     }
     return null;
   }, [isDemoMode]);
+
+  // Обработчик выбора категории
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+  };
 
   return (
     <MainLayout>
@@ -60,16 +70,16 @@ export default function ToursPage() {
               Увлекательные экскурсии по Пхукету и соседним островам с русскоговорящими гидами
             </p>
             
-            {/* Здесь будет размещен TourCategories компонент с категориями */}
+            {/* Компонент с категориями */}
             <div className="mb-8 bg-white rounded-xl shadow-md p-6">
-              {/* Заглушка для категорий */}
               <div className="flex overflow-x-auto gap-4 pb-2">
-                {['Морские экскурсии', 'Культурные места', 'Активный отдых', 'Природные красоты', 'Гастрономические туры'].map((cat, index) => (
+                {categories.map((category, index) => (
                   <div 
                     key={index} 
-                    className={`px-4 py-2 ${index === 0 ? 'bg-primary text-white' : 'bg-light hover:bg-primary/10'} rounded-lg cursor-pointer whitespace-nowrap transition-colors`}
+                    className={`px-4 py-2 ${selectedCategory === category ? 'bg-primary text-white' : 'bg-light hover:bg-primary/10'} rounded-lg cursor-pointer whitespace-nowrap transition-colors`}
+                    onClick={() => handleCategorySelect(category)}
                   >
-                    {cat}
+                    {category}
                   </div>
                 ))}
               </div>
@@ -155,7 +165,7 @@ export default function ToursPage() {
                   </div>
                 </div>
                 
-                {/* Плейсхолдер для списка экскурсий */}
+                {/* Список экскурсий */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {Array.from({ length: 6 }).map((_, index) => (
                     <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
@@ -164,7 +174,7 @@ export default function ToursPage() {
                       </div>
                       <div className="p-6">
                         <div className="flex justify-between mb-2">
-                          <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Морская</span>
+                          <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">{selectedCategory.replace(' туры', '').replace('Морские экскурсии', 'Морская')}</span>
                           <div className="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-yellow-400">
                               <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
@@ -179,9 +189,9 @@ export default function ToursPage() {
                             <span className="text-primary font-bold text-xl">3 500 ₽</span>
                             <span className="text-gray-500 text-sm"> / чел</span>
                           </div>
-                          <button className="bg-primary hover:bg-primary-light text-white px-4 py-2 rounded-lg transition-colors">
+                          <Link href={`/tours/tour-${index + 1}`} className="bg-primary hover:bg-primary-light text-white px-4 py-2 rounded-lg transition-colors">
                             Подробнее
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
