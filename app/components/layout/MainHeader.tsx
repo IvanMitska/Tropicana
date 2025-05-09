@@ -13,8 +13,11 @@ const MainHeader = () => {
 
   // Отслеживание скролла для изменения стиля шапки
   useEffect(() => {
+    // Устанавливаем начальное состояние в зависимости от позиции скролла
+    setIsScrolled(window.scrollY > 0);
+    
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -28,7 +31,7 @@ const MainHeader = () => {
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-dark shadow-lg py-2' : 'bg-transparent py-4'
+        isScrolled ? 'bg-dark shadow-lg py-2' : 'bg-dark/90 py-4'
       }`}
     >
       <div className="container mx-auto px-4">
