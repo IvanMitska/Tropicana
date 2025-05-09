@@ -156,14 +156,12 @@ export function useVehicles() {
   };
 
   // Запрос данных с помощью React Query
-  const { data, isLoading, isError, error, refetch } = useQuery<VehiclesResponse, Error>(
-    ['vehicles', filters, sortOption, pagination],
-    fetchVehicles,
-    {
-      keepPreviousData: true,
-      staleTime: 1000 * 60 * 5, // 5 минут
-    }
-  );
+  const { data, isLoading, isError, error, refetch } = useQuery<VehiclesResponse, Error>({
+    queryKey: ['vehicles', filters, sortOption, pagination],
+    queryFn: fetchVehicles,
+    keepPreviousData: true,
+    staleTime: 1000 * 60 * 5, // 5 минут
+  });
 
   // Получение популярных транспортных средств
   const fetchFeaturedVehicles = async (): Promise<Vehicle[]> => {
@@ -180,13 +178,11 @@ export function useVehicles() {
     data: featuredVehicles,
     isLoading: isFeaturedLoading,
     isError: isFeaturedError 
-  } = useQuery<Vehicle[], Error>(
-    'featuredVehicles',
-    fetchFeaturedVehicles,
-    {
-      staleTime: 1000 * 60 * 10, // 10 минут
-    }
-  );
+  } = useQuery<Vehicle[], Error>({
+    queryKey: ['featuredVehicles'],
+    queryFn: fetchFeaturedVehicles,
+    staleTime: 1000 * 60 * 10, // 10 минут
+  });
 
   // Получение деталей транспортного средства
   const fetchVehicleDetails = async (id: string): Promise<Vehicle> => {

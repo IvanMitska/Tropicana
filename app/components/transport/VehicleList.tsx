@@ -100,7 +100,7 @@ export default function VehicleList({
               id="sort"
               value={sortOption}
               onChange={(e) => onSortChange(e.target.value as SortOption)}
-              className="px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+              className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:border-dark focus:ring-1 focus:ring-dark outline-none"
               disabled={isLoading}
             >
               {sortOptions.map(option => (
@@ -116,7 +116,7 @@ export default function VehicleList({
             <button
               className={`p-2 ${
                 viewMode === 'grid'
-                  ? 'bg-blue-50 text-blue-600'
+                  ? 'bg-dark-light/10 text-dark'
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
               onClick={() => onViewModeChange('grid')}
@@ -128,7 +128,7 @@ export default function VehicleList({
             <button
               className={`p-2 ${
                 viewMode === 'list'
-                  ? 'bg-blue-50 text-blue-600'
+                  ? 'bg-dark-light/10 text-dark'
                   : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
               onClick={() => onViewModeChange('list')}

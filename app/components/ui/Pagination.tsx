@@ -12,6 +12,7 @@ export interface PaginationProps {
   className?: string;
   showFirstLastButtons?: boolean;
   siblingCount?: number;
+  disabled?: boolean;
 }
 
 export const Pagination = ({
@@ -22,6 +23,7 @@ export const Pagination = ({
   className,
   showFirstLastButtons = false,
   siblingCount = 1,
+  disabled = false,
 }: PaginationProps) => {
   // Не показываем пагинацию, если у нас всего одна страница
   if (totalPages <= 1) return null;
@@ -75,28 +77,28 @@ export const Pagination = ({
 
   // Функция для перехода на предыдущую страницу
   const handlePrevPage = () => {
-    if (currentPage > 1) {
+    if (currentPage > 1 && !disabled) {
       if (onPageChange) onPageChange(currentPage - 1);
     }
   };
 
   // Функция для перехода на следующую страницу
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
+    if (currentPage < totalPages && !disabled) {
       if (onPageChange) onPageChange(currentPage + 1);
     }
   };
 
   // Функция для перехода на первую страницу
   const handleFirstPage = () => {
-    if (currentPage !== 1) {
+    if (currentPage !== 1 && !disabled) {
       if (onPageChange) onPageChange(1);
     }
   };
 
   // Функция для перехода на последнюю страницу
   const handleLastPage = () => {
-    if (currentPage !== totalPages) {
+    if (currentPage !== totalPages && !disabled) {
       if (onPageChange) onPageChange(totalPages);
     }
   };
@@ -112,8 +114,9 @@ export const Pagination = ({
 
   // Общие стили для кнопок страниц
   const buttonClass = 'px-3 py-2 border rounded-md text-sm';
-  const activeButtonClass = 'bg-primary text-white border-primary';
+  const activeButtonClass = 'bg-dark text-white border-dark';
   const inactiveButtonClass = 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50';
+  const disabledClass = 'opacity-50 cursor-not-allowed';
 
   return (
     <nav className={`flex items-center justify-center space-x-1 ${className || ''}`}>
@@ -124,10 +127,10 @@ export const Pagination = ({
             <Link
               href={getPageUrl(1)}
               className={`${buttonClass} ${inactiveButtonClass} ${
-                currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                currentPage === 1 || disabled ? disabledClass : ''
               }`}
-              aria-disabled={currentPage === 1}
-              tabIndex={currentPage === 1 ? -1 : undefined}
+              aria-disabled={currentPage === 1 || disabled}
+              tabIndex={currentPage === 1 || disabled ? -1 : undefined}
               aria-label="Первая страница"
             >
               First
@@ -135,9 +138,9 @@ export const Pagination = ({
           ) : (
             <button
               onClick={handleFirstPage}
-              disabled={currentPage === 1}
+              disabled={currentPage === 1 || disabled}
               className={`${buttonClass} ${inactiveButtonClass} ${
-                currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                currentPage === 1 || disabled ? disabledClass : ''
               }`}
               aria-label="Первая страница"
             >
@@ -152,10 +155,10 @@ export const Pagination = ({
         <Link
           href={currentPage > 1 ? getPageUrl(currentPage - 1) : '#'}
           className={`${buttonClass} ${inactiveButtonClass} ${
-            currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+            currentPage === 1 || disabled ? disabledClass : ''
           }`}
-          aria-disabled={currentPage === 1}
-          tabIndex={currentPage === 1 ? -1 : undefined}
+          aria-disabled={currentPage === 1 || disabled}
+          tabIndex={currentPage === 1 || disabled ? -1 : undefined}
           aria-label="Предыдущая страница"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -163,9 +166,9 @@ export const Pagination = ({
       ) : (
         <button
           onClick={handlePrevPage}
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || disabled}
           className={`${buttonClass} ${inactiveButtonClass} ${
-            currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+            currentPage === 1 || disabled ? disabledClass : ''
           }`}
           aria-label="Предыдущая страница"
         >
@@ -195,18 +198,21 @@ export const Pagination = ({
             href={getPageUrl(pageNumber)}
             className={`${buttonClass} ${
               isActive ? activeButtonClass : inactiveButtonClass
-            }`}
+            } ${disabled ? disabledClass : ''}`}
             aria-current={isActive ? 'page' : undefined}
+            aria-disabled={disabled}
+            tabIndex={disabled ? -1 : undefined}
           >
             {pageNumber}
           </Link>
         ) : (
           <button
             key={pageNumber}
-            onClick={() => onPageChange && onPageChange(pageNumber)}
+            onClick={() => !disabled && onPageChange && onPageChange(pageNumber)}
+            disabled={disabled}
             className={`${buttonClass} ${
               isActive ? activeButtonClass : inactiveButtonClass
-            }`}
+            } ${disabled ? disabledClass : ''}`}
             aria-current={isActive ? 'page' : undefined}
           >
             {pageNumber}
@@ -219,10 +225,10 @@ export const Pagination = ({
         <Link
           href={currentPage < totalPages ? getPageUrl(currentPage + 1) : '#'}
           className={`${buttonClass} ${inactiveButtonClass} ${
-            currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+            currentPage === totalPages || disabled ? disabledClass : ''
           }`}
-          aria-disabled={currentPage === totalPages}
-          tabIndex={currentPage === totalPages ? -1 : undefined}
+          aria-disabled={currentPage === totalPages || disabled}
+          tabIndex={currentPage === totalPages || disabled ? -1 : undefined}
           aria-label="Следующая страница"
         >
           <ChevronRight className="h-4 w-4" />
@@ -230,9 +236,9 @@ export const Pagination = ({
       ) : (
         <button
           onClick={handleNextPage}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || disabled}
           className={`${buttonClass} ${inactiveButtonClass} ${
-            currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+            currentPage === totalPages || disabled ? disabledClass : ''
           }`}
           aria-label="Следующая страница"
         >
@@ -247,10 +253,10 @@ export const Pagination = ({
             <Link
               href={getPageUrl(totalPages)}
               className={`${buttonClass} ${inactiveButtonClass} ${
-                currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+                currentPage === totalPages || disabled ? disabledClass : ''
               }`}
-              aria-disabled={currentPage === totalPages}
-              tabIndex={currentPage === totalPages ? -1 : undefined}
+              aria-disabled={currentPage === totalPages || disabled}
+              tabIndex={currentPage === totalPages || disabled ? -1 : undefined}
               aria-label="Последняя страница"
             >
               Last
@@ -258,9 +264,9 @@ export const Pagination = ({
           ) : (
             <button
               onClick={handleLastPage}
-              disabled={currentPage === totalPages}
+              disabled={currentPage === totalPages || disabled}
               className={`${buttonClass} ${inactiveButtonClass} ${
-                currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+                currentPage === totalPages || disabled ? disabledClass : ''
               }`}
               aria-label="Последняя страница"
             >
