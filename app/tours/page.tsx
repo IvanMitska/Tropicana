@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic';
 import MainLayout from '../components/layout/MainLayout';
 
 export default function ToursPage() {
-  // Проверка режима разработки/демо
-  const [isDemoMode] = useState(true);
+  // Проверка режима разработки/демо - устанавливаем в false, чтобы отображать полный дизайн
+  const [isDemoMode] = useState(false);
   
   // Используем динамический импорт только если не в режиме демо
   const TourMap = useMemo(() => {
@@ -53,9 +53,12 @@ export default function ToursPage() {
         </main>
       ) : (
         // Основной контент с новыми стилями
-        <div className="bg-light py-8">
+        <div className="bg-light pt-24 pb-16">
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl md:text-4xl font-bold text-dark text-center mb-8">Экскурсии на Пхукете</h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-dark text-center mb-2">Экскурсии на Пхукете</h1>
+            <p className="text-xl text-gray-600 text-center max-w-4xl mx-auto mb-10">
+              Увлекательные экскурсии по Пхукету и соседним островам с русскоговорящими гидами
+            </p>
             
             {/* Здесь будет размещен TourCategories компонент с категориями */}
             <div className="mb-8 bg-white rounded-xl shadow-md p-6">
@@ -64,7 +67,7 @@ export default function ToursPage() {
                 {['Морские экскурсии', 'Культурные места', 'Активный отдых', 'Природные красоты', 'Гастрономические туры'].map((cat, index) => (
                   <div 
                     key={index} 
-                    className="px-4 py-2 bg-light hover:bg-primary hover:text-white rounded-lg cursor-pointer whitespace-nowrap transition-colors"
+                    className={`px-4 py-2 ${index === 0 ? 'bg-primary text-white' : 'bg-light hover:bg-primary/10'} rounded-lg cursor-pointer whitespace-nowrap transition-colors`}
                   >
                     {cat}
                   </div>
@@ -117,7 +120,7 @@ export default function ToursPage() {
                     </select>
                   </div>
                   
-                  <button className="w-full bg-primary hover:bg-primary-dark text-white py-2 px-4 rounded-lg transition-colors">
+                  <button className="w-full bg-primary hover:bg-primary-light text-white py-2 px-4 rounded-lg transition-colors">
                     Применить фильтры
                   </button>
                 </div>
@@ -126,7 +129,7 @@ export default function ToursPage() {
               {/* Правая колонка с результатами */}
               <div className="lg:w-3/4">
                 {/* Верхняя панель с переключателем отображения и сортировкой */}
-                <div className="flex justify-between items-center mb-6 bg-white rounded-xl shadow-md p-4">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 bg-white rounded-xl shadow-md p-4 gap-4">
                   <div>
                     <span className="text-gray-600">Найдено 15 экскурсий</span>
                   </div>
@@ -154,9 +157,9 @@ export default function ToursPage() {
                 
                 {/* Плейсхолдер для списка экскурсий */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {Array.from({ length: 4 }).map((_, index) => (
+                  {Array.from({ length: 6 }).map((_, index) => (
                     <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                      <div className="h-40 bg-gradient-to-br from-dark-light to-dark flex items-center justify-center text-white text-opacity-70">
+                      <div className="h-52 bg-gradient-to-br from-dark-light to-dark flex items-center justify-center text-white text-opacity-70">
                         [Изображение экскурсии]
                       </div>
                       <div className="p-6">
@@ -176,7 +179,7 @@ export default function ToursPage() {
                             <span className="text-primary font-bold text-xl">3 500 ₽</span>
                             <span className="text-gray-500 text-sm"> / чел</span>
                           </div>
-                          <button className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg transition-colors">
+                          <button className="bg-primary hover:bg-primary-light text-white px-4 py-2 rounded-lg transition-colors">
                             Подробнее
                           </button>
                         </div>
@@ -188,19 +191,19 @@ export default function ToursPage() {
                 {/* Пагинация */}
                 <div className="flex justify-center mt-8">
                   <div className="flex space-x-2">
-                    <button className="px-4 py-2 border rounded-md">
+                    <button className="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50">
                       Назад
                     </button>
                     <button className="px-4 py-2 bg-primary text-white rounded-md">
                       1
                     </button>
-                    <button className="px-4 py-2 border rounded-md">
+                    <button className="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50">
                       2
                     </button>
-                    <button className="px-4 py-2 border rounded-md">
+                    <button className="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50">
                       3
                     </button>
-                    <button className="px-4 py-2 border rounded-md">
+                    <button className="px-4 py-2 border rounded-md text-gray-600 hover:bg-gray-50">
                       Вперёд
                     </button>
                   </div>
