@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: #ff8c42;
+  --primary-light: #ffa869;
+  --primary-dark: #e57930;
+
+  --secondary: #f2d0a4;
+  --secondary-light: #fbe3c4;
+  --secondary-dark: #e6bc86;
+
+  --dark: #0a2a2a;
+  --dark-light: #0f3737;
+  --dark-dark: #051c1c;
+
+  --background: white;
+  --text-primary: var(--dark);
+  --text-secondary: var(--secondary-dark);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -85,23 +103,56 @@
   h3 {
     @apply text-xl font-semibold;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-dark font-semibold;
+  }
+
+  a {
+    @apply text-primary hover:text-primary-dark transition-colors;
+  }
+
+  button {
+    @apply transition-all duration-200;
+  }
 }
 
 @layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
   .btn {
-    @apply px-4 py-2 rounded font-medium transition-colors;
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
   }
 
   .btn-primary {
-    @apply btn bg-primary text-white hover:bg-primary-dark;
+    @apply bg-primary text-white py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors shadow-md;
   }
 
   .btn-secondary {
-    @apply btn bg-secondary text-white hover:bg-secondary-dark;
+    @apply bg-secondary text-dark py-2 px-6 rounded-lg hover:bg-secondary-dark transition-colors shadow-md;
   }
 
-  .container-custom {
-    @apply container mx-auto px-4 max-w-7xl;
+  .btn-outline {
+    @apply border-2 border-primary text-primary py-2 px-6 rounded-lg hover:bg-primary hover:text-white transition-colors;
+  }
+
+  .input {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary to-primary-light;
+  }
+
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold text-dark mb-6;
   }
 }
 
@@ -119,7 +170,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -128,7 +179,7 @@
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.8s ease-out forwards;
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
 .animation-delay-200 {
@@ -139,12 +190,92 @@
   animation-delay: 400ms;
 }
 
-.animation-delay-600 {
-  animation-delay: 600ms;
+/* Анимация смены фона */
+@keyframes fadeInBackground {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.animation-delay-800 {
-  animation-delay: 800ms;
+.animate-background-fade {
+  animation: fadeInBackground 1.5s ease-in-out;
+}
+
+/* Стили для слайдера */
+.slider-container {
+  @apply relative overflow-hidden;
+}
+
+.slider-track {
+  @apply flex transition-transform duration-300 ease-in-out;
+}
+
+.slider-slide {
+  @apply flex-shrink-0;
+}
+
+/* Стили для индикаторов слайдера */
+.slider-indicator {
+  @apply w-2 h-2 rounded-full bg-white/50 transition-all;
+}
+
+.slider-indicator-active {
+  @apply bg-white w-4;
+}
+
+/* Стили для карточек */
+.card {
+  @apply bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow;
+}
+
+.card-image {
+  @apply relative h-48 w-full;
+}
+
+.card-content {
+  @apply p-4;
+}
+
+.card-title {
+  @apply text-lg font-semibold mb-2;
+}
+
+.card-description {
+  @apply text-gray-600 mb-2;
+}
+
+.card-price {
+  @apply text-primary font-bold;
+}
+
+/* Стили для форм */
+.form-group {
+  @apply mb-4;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.form-input {
+  @apply w-full rounded-md border border-gray-300 px-3 py-2 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+}
+
+/* Стили для навигации */
+.nav-link {
+  @apply text-gray-600 hover:text-primary transition-colors;
+}
+
+.nav-link-active {
+  @apply text-primary font-medium;
+}
+
+/* Стили для футера */
+.footer-link {
+  @apply text-gray-400 hover:text-white transition-colors;
 }
 
 /* Анимация пульсации для кнопок */
@@ -160,4 +291,23 @@
 
 .animate-pulse {
   animation: pulse 2s infinite;
+}
+
+/* Стили для календаря */
+.calendar-dropdown {
+  @apply absolute top-full left-0 mt-2 z-20 bg-white rounded-lg shadow-lg p-4;
+}
+
+.calendar-input {
+  @apply w-full rounded-lg cursor-pointer;
+}
+
+/* Улучшенные стили для полей ввода в светлой теме */
+.search-input-light {
+  @apply border border-gray-300 bg-white/90 text-gray-800 placeholder-gray-500 focus:border-primary focus:ring-2 focus:ring-primary/20;
+}
+
+/* Улучшенные стили для полей ввода в темной теме */
+.search-input-dark {
+  @apply border border-white/20 bg-white/10 text-white placeholder-white/70 focus:border-white/40 focus:outline-none;
 }

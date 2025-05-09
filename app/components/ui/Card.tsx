@@ -37,17 +37,30 @@ export interface CardProps extends VariantProps<typeof cardVariants> {
 
 export const Card = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
-    )}
-    {...props}
-  />
-));
+  CardProps
+>(({ className, variant, hover, children, href, ...props }, ref) => {
+  const cardClasses = cn(cardVariants({ variant, hover, className }));
+  
+  const cardContent = (
+    <div
+      ref={ref}
+      className={cardClasses}
+      {...props}
+      data-hover={hover ? "true" : undefined}
+    >
+      {children}
+    </div>
+  );
+
+  return href ? (
+    <Link href={href} className="block">
+      {cardContent}
+    </Link>
+  ) : (
+    cardContent
+  );
+});
+
 Card.displayName = "Card";
 
 export interface CardMediaProps {

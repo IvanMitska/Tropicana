@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Rent Web Platform',
-  description: 'Платформа для аренды недвижимости, транспорта и экскурсий',
+  title: 'Пхукет на ладони | Аренда, экскурсии и транспорт',
+  description: 'Платформа для аренды недвижимости, транспорта и экскурсий на Пхукете',
 };
 
 export default function RootLayout({
@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-      <body className={`${inter.variable} font-sans`}>
+      <body className={`${inter.variable} font-sans bg-white text-dark`}>
         <Providers>
           {children}
         </Providers>

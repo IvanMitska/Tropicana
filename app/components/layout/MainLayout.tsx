@@ -1,21 +1,27 @@
 'use client';
 
 import React from 'react';
-import { Header } from './Header';
-import { Footer } from './Footer';
+import MainHeader from './MainHeader';
+import MainFooter from './MainFooter';
 
 interface MainLayoutProps {
   children: React.ReactNode;
+  hideFooter?: boolean;
 }
 
-export default function MainLayout({ children }: MainLayoutProps) {
+const MainLayout: React.FC<MainLayoutProps> = ({ children, hideFooter = false }) => {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen pt-16">
-        {children}
-      </main>
-      <Footer />
-    </>
+    <div className="flex flex-col min-h-screen">
+      <MainHeader />
+      
+      {/* Отступ для header */}
+      <div className="h-20"></div>
+      
+      <main className="flex-grow">{children}</main>
+      
+      {!hideFooter && <MainFooter />}
+    </div>
   );
-} 
+};
+
+export default MainLayout; 

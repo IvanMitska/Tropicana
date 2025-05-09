@@ -9,13 +9,13 @@ import { useAuth } from '@/app/hooks/useAuth';
 import { Button } from '../ui/Button';
 import { Dropdown } from '../ui/Dropdown';
 
-const navItems = [
-  { label: 'Главная', href: '/' },
-  { label: 'Недвижимость', href: '/real-estate' },
-  { label: 'Транспорт', href: '/transport' },
-  { label: 'Экскурсии', href: '/excursions' },
-  { label: 'О нас', href: '/about' },
-  { label: 'Контакты', href: '/contacts' },
+const navigation = [
+  { name: 'Главная', href: '/' },
+  { name: 'О компании', href: '/about' },
+  { name: 'Недвижимость', href: '/real-estate' },
+  { name: 'Транспорт', href: '/transport' },
+  { name: 'Туры', href: '/tours' },
+  { name: 'Контакты', href: '/contacts' },
 ];
 
 export const Header = () => {
@@ -80,6 +80,7 @@ export const Header = () => {
                 src="/images/logo.png"
                 alt="RentWeb Logo"
                 fill
+                sizes="(max-width: 768px) 100vw, 256px"
                 style={{ objectFit: 'contain' }}
               />
             </div>
@@ -87,7 +88,7 @@ export const Header = () => {
 
           {/* Десктопная навигация */}
           <nav className="hidden md:flex items-center space-x-6">
-            {navItems.map((item) => (
+            {navigation.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -97,7 +98,7 @@ export const Header = () => {
                     : scrolled ? 'text-gray-800 hover:text-primary' : 'text-gray-800 hover:text-primary'
                   }`}
               >
-                {item.label}
+                {item.name}
               </Link>
             ))}
           </nav>
@@ -151,7 +152,7 @@ export const Header = () => {
         <div className="md:hidden bg-white shadow-lg">
           <div className="container mx-auto px-4 py-4">
             <nav className="flex flex-col space-y-4">
-              {navItems.map((item) => (
+              {navigation.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -162,7 +163,7 @@ export const Header = () => {
                     }`}
                   onClick={closeMenu}
                 >
-                  {item.label}
+                  {item.name}
                 </Link>
               ))}
               

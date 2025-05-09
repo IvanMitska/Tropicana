@@ -10,7 +10,8 @@ const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const realEstateRoutes = require('./routes/real-estate.routes');
 const transportRoutes = require('./routes/transport.routes');
-const excursionRoutes = require('./routes/excursion.routes');
+const tourRoutes = require('./routes/tour.routes');
+const bookingRoutes = require('./routes/booking.routes');
 
 // Middleware
 const { errorHandler } = require('./middleware/error.middleware');
@@ -40,7 +41,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', authMiddleware, userRoutes);
 app.use('/api/real-estate', realEstateRoutes);
 app.use('/api/transport', transportRoutes);
-app.use('/api/excursions', excursionRoutes);
+app.use('/api/tours', tourRoutes);
+app.use('/api/bookings', bookingRoutes);
 
 // Проверка работы API
 app.get('/api/health', (req, res) => {

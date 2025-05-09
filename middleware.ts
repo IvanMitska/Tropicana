@@ -10,6 +10,13 @@ export const config = {
     // Защищенные страницы (личный кабинет, настройки и т.д.)
     '/profile/:path*',
     '/dashboard/:path*',
+    '/account/:path*',
+    '/bookings/:path*',
+    '/favorites/:path*',
+    '/documents/:path*',
+    '/payments/:path*',
+    '/reviews/:path*',
+    '/security/:path*',
     '/admin/:path*',
   ],
 };
@@ -28,7 +35,7 @@ export function middleware(request: NextRequest) {
     }
     
     // Для страниц перенаправляем на страницу входа с указанием страницы возврата
-    const redirectUrl = new URL('/login', request.url);
+    const redirectUrl = new URL('/auth/login', request.url);
     redirectUrl.searchParams.set('from', request.nextUrl.pathname);
     return NextResponse.redirect(redirectUrl);
   }
@@ -44,7 +51,7 @@ export function middleware(request: NextRequest) {
       );
     }
     
-    const redirectUrl = new URL('/login', request.url);
+    const redirectUrl = new URL('/auth/login', request.url);
     redirectUrl.searchParams.set('from', request.nextUrl.pathname);
     return NextResponse.redirect(redirectUrl);
   }

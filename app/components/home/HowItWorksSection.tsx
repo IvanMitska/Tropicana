@@ -23,7 +23,7 @@ const Step = ({ number, title, description, icon, delay }: StepProps) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
-              entry.target.classList.add('translate-x-0', 'opacity-100');
+              entry.target.classList.add('opacity-100');
             }, delay);
             observer.unobserve(entry.target);
           }
@@ -46,15 +46,15 @@ const Step = ({ number, title, description, icon, delay }: StepProps) => {
   return (
     <div
       ref={stepRef}
-      className={`flex items-start space-x-4 ${
-        number % 2 === 0 ? 'transform translate-x-8' : 'transform -translate-x-8'
-      } opacity-0 transition-all duration-700`}
+      className={
+        'flex flex-col items-center text-center space-y-4 opacity-0 transition-all duration-700'
+      }
     >
       <div className="bg-primary text-white rounded-full w-10 h-10 flex-shrink-0 flex items-center justify-center font-bold text-lg">
         {number}
       </div>
       <div>
-        <div className="text-primary mb-2">{icon}</div>
+        <div className="text-primary mb-2 flex justify-center">{icon}</div>
         <h3 className="text-xl font-bold mb-2">{title}</h3>
         <p className="text-gray-600">{description}</p>
       </div>
@@ -104,7 +104,7 @@ export default function HowItWorksSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-y-12 gap-x-8 mb-12 justify-items-center">
           {steps.map((step) => (
             <Step key={step.number} {...step} />
           ))}

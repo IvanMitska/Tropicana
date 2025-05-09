@@ -9,43 +9,57 @@ import { Button } from '../ui/Button';
 const testimonials = [
   {
     id: 1,
-    name: 'Алексей Петров',
-    avatar: '/images/avatars/user1.jpg',
-    role: 'Бизнесмен',
+    name: 'Алексей',
+    location: 'Москва',
+    text: 'Арендовали виллу на неделю через сервис. Отличное соотношение цены и качества! Менеджеры оперативно отвечали на все вопросы и помогли организовать трансфер из аэропорта.',
     rating: 5,
-    text: 'Отличный сервис! Снял квартиру на время командировки — всё чисто, уютно, соответствует фотографиям. В следующий раз только через вас!',
+    service: 'Аренда виллы',
+    avatar: 'A',
   },
   {
     id: 2,
-    name: 'Елена Смирнова',
-    avatar: '/images/avatars/user2.jpg',
-    role: 'Фотограф',
+    name: 'Екатерина',
+    location: 'Санкт-Петербург',
+    text: 'Брали в аренду скутер на весь отпуск. Доставили прямо к отелю, все было в идеальном состоянии. Очень удобно, что можно оплатить онлайн и не беспокоиться о залоге.',
     rating: 5,
-    text: 'Арендовала автомобиль для фотосессии. Машина была в идеальном состоянии, процесс бронирования занял буквально пару минут. Рекомендую!',
+    service: 'Аренда скутера',
+    avatar: 'Е',
   },
   {
     id: 3,
-    name: 'Дмитрий Иванов',
-    avatar: '/images/avatars/user3.jpg',
-    role: 'Путешественник',
-    rating: 4,
-    text: 'Забронировал экскурсию по Санкт-Петербургу. Гид был очень знающий, показал нам много интересных мест, которых нет в обычных туристических маршрутах.',
+    name: 'Дмитрий',
+    location: 'Казань',
+    text: 'Заказывали экскурсию на острова Пхи-Пхи. Гид говорил по-русски, все было организовано на высшем уровне. Обязательно воспользуемся сервисом еще раз!',
+    rating: 5,
+    service: 'Экскурсия',
+    avatar: 'Д',
   },
   {
     id: 4,
-    name: 'Ольга Кузнецова',
-    avatar: '/images/avatars/user4.jpg',
-    role: 'Журналист',
-    rating: 5,
-    text: 'Уже второй раз пользуюсь услугами сервиса. Очень удобно, что всё можно забронировать в одном месте: и жильё, и транспорт, и развлечения.',
+    name: 'Мария',
+    location: 'Новосибирск',
+    text: 'Отличный сервис! Забронировали апартаменты с видом на море. Фотографии полностью соответствовали реальности. Будем рекомендовать друзьям!',
+    rating: 4,
+    service: 'Аренда апартаментов',
+    avatar: 'М',
   },
   {
     id: 5,
-    name: 'Сергей Новиков',
-    avatar: '/images/avatars/user5.jpg',
-    role: 'ИТ-специалист',
-    rating: 4,
-    text: 'Удобный интерфейс и быстрое подтверждение бронирования. Единственное, хотелось бы больше вариантов в небольших городах.',
+    name: 'Сергей',
+    location: 'Екатеринбург',
+    text: 'Заказал трансфер из аэропорта. Водитель встретил вовремя с табличкой, помог с багажом. Машина комфортная и чистая. Все на высшем уровне!',
+    rating: 5,
+    service: 'Трансфер',
+    avatar: 'С',
+  },
+  {
+    id: 6,
+    name: 'Ольга',
+    location: 'Краснодар',
+    text: 'Бронировали экскурсию на Большой Будда. Русскоговорящий гид рассказал много интересного. Ответили на все вопросы и помогли с выбором даты. Спасибо!',
+    rating: 5,
+    service: 'Экскурсия',
+    avatar: 'О',
   },
 ];
 
@@ -122,107 +136,89 @@ export default function TestimonialsSection() {
   const averageRating =
     testimonials.reduce((sum, testimonial) => sum + testimonial.rating, 0) / testimonials.length;
 
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }).map((_, index) => (
+      <svg 
+        key={index} 
+        xmlns="http://www.w3.org/2000/svg" 
+        viewBox="0 0 24 24" 
+        fill={index < rating ? 'currentColor' : 'none'} 
+        stroke={index < rating ? 'none' : 'currentColor'}
+        className={`w-5 h-5 ${index < rating ? 'text-yellow-500' : 'text-gray-300'}`}
+      >
+        <path 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          strokeWidth={2} 
+          d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+        />
+      </svg>
+    ));
+  };
+
   return (
-    <section className="py-16 bg-white">
+    <section className="py-20 bg-light">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Отзывы наших клиентов</h2>
-          <div className="flex items-center justify-center mb-4">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Star
-                key={star}
-                className={`h-6 w-6 ${
-                  star <= Math.round(averageRating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-                }`}
-              />
-            ))}
-            <span className="ml-2 font-bold">{averageRating.toFixed(1)}</span>
-            <span className="ml-1 text-gray-600">из 5</span>
-          </div>
-          <p className="text-gray-600 max-w-3xl mx-auto">
-            Более 5000 довольных клиентов уже воспользовались нашим сервисом. Вот что они говорят:
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">Что говорят наши клиенты</h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Более 1000 положительных отзывов от клиентов, которые уже воспользовались нашими услугами
           </p>
         </div>
 
-        <div
-          ref={testimonialsRef}
-          className="max-w-4xl mx-auto opacity-0 scale-95 transform transition-all duration-700"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          <div className="relative bg-gray-50 rounded-lg p-8 shadow-md">
-            {/* Кнопки навигации */}
-            <button
-              onClick={goToPrevious}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
-              aria-label="Предыдущий отзыв"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonials.map((testimonial) => (
+            <div 
+              key={testimonial.id} 
+              className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow relative"
             >
-              <ChevronLeft className="h-5 w-5 text-gray-600" />
-            </button>
-            <button
-              onClick={goToNext}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors"
-              aria-label="Следующий отзыв"
-            >
-              <ChevronRight className="h-5 w-5 text-gray-600" />
-            </button>
-
-            {/* Карусель отзывов */}
-            <div className="min-h-[280px] flex items-center justify-center">
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={testimonial.id}
-                  className={`transition-opacity duration-500 ${
-                    index === activeIndex ? 'opacity-100' : 'opacity-0 absolute'
-                  }`}
-                  style={{ display: index === activeIndex ? 'block' : 'none' }}
-                >
-                  <div className="flex flex-col items-center text-center">
-                    <div className="mb-4 relative w-20 h-20 rounded-full overflow-hidden">
-                      <Image
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                    </div>
-                    <h3 className="text-xl font-bold">{testimonial.name}</h3>
-                    <p className="text-gray-500 mb-4">{testimonial.role}</p>
-                    <div className="flex mb-4">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`h-5 w-5 ${
-                            star <= testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-gray-700 italic">"{testimonial.text}"</p>
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex items-center">
+                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl mr-4">
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-dark">{testimonial.name}</h3>
+                    <p className="text-gray-500 text-sm">{testimonial.location}</p>
                   </div>
                 </div>
-              ))}
+                <div className="bg-primary/10 text-primary text-xs font-medium px-2 py-1 rounded">
+                  {testimonial.service}
+                </div>
+              </div>
+              
+              <p className="text-gray-700 mb-6 relative">
+                {/* Декоративные кавычки */}
+                <span className="absolute -top-2 -left-1 text-4xl text-primary opacity-20">"</span>
+                {testimonial.text}
+                <span className="absolute -bottom-6 -right-1 text-4xl text-primary opacity-20">"</span>
+              </p>
+              
+              <div className="flex items-center mt-8">
+                <div className="flex mr-2">
+                  {renderStars(testimonial.rating)}
+                </div>
+                <span className="text-dark font-medium">{testimonial.rating}.0</span>
+              </div>
+              
+              {/* Декоративные элементы */}
+              <div className="absolute top-3 right-3 opacity-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+                  <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path>
+                </svg>
+              </div>
             </div>
-
-            {/* Индикаторы */}
-            <div className="flex justify-center mt-6 space-x-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`w-3 h-3 rounded-full ${
-                    index === activeIndex ? 'bg-primary' : 'bg-gray-300'
-                  }`}
-                  aria-label={`Перейти к отзыву ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
 
-        <div className="text-center mt-10">
-          <Button variant="outline">Оставить отзыв</Button>
+        <div className="flex justify-center mt-12">
+          <a 
+            href="/reviews" 
+            className="inline-flex items-center justify-center bg-primary text-white py-3 px-8 rounded-full font-medium text-lg shadow-md hover:bg-primary-dark transition-colors duration-300"
+          >
+            Все отзывы
+          </a>
         </div>
       </div>
     </section>

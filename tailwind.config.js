@@ -9,16 +9,21 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          dark: '#1E40AF',
-          light: '#93C5FD',
+          DEFAULT: '#FF8C42',
+          light: '#FFA869',
+          dark: '#E57930',
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          dark: '#047857',
-          light: '#6EE7B7',
+          DEFAULT: '#F2D0A4',
+          light: '#FBE3C4',
+          dark: '#E6BC86',
           foreground: 'hsl(var(--secondary-foreground))',
+        },
+        dark: {
+          DEFAULT: '#0A2A2A',
+          light: '#0F3737',
+          dark: '#051C1C',
         },
         accent: {
           DEFAULT: 'hsl(var(--accent))',

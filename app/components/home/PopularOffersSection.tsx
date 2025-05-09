@@ -1,267 +1,155 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react';
-import { Button } from '../ui/Button';
-import { PropertyCard } from '../ui/Card';
+import { ArrowRight } from 'lucide-react';
 
-type Category = 'all' | 'real-estate' | 'transport' | 'excursions';
-
-// Примеры данных для популярных предложений
-const popularOffers = [
-  {
-    id: 1,
-    title: 'Современная квартира в центре',
-    description: 'Светлая квартира с панорамным видом на город',
-    price: 5000,
-    priceUnit: '₽/сутки',
-    location: 'Москва, Центральный район',
-    imageSrc: '/images/apartment1.jpg',
-    features: {
-      bedrooms: 2,
-      bathrooms: 1,
-      area: 65,
+const PopularOffersSection = () => {
+  const popularOffers = [
+    {
+      id: 1,
+      title: 'Вилла с бассейном на Патонге',
+      category: 'Аренда недвижимости',
+      price: '7 500 ₽',
+      unit: 'день',
+      rating: 4.9,
+      reviewCount: 128,
+      image: '/images/placeholder-villa.jpg',
+      link: '/real-estate/villa-patong',
     },
-    category: 'real-estate',
-    href: '/real-estate/1',
-  },
-  {
-    id: 2,
-    title: 'Уютный домик у озера',
-    description: 'Идеальное место для отдыха от городской суеты',
-    price: 8000,
-    priceUnit: '₽/сутки',
-    location: 'Ленинградская область, Выборг',
-    imageSrc: '/images/house1.jpg',
-    features: {
-      bedrooms: 3,
-      bathrooms: 2,
-      area: 120,
+    {
+      id: 2,
+      title: 'Аренда Honda PCX 2023',
+      category: 'Аренда транспорта',
+      price: '1 200 ₽',
+      unit: 'день',
+      rating: 4.8,
+      reviewCount: 97,
+      image: '/images/placeholder-scooter.jpg',
+      link: '/transport/honda-pcx',
     },
-    category: 'real-estate',
-    href: '/real-estate/2',
-  },
-  {
-    id: 3,
-    title: 'Volkswagen Golf',
-    description: 'Экономичный автомобиль для городских поездок',
-    price: 2500,
-    priceUnit: '₽/сутки',
-    location: 'Москва, Аэропорт Шереметьево',
-    imageSrc: '/images/car1.jpg',
-    features: {
-      year: 2020,
-      transmission: 'АКПП',
-      fuelType: 'Бензин',
+    {
+      id: 3,
+      title: 'Экскурсия на острова Пхи-Пхи',
+      category: 'Экскурсии',
+      price: '3 500 ₽',
+      unit: 'человек',
+      rating: 4.9,
+      reviewCount: 215,
+      image: '/images/placeholder-phiphi.jpg',
+      link: '/tours/phi-phi-islands',
     },
-    category: 'transport',
-    href: '/transport/3',
-  },
-  {
-    id: 4,
-    title: 'Моторная яхта "Афина"',
-    description: 'Роскошная яхта для морских прогулок',
-    price: 25000,
-    priceUnit: '₽/час',
-    location: 'Сочи, Морской порт',
-    imageSrc: '/images/yacht1.jpg',
-    features: {
-      length: 15,
-      capacity: 8,
-      year: 2019,
+    {
+      id: 4,
+      title: 'Апартаменты с видом на море',
+      category: 'Аренда недвижимости',
+      price: '4 800 ₽',
+      unit: 'день',
+      rating: 4.7,
+      reviewCount: 86,
+      image: '/images/placeholder-apartment.jpg',
+      link: '/real-estate/sea-view-apartment',
     },
-    category: 'transport',
-    href: '/transport/4',
-  },
-  {
-    id: 5,
-    title: 'Обзорная экскурсия по Санкт-Петербургу',
-    description: 'Увлекательное путешествие по историческому центру',
-    price: 1500,
-    priceUnit: '₽/чел',
-    location: 'Санкт-Петербург',
-    imageSrc: '/images/excursion1.jpg',
-    features: {
-      duration: 3,
-      language: 'Русский',
-      groupSize: 10,
+    {
+      id: 5,
+      title: 'Трансфер из аэропорта Пхукета',
+      category: 'Трансферы',
+      price: '1 500 ₽',
+      unit: 'поездка',
+      rating: 4.9,
+      reviewCount: 173,
+      image: '/images/placeholder-transfer.jpg',
+      link: '/transfer/airport',
     },
-    category: 'excursions',
-    href: '/excursions/5',
-  },
-  {
-    id: 6,
-    title: 'Тур по Золотому кольцу',
-    description: 'Двухдневное путешествие по древним городам России',
-    price: 7500,
-    priceUnit: '₽/чел',
-    location: 'Москва, отправление от Красной площади',
-    imageSrc: '/images/excursion2.jpg',
-    features: {
-      duration: 48,
-      language: 'Русский',
-      groupSize: 12,
+    {
+      id: 6,
+      title: 'Рыбалка в открытом море',
+      category: 'Экскурсии',
+      price: '5 200 ₽',
+      unit: 'человек',
+      rating: 4.8,
+      reviewCount: 64,
+      image: '/images/placeholder-fishing.jpg',
+      link: '/tours/deep-sea-fishing',
     },
-    category: 'excursions',
-    href: '/excursions/6',
-  },
-];
-
-export default function PopularOffersSection() {
-  const [activeCategory, setActiveCategory] = useState<Category>('all');
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const filteredOffers = activeCategory === 'all'
-    ? popularOffers
-    : popularOffers.filter(offer => offer.category === activeCategory);
-
-  const scrollLeft = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -350, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 350, behavior: 'smooth' });
-    }
-  };
-
-  const checkScrollButtons = () => {
-    if (carouselRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (carousel) {
-      carousel.addEventListener('scroll', checkScrollButtons);
-      checkScrollButtons();
-      return () => carousel.removeEventListener('scroll', checkScrollButtons);
-    }
-  }, [activeCategory]);
+  ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+        <div className="flex flex-wrap justify-between items-end mb-12">
           <div>
-            <h2 className="text-3xl font-bold mb-2">Популярные предложения</h2>
-            <p className="text-gray-600">Выберите из лучших предложений этого месяца</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">Популярные предложения</h2>
+            <p className="text-lg text-gray-600 max-w-2xl">
+              Самые востребованные варианты аренды и экскурсий по версии наших клиентов
+            </p>
           </div>
-          <Link href="/catalog">
-            <div className="flex items-center text-primary hover:text-primary-dark mt-4 md:mt-0">
-              <span className="mr-1">Смотреть все</span>
-              <ChevronRight className="h-4 w-4" />
-            </div>
+          <Link href="/catalog" className="inline-flex items-center font-medium text-primary hover:text-primary-dark mt-4 md:mt-0">
+            <span className="mr-2">Все предложения</span>
+            <ArrowRight size={18} />
           </Link>
         </div>
 
-        {/* Фильтры категорий */}
-        <div className="flex mb-8 border-b overflow-x-auto pb-2">
-          <button
-            className={`px-4 py-2 font-medium text-sm whitespace-nowrap ${
-              activeCategory === 'all'
-                ? 'text-primary border-b-2 border-primary'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            onClick={() => setActiveCategory('all')}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {popularOffers.map((offer) => (
+            <div key={offer.id} className="group">
+              <div className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow relative">
+                {/* Placeholder for image */}
+                <div className="relative h-60 bg-gradient-to-br from-dark-light to-dark overflow-hidden">
+                  <div className="absolute inset-0 flex items-center justify-center text-white">
+                    {/* Placeholder image text when no actual images */}
+                    <span className="text-lg opacity-80">[Изображение {offer.title}]</span>
+                  </div>
+                  
+                  <div className="absolute top-4 left-4 bg-primary/90 text-white text-sm font-medium px-2 py-1 rounded">
+                    {offer.category}
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-dark mb-2 group-hover:text-primary transition-colors">
+                    {offer.title}
+                  </h3>
+                  
+                  <div className="flex items-center mb-4">
+                    <div className="flex items-center text-yellow-500 mr-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                        <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-dark ml-1 font-medium">{offer.rating}</span>
+                    </div>
+                    <span className="text-gray-500 text-sm">({offer.reviewCount} отзывов)</span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span className="text-2xl font-bold text-dark">{offer.price}</span>
+                      <span className="text-gray-500 text-sm ml-1">/ {offer.unit}</span>
+                    </div>
+                    <Link 
+                      href={offer.link} 
+                      className="bg-primary/10 hover:bg-primary/20 transition-colors text-primary font-medium px-4 py-2 rounded-lg"
+                    >
+                      Подробнее
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="mt-12 text-center">
+          <Link 
+            href="/catalog" 
+            className="inline-block bg-primary text-white py-3 px-8 rounded-full font-medium text-lg shadow-md hover:bg-primary-dark transition-colors duration-300"
           >
             Все предложения
-          </button>
-          <button
-            className={`px-4 py-2 font-medium text-sm whitespace-nowrap ${
-              activeCategory === 'real-estate'
-                ? 'text-primary border-b-2 border-primary'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            onClick={() => setActiveCategory('real-estate')}
-          >
-            Недвижимость
-          </button>
-          <button
-            className={`px-4 py-2 font-medium text-sm whitespace-nowrap ${
-              activeCategory === 'transport'
-                ? 'text-primary border-b-2 border-primary'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            onClick={() => setActiveCategory('transport')}
-          >
-            Транспорт
-          </button>
-          <button
-            className={`px-4 py-2 font-medium text-sm whitespace-nowrap ${
-              activeCategory === 'excursions'
-                ? 'text-primary border-b-2 border-primary'
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
-            onClick={() => setActiveCategory('excursions')}
-          >
-            Экскурсии
-          </button>
-        </div>
-
-        <div className="relative">
-          {/* Кнопки прокрутки карусели */}
-          <div className="absolute -left-4 top-1/2 transform -translate-y-1/2 z-10">
-            <Button
-              variant="secondary"
-              size="icon"
-              className={`rounded-full shadow-md ${!canScrollLeft ? 'opacity-50 cursor-not-allowed' : ''}`}
-              onClick={scrollLeft}
-              disabled={!canScrollLeft}
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-          </div>
-
-          <div className="absolute -right-4 top-1/2 transform -translate-y-1/2 z-10">
-            <Button
-              variant="secondary"
-              size="icon"
-              className={`rounded-full shadow-md ${!canScrollRight ? 'opacity-50 cursor-not-allowed' : ''}`}
-              onClick={scrollRight}
-              disabled={!canScrollRight}
-            >
-              <ArrowRight className="h-5 w-5" />
-            </Button>
-          </div>
-
-          {/* Карусель с предложениями */}
-          <div
-            ref={carouselRef}
-            className="flex overflow-x-auto py-4 px-2 -mx-2 no-scrollbar"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {filteredOffers.map((offer) => (
-              <div key={offer.id} className="min-w-[300px] md:min-w-[350px] px-2 flex-shrink-0">
-                <PropertyCard
-                  id={offer.id}
-                  title={offer.title}
-                  description={offer.description}
-                  price={offer.price}
-                  priceUnit={offer.priceUnit}
-                  location={offer.location}
-                  imageSrc={offer.imageSrc}
-                  features={offer.features}
-                  href={offer.href}
-                />
-              </div>
-            ))}
-            {filteredOffers.length === 0 && (
-              <div className="w-full text-center py-10">
-                <p className="text-gray-500">Нет предложений в данной категории</p>
-              </div>
-            )}
-          </div>
+          </Link>
         </div>
       </div>
     </section>
   );
-} 
+};
+
+export default PopularOffersSection; 
