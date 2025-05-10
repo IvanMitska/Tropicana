@@ -51,23 +51,27 @@
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease;
+  align-items: flex-start;
+  padding-top: 80px;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
 }
 
 /* Модальное окно календаря */
 .modalContent {
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
   width: 100%;
   max-width: 540px;
-  animation: slideDown 0.3s ease;
+  animation: slideDown 0.35s ease-out;
   overflow: hidden;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
+  transform-origin: top center;
+  position: relative;
+  z-index: 10000;
 }
 
 /* Заголовок модального окна */
@@ -75,7 +79,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 18px 20px;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -94,16 +98,22 @@
   color: #999;
   cursor: pointer;
   padding: 0;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+  border-radius: 50%;
 }
 
 .closeButton:hover {
-  color: #000;
+  color: #666;
+  background-color: #f5f5f5;
+}
+
+.closeButton:active {
+  transform: scale(0.95);
 }
 
 /* Основной контейнер календаря */
@@ -117,15 +127,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .navButton {
   background: none;
   border: 1px solid #e0e0e0;
   color: #666;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -138,6 +148,11 @@
 .navButton:hover {
   border-color: #e9a27b;
   color: #e9a27b;
+  background-color: rgba(233, 162, 123, 0.05);
+}
+
+.navButton:active {
+  transform: scale(0.95);
 }
 
 .currentMonthDisplay {
@@ -149,7 +164,7 @@
 
 /* Календарная сетка */
 .calendarGrid {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 /* Дни недели */
@@ -175,7 +190,7 @@
 .days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
+  gap: 4px;
 }
 
 /* Стили для дня */
@@ -188,12 +203,17 @@
   position: relative;
   color: #000;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
   border-radius: 50%;
 }
 
 .day:hover:not(.emptyDay):not(.pastDay) {
-  background-color: #f5f5f5;
+  background-color: rgba(233, 162, 123, 0.1);
+  transform: translateY(-1px);
+}
+
+.day:active:not(.emptyDay):not(.pastDay) {
+  transform: scale(0.95) translateY(0);
 }
 
 .emptyDay {
@@ -202,6 +222,7 @@
 
 .weekendDay {
   color: #8b0000;
+  font-weight: 500;
 }
 
 .pastDay {
@@ -224,30 +245,32 @@
   color: white;
   font-weight: bold;
   z-index: 1;
+  box-shadow: 0 2px 8px rgba(233, 162, 123, 0.4);
 }
 
 /* Секция количества гостей */
 .guestsSection {
-  margin-bottom: 20px;
-  padding-top: 15px;
+  margin-bottom: 24px;
+  padding-top: 20px;
   border-top: 1px solid #e0e0e0;
 }
 
 .guestsLabel {
   font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   color: #000;
 }
 
 .guestsControls {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .guestButton {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   border: 1px solid #e0e0e0;
   background: none;
@@ -263,6 +286,11 @@
 .guestButton:hover:not(:disabled) {
   border-color: #e9a27b;
   color: #e9a27b;
+  background-color: rgba(233, 162, 123, 0.05);
+}
+
+.guestButton:active:not(:disabled) {
+  transform: scale(0.95);
 }
 
 .guestButton:disabled {
@@ -272,10 +300,15 @@
 
 .guestCount {
   margin: 0 15px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  min-width: 30px;
+  min-width: 40px;
   text-align: center;
+  transition: all 0.2s ease;
+}
+
+.pulse {
+  animation: pulse 0.3s ease-out;
 }
 
 /* Кнопки действий */
@@ -283,14 +316,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .resetButton {
   background: none;
   border: 1px solid #e0e0e0;
   color: #666;
-  padding: 10px 16px;
+  padding: 10px 18px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.95rem;
@@ -300,27 +333,39 @@
 .resetButton:hover {
   border-color: #e9a27b;
   color: #e9a27b;
+  background-color: rgba(233, 162, 123, 0.05);
+}
+
+.resetButton:active {
+  transform: scale(0.98);
 }
 
 .applyButton {
   background-color: #e9a27b;
   color: white;
   border: none;
-  padding: 10px 16px;
+  padding: 10px 18px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 600;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(233, 162, 123, 0.3);
 }
 
 .applyButton:hover:not(:disabled) {
   background-color: #e08e63;
 }
 
+.applyButton:active:not(:disabled) {
+  transform: scale(0.98);
+  box-shadow: 0 1px 3px rgba(233, 162, 123, 0.3);
+}
+
 .applyButton:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* Анимации */
@@ -335,17 +380,33 @@
 
 @keyframes slideDown {
   from {
-    transform: translateY(-20px);
     opacity: 0;
+    transform: translateY(-20px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
 /* Мобильная адаптация */
 @media (max-width: 640px) {
+  .modalOverlay {
+    padding-top: 60px;
+  }
+
   .modalContent {
     max-width: calc(100% - 32px);
     height: auto;
