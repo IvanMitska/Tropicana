@@ -33,6 +33,7 @@ export default function LoginForm({
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [rememberMe, setRememberMe] = useState(false);
   
   // Проверка валидности формы
   const isFormValid = () => {
@@ -145,6 +146,22 @@ export default function LoginForm({
                 <Eye size={18} />
               )}
             </button>
+          </div>
+        </div>
+        
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <input
+              id="remember-me"
+              name="remember-me"
+              type="checkbox"
+              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              Запомнить меня
+            </label>
           </div>
         </div>
         

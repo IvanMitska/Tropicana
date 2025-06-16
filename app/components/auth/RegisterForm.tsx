@@ -29,10 +29,11 @@ export default function RegisterForm({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   
   const isFormValid = () => {
     setError(null);
@@ -53,7 +54,7 @@ export default function RegisterForm({
       return false;
     }
     
-    if (password !== passwordConfirm) {
+    if (password !== confirmPassword) {
       setError('Пароли не совпадают');
       return false;
     }
@@ -161,21 +162,43 @@ export default function RegisterForm({
         </div>
         
         <div className="space-y-2">
-          <label htmlFor="passwordConfirm" className="block text-sm font-medium text-gray-700">
-            Подтверждение пароля
+          <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
+            Подтвердите пароль
           </label>
           <div className="relative">
             <Input
-              id="passwordConfirm"
+              id="confirm-password"
               type={showPassword ? 'text' : 'password'}
-              value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Повторите пароль"
               autoComplete="new-password"
               required
               className="w-full pr-10"
             />
           </div>
+        </div>
+        
+        <div className="flex items-center">
+          <input
+            id="agree-terms"
+            name="agree-terms"
+            type="checkbox"
+            required
+            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+            checked={agreeTerms}
+            onChange={(e) => setAgreeTerms(e.target.checked)}
+          />
+          <label htmlFor="agree-terms" className="ml-2 block text-sm text-gray-900">
+            Я согласен с{' '}
+            <Link href="/terms" className="font-medium text-primary hover:text-primary-dark">
+              условиями использования
+            </Link>{' '}
+            и{' '}
+            <Link href="/privacy" className="font-medium text-primary hover:text-primary-dark">
+              политикой конфиденциальности
+            </Link>
+          </label>
         </div>
         
         <Button
