@@ -138,4 +138,110 @@ export interface TourFilters {
   page?: number;
   limit?: number;
   q?: string;
-} 
+}
+
+// Экспортируем модель Tour для совместимости
+import mongoose, { Schema, model, models } from 'mongoose';
+
+// Создаем схему для Tour
+const TourSchema = new Schema({
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  category: { type: String, required: true },
+  duration: { type: Number, required: true },
+  languages: [{ type: String }],
+  route: {
+    points: [{
+      name: { type: String, required: true },
+      description: { type: String },
+      coordinates: {
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true }
+      },
+      duration: { type: Number, required: true },
+      order: { type: Number, required: true }
+    }],
+    totalDistance: { type: Number, required: true },
+    type: { type: String, enum: ['walking', 'transport', 'mixed'], required: true }
+  },
+  included: [{ type: String }],
+  notIncluded: [{ type: String }],
+  images: [{ type: String }],
+  video: { type: String },
+  schedule: [{
+    id: { type: String, required: true },
+    date: { type: String, required: true },
+    startTime: { type: String, required: true },
+    endTime: { type: String, required: true },
+    availableSpots: { type: Number, required: true },
+    bookedSpots: { type: Number, required: true },
+    priceModifier: { type: Number, required: true },
+    status: { type: String, enum: ['available', 'fullyBooked', 'cancelled'], required: true }
+  }],
+  pricing: {
+    basePrice: { type: Number, required: true },
+    currency: { type: String, required: true },
+    priceType: { type: String, enum: ['perPerson', 'perGroup'], required: true },
+    discounts: {
+      children: { type: Number, required: true },
+      students: { type: Number, required: true },
+      seniors: { type: Number, required: true },
+      groups: { type: Number, required: true }
+    },
+    minParticipants: { type: Number, required: true },
+    maxParticipants: { type: Number, required: true }
+  },
+  guide: {
+    id: { type: String },
+    name: { type: String, required: true },
+    photo: { type: String, required: true },
+    bio: { type: String },
+    languages: [{ type: String }],
+    experience: { type: Number },
+    contacts: {
+      phone: { type: String },
+      email: { type: String },
+      social: {
+        instagram: { type: String },
+        facebook: { type: String },
+        telegram: { type: String },
+        whatsapp: { type: String }
+      }
+    }
+  },
+  location: {
+    city: { type: String, required: true },
+    address: { type: String, required: true },
+    meetingPoint: {
+      description: { type: String, required: true },
+      coordinates: {
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true }
+      }
+    }
+  },
+  rating: { type: Number, default: 0 },
+  reviewsCount: { type: Number, default: 0 },
+  reviews: [{
+    id: { type: String, required: true },
+    userId: { type: String, required: true },
+    userName: { type: String, required: true },
+    userAvatar: { type: String },
+    rating: { type: Number, required: true },
+    date: { type: String, required: true },
+    comment: { type: String, required: true },
+    categories: {
+      organization: { type: Number },
+      interestingness: { type: Number },
+      knowledge: { type: Number },
+      friendliness: { type: Number }
+    }
+  }],
+  tags: [{ type: String }],
+  isAvailable: { type: Boolean, default: true },
+  published: { type: Boolean, default: true },
+  popularity: { type: Number, default: 0 }
+}, { timestamps: true });
+
+// Экспортируем модель
+export const Tour = models.Tour || model('Tour', TourSchema); 

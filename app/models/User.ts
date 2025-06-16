@@ -274,4 +274,49 @@ UserSchema.methods.comparePassword = async function(candidatePassword: string): 
 // Проверка наличия модели перед созданием новой
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
 
-export default User; 
+export default User;
+
+// Функция для получения коллекции пользователей
+export async function getUserCollection() {
+  const db = await mongoose.connect(process.env.MONGODB_URI as string);
+  return db.connection.collection('users');
+}
+
+// Функция для получения пользователя по email
+export async function getUserByEmail(email: string): Promise<IUser | null> {
+  try {
+    return await User.findOne({ email });
+  } catch (error) {
+    console.error('Error getting user by email:', error);
+    return null;
+  }
+}
+
+// Функция для получения пользователя по ID
+export async function getUserById(id: string): Promise<IUser | null> {
+  try {
+    return await User.findById(id);
+  } catch (error) {
+    console.error('Error getting user by ID:', error);
+    return null;
+  }
+}
+
+// Функция для обновления пользователя
+export async function updateUser(id: string, updateData: Partial<IUser>): Promise<IUser | null> {
+  try {
+    return await User.findByIdAndUpdate(id, updateData, { new: true });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return null;
+  }
+}
+
+// Функция для удаления конфиденциальных данных пользователя
+export function sanitizeUser(user: IUser): SafeUser {
+  if (!user) return {};
+  
+  // Создаем копию пользователя без пароля
+  const { password, ...safeUser } = user.toObject();
+  return safeUser;
+} 

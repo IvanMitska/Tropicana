@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
+import MainFooter from './MainFooter';
 
 const Footer = () => {
   return (
@@ -102,4 +103,6 @@ const Footer = () => {
   );
 };
 
+// Реэкспорт MainFooter как Footer для совместимости
+export const Footer = MainFooter;
 export default Footer; 

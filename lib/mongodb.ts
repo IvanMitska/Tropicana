@@ -51,4 +51,7 @@ async function dbConnect() {
   return cached.conn;
 }
 
-export default dbConnect; 
+export default dbConnect;
+
+// Экспортируем функцию для совместимости
+export const connectToDatabase = dbConnect; 
