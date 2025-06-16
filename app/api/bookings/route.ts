@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
         optionsPrice: priceData.price.optionsPrice,
         taxAmount: priceData.price.taxAmount,
         totalPrice: priceData.price.totalPrice,
-        currency: priceData.price.currency || 'RUB'
+        currency: priceData.price.currency || 'THB'
       },
       status: 'draft',
       paymentStatus: 'pending'

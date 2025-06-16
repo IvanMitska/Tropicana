@@ -53,7 +53,7 @@ export async function sendEmail(options: EmailOptions) {
 /**
  * Шаблон для уведомления о бронировании
  */
-export function getBookingEmailTemplate(booking: any, type: 'created' | 'confirmed' | 'cancelled' | 'default') {
+export async function getBookingEmailTemplate(booking: any, type: 'created' | 'confirmed' | 'cancelled' | 'default') {
   let title, message, buttonText, buttonLink;
 
   switch (type) {

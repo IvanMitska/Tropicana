@@ -36,7 +36,7 @@ const demoFavorites: FavoriteItem[] = [
     type: 'property',
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop',
     price: 5000,
-    currency: 'RUB',
+    currency: 'THB',
     location: 'Сочи',
     rating: 4.8,
     url: '/real-estate/property/1',
@@ -47,7 +47,7 @@ const demoFavorites: FavoriteItem[] = [
     type: 'excursion',
     image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop',
     price: 3000,
-    currency: 'RUB',
+    currency: 'THB',
     location: 'Красная Поляна',
     rating: 4.9,
     url: '/excursions/2',
@@ -58,7 +58,7 @@ const demoFavorites: FavoriteItem[] = [
     type: 'vehicle',
     image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop',
     price: 6000,
-    currency: 'RUB',
+    currency: 'THB',
     location: 'Москва',
     rating: 4.7,
     url: '/transport/vehicle/3',
@@ -69,7 +69,7 @@ const demoFavorites: FavoriteItem[] = [
     type: 'tour',
     image: 'https://images.unsplash.com/photo-1579700476231-191ad5cbb9dc?q=80&w=2070&auto=format&fit=crop',
     price: 15000,
-    currency: 'RUB',
+    currency: 'THB',
     location: 'Центральная Россия',
     rating: 4.6,
     url: '/tours/4',
@@ -160,7 +160,7 @@ export default function FavoritesPage() {
         
         <div className="flex justify-between items-center mt-2">
           <div className="font-bold text-gray-900">
-            {item.price.toLocaleString('ru-RU')} ₽
+            {item.price.toLocaleString('ru-RU')} ฿
             {(item.type === 'property' || item.type === 'vehicle') && 
               <span className="text-sm font-normal text-gray-500"> / день</span>
             }

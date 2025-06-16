@@ -11,13 +11,11 @@ interface MainLayoutProps {
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, hideFooter = false }) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden overflow-fix">
       <MainHeader />
       
-      {/* Отступ для header */}
-      <div className="h-20"></div>
-      
-      <main className="flex-grow">{children}</main>
+      {/* Основное содержимое с минимальным отступом для header */}
+      <main className="flex-grow pt-16 w-full">{children}</main>
       
       {!hideFooter && <MainFooter />}
     </div>

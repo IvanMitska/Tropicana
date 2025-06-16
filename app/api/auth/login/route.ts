@@ -41,7 +41,12 @@ export async function POST(req: NextRequest) {
     }
 
     // Создание JWT токена
-    const token = await signJwtToken({ userId: user._id.toString() });
+    const token = await signJwtToken({ 
+      userId: user._id.toString(),
+      email: user.email,
+      role: user.role,
+      name: user.name
+    });
 
     // Настройка куки с токеном
     const response = NextResponse.json({

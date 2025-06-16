@@ -1,13 +1,13 @@
 /* Styles for SearchInterface component */
 /* 
-  Primary color: #E69980 (coral/orange for search button)
-  Secondary color: #2F4741 (dark teal for backgrounds, perhaps semi-transparent for the main bar)
+  Primary color: #22A699 (бирюзовый/морской)
+  Secondary color: #F2BE22 (солнечно-желтый)
   Text colors: White/light for placeholders and input text on light input backgrounds.
   Icons: Need to be styled and positioned.
 */
 
 .container {
-  background-color: rgba(47, 71, 65, 0.8);
+  background-color: rgba(255, 255, 255, 0.15);
   padding: 1rem;
   border-radius: 12px;
   display: flex;
@@ -17,6 +17,8 @@
   filter: none;
   perspective: none;
   contain: none;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .form {
@@ -33,13 +35,25 @@
   display: flex;
   align-items: center;
   background-color: white;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
+  padding: 0.875rem 1.25rem;
+  border-radius: 10px;
   flex-grow: 1;
   min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.formGroup:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
+
   .form {
     flex-direction: column;
     align-items: stretch;
@@ -47,10 +61,45 @@
 
   .formGroup {
     width: 100%;
+    min-width: unset;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .formGroup:last-child {
+    margin-bottom: 0;
   }
 
   .datePickerWrapper {
-    min-height: 52px;
+    min-height: 56px;
+  }
+
+  .serviceSelect,
+  .locationInput {
+    font-size: 0.95rem;
+  }
+
+  .searchButton {
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+
+  .formGroup {
+    padding: 0.625rem 0.875rem;
+  }
+
+  .serviceIcon,
+  .locationIcon,
+  .dateIcon {
+    margin-right: 0.5rem;
   }
 }
 
@@ -93,28 +142,29 @@
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #2f4741;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-top: none;
-  border-radius: 0 0 8px 8px;
+  background-color: white;
+  color: #333333;
+  border: none;
+  border-radius: 10px;
   list-style: none;
-  padding: 0;
-  margin: 0;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
   z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   max-height: 250px;
   overflow-y: auto;
 }
 
 .serviceDropdownItem {
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  border-radius: 6px;
+  margin-bottom: 0.25rem;
 }
 
 .serviceDropdownItem:hover {
-  background-color: rgba(230, 153, 128, 0.2);
+  background-color: rgba(34, 166, 153, 0.1);
 }
 
 .serviceIcon,
@@ -130,24 +180,32 @@
 }
 
 .searchButton {
-  background-color: #e69980;
+  background-color: #22a699;
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.875rem 1.5rem;
+  border-radius: 10px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  transition: background-color 0.2s;
-  min-width: 120px;
+  transition: all 0.2s;
+  min-width: 130px;
   justify-content: center;
+  box-shadow: 0 4px 10px rgba(34, 166, 153, 0.3);
 }
 
 .searchButton:hover {
-  background-color: #e28a6d;
+  background-color: #1c857a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(34, 166, 153, 0.4);
+}
+
+.searchButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(34, 166, 153, 0.3);
 }
 
 .searchIcon {

@@ -22,12 +22,14 @@ export interface IBooking extends Document {
     phone: string;
   };
   price: {
-    basePrice: number;
-    optionsPrice: number;
-    taxAmount: number;
-    discount: number;
-    totalPrice: number;
+    amount: number;
     currency: string;
+    breakdown?: {
+      base: number;
+      fees: number;
+      taxes: number;
+      discounts: number;
+    };
   };
   status: 'draft' | 'pending' | 'confirmed' | 'cancelled' | 'completed';
   paymentStatus: 'pending' | 'partial' | 'completed' | 'refunded' | 'failed';
@@ -84,29 +86,31 @@ const bookingSchema = new Schema<IBooking>(
     },
     // Информация о цене
     price: {
-      basePrice: {
-        type: Number,
-        required: true
-      },
-      optionsPrice: {
-        type: Number,
-        default: 0
-      },
-      taxAmount: {
-        type: Number,
-        default: 0
-      },
-      discount: {
-        type: Number,
-        default: 0
-      },
-      totalPrice: {
+      amount: {
         type: Number,
         required: true
       },
       currency: {
         type: String,
-        default: 'RUB'
+        default: 'THB'
+      },
+      breakdown: {
+        base: {
+          type: Number,
+          default: 0
+        },
+        fees: {
+          type: Number,
+          default: 0
+        },
+        taxes: {
+          type: Number,
+          default: 0
+        },
+        discounts: {
+          type: Number,
+          default: 0
+        }
       }
     },
     // Статус бронирования

@@ -35,7 +35,7 @@ export default function PropertySimilar({ propertyId }: PropertySimilarProps) {
   const formatPrice = (price: number): string => {
     return new Intl.NumberFormat('ru-RU', {
       style: 'currency',
-      currency: 'RUB',
+      currency: 'THB',
       maximumFractionDigits: 0,
     }).format(price);
   };

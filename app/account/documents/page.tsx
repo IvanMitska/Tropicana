@@ -138,7 +138,10 @@ export default function DocumentsPage() {
       // Добавляем новый документ в список (в реальном приложении документ будет возвращен с сервера)
       const newDocument: Document = {
         _id: Date.now().toString(),
-        ...formData,
+        type: formData.type as 'passport' | 'driverLicense' | 'other',
+        documentNumber: formData.documentNumber,
+        issuedDate: formData.issuedDate,
+        expiryDate: formData.expiryDate,
         filename: documentFile.name,
         verified: false,
         verificationStatus: 'pending',

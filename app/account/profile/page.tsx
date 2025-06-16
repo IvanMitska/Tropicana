@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState, useRef, ChangeEvent } from 'react';
+import React, { useState, useRef, useEffect, ChangeEvent } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/app/hooks/useAuth';
 import AccountLayout from '@/app/components/layout/AccountLayout';
 import { PencilIcon, ArrowPathIcon, CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -13,17 +15,17 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
-    phone: user?.phone || '',
+    phone: (user as any)?.phone || '',
     address: {
-      street: user?.address?.street || '',
-      city: user?.address?.city || '',
-      state: user?.address?.state || '',
-      country: user?.address?.country || '',
-      postalCode: user?.address?.postalCode || '',
+      street: (user as any)?.address?.street || '',
+      city: (user as any)?.address?.city || '',
+      state: (user as any)?.address?.state || '',
+      country: (user as any)?.address?.country || '',
+      postalCode: (user as any)?.address?.postalCode || '',
     },
   });
 
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(user?.avatar || null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>((user as any)?.avatar || null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -105,16 +107,16 @@ export default function ProfilePage() {
     setFormData({
       name: user?.name || '',
       email: user?.email || '',
-      phone: user?.phone || '',
+      phone: (user as any)?.phone || '',
       address: {
-        street: user?.address?.street || '',
-        city: user?.address?.city || '',
-        state: user?.address?.state || '',
-        country: user?.address?.country || '',
-        postalCode: user?.address?.postalCode || '',
+        street: (user as any)?.address?.street || '',
+        city: (user as any)?.address?.city || '',
+        state: (user as any)?.address?.state || '',
+        country: (user as any)?.address?.country || '',
+        postalCode: (user as any)?.address?.postalCode || '',
       },
     });
-    setAvatarPreview(user?.avatar || null);
+    setAvatarPreview((user as any)?.avatar || null);
     setAvatarFile(null);
     setIsEditing(false);
   };
@@ -141,7 +143,7 @@ export default function ProfilePage() {
         <div className="flex-1">
           <h2 className="text-xl font-semibold">{user?.name}</h2>
           <p className="text-gray-600">{user?.email}</p>
-          {user?.phone && <p className="text-gray-600 mt-1">{user.phone}</p>}
+          {(user as any)?.phone && <p className="text-gray-600 mt-1">{(user as any).phone}</p>}
         </div>
 
         <button
@@ -166,7 +168,7 @@ export default function ProfilePage() {
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Телефон</p>
-            <p>{user?.phone || '—'}</p>
+            <p>{(user as any)?.phone || '—'}</p>
           </div>
         </div>
       </div>
@@ -176,23 +178,23 @@ export default function ProfilePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <p className="text-sm text-gray-500 mb-1">Улица</p>
-            <p>{user?.address?.street || '—'}</p>
+            <p>{(user as any)?.address?.street || '—'}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Город</p>
-            <p>{user?.address?.city || '—'}</p>
+            <p>{(user as any)?.address?.city || '—'}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Регион</p>
-            <p>{user?.address?.state || '—'}</p>
+            <p>{(user as any)?.address?.state || '—'}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Страна</p>
-            <p>{user?.address?.country || '—'}</p>
+            <p>{(user as any)?.address?.country || '—'}</p>
           </div>
           <div>
             <p className="text-sm text-gray-500 mb-1">Почтовый индекс</p>
-            <p>{user?.address?.postalCode || '—'}</p>
+            <p>{(user as any)?.address?.postalCode || '—'}</p>
           </div>
         </div>
       </div>

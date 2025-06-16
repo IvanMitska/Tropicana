@@ -51,7 +51,7 @@ const demoBookings: Booking[] = [
     startDate: '2023-07-15',
     endDate: '2023-07-20',
     totalAmount: 25000,
-    currency: 'RUB',
+    currency: 'THB',
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2070&auto=format&fit=crop',
     location: 'Сочи',
     guests: {
@@ -71,7 +71,7 @@ const demoBookings: Booking[] = [
     startDate: '2023-08-10',
     endDate: '2023-08-10',
     totalAmount: 5000,
-    currency: 'RUB',
+    currency: 'THB',
     image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop',
     location: 'Красная Поляна',
     guests: {
@@ -91,7 +91,7 @@ const demoBookings: Booking[] = [
     startDate: '2023-07-25',
     endDate: '2023-07-30',
     totalAmount: 30000,
-    currency: 'RUB',
+    currency: 'THB',
     image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=2070&auto=format&fit=crop',
     location: 'Москва',
     canCancel: true,
@@ -107,7 +107,7 @@ const demoBookings: Booking[] = [
     startDate: '2023-05-01',
     endDate: '2023-05-07',
     totalAmount: 45000,
-    currency: 'RUB',
+    currency: 'THB',
     image: 'https://images.unsplash.com/photo-1579700476231-191ad5cbb9dc?q=80&w=2070&auto=format&fit=crop',
     location: 'Золотое кольцо',
     guests: {
@@ -127,7 +127,7 @@ const demoBookings: Booking[] = [
     startDate: '2023-06-10',
     endDate: '2023-06-15',
     totalAmount: 20000,
-    currency: 'RUB',
+    currency: 'THB',
     image: 'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?q=80&w=2070&auto=format&fit=crop',
     location: 'Санкт-Петербург',
     guests: {
@@ -147,7 +147,7 @@ const demoBookings: Booking[] = [
     startDate: '2023-06-01',
     endDate: '2023-06-02',
     totalAmount: 15000,
-    currency: 'RUB',
+    currency: 'THB',
     image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=2070&auto=format&fit=crop',
     location: 'Москва',
     canCancel: false,
@@ -415,7 +415,7 @@ export default function BookingsPage() {
             
             <div className="mt-auto pt-4 flex flex-wrap justify-between items-center gap-2">
               <div className="text-lg font-bold">
-                {booking.totalAmount.toLocaleString('ru-RU')} ₽
+                {booking.totalAmount.toLocaleString('ru-RU')} ฿
               </div>
               
               <div className="flex flex-wrap gap-2">

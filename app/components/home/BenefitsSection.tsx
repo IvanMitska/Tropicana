@@ -1,165 +1,440 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import { Clock, Shield, CreditCard, UserCheck, Gift, BadgeCheck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import Link from 'next/link';
+import { ArrowRight, Shield, Clock, CheckCircle, Users, CreditCard, Sparkles } from 'lucide-react';
 
-interface BenefitCardProps {
+interface BenefitProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  delay: number;
+  index: number;
+  color: string;
+  onHover: (id: number | null) => void;
+  isHovered: boolean;
 }
 
-const BenefitCard = ({ icon, title, description, delay }: BenefitCardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+const BenefitCard = ({ icon, title, description, index, color, onHover, isHovered }: BenefitProps) => {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
 
-  // Простая анимация при прокрутке
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.add('translate-y-0', 'opacity-100');
-            }, delay);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
-      }
+  // Динамический цвет для карточек
+  const getColorClass = (colorName: string, opacity = 100) => {
+    const baseColors: { [key: string]: string } = {
+      primary: `rgb(var(--color-primary) / ${opacity}%)`,
+      secondary: `rgb(var(--color-primary) / ${opacity}%)`,
+      accent: `rgb(var(--color-primary) / ${opacity}%)`
     };
-  }, [delay]);
+    
+    return baseColors[colorName] || baseColors.primary;
+  };
 
   return (
     <div
-      ref={cardRef}
-      className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300 transform translate-y-8 opacity-0"
+      ref={ref}
+      className={`relative overflow-hidden rounded-xl transition-all duration-700 ease-out
+                ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+                ${index % 3 === 0 ? 'delay-[100ms]' : index % 3 === 1 ? 'delay-[300ms]' : 'delay-[500ms]'}`}
+      onMouseEnter={() => onHover(index)}
+      onMouseLeave={() => onHover(null)}
     >
-      <div className="bg-primary/10 text-primary p-3 rounded-full inline-block mb-4">
+      <div className="relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-500 overflow-hidden h-full group">
+        {/* Анимированный фоновый эффект */}
+        <div 
+          className="absolute inset-0 transition-all duration-500 ease-in-out"
+          style={{
+            background: `radial-gradient(circle at 20% 20%, ${getColorClass(color, isHovered ? 20 : 10)}, transparent 70%)`,
+            opacity: isHovered ? 1 : 0.5,
+            transform: isHovered ? 'scale(1.1)' : 'scale(1)'
+          }}
+        ></div>
+        
+        {/* Плавающие частицы внутри карточки */}
+        {isHovered && (
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(5)].map((_, idx) => (
+              <div 
+                key={`particle-${index}-${idx}`}
+                className="absolute rounded-full"
+                style={{
+                  width: `${Math.random() * 8 + 4}px`,
+                  height: `${Math.random() * 8 + 4}px`,
+                  background: getColorClass(color, 40 + idx * 10),
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  animation: `floatParticle ${Math.random() * 3 + 2}s infinite alternate ease-in-out`,
+                  animationDelay: `${idx * 0.2}s`,
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
+        
+        {/* Верхняя декоративная полоса с анимацией */}
+        <div 
+          className="absolute top-0 left-0 h-1 transition-all duration-500 group-hover:h-2"
+          style={{ 
+            background: `linear-gradient(to right, ${getColorClass(color, 100)}, ${getColorClass(color, 70)})`,
+            width: isHovered ? '100%' : '30%',
+            left: isHovered ? '0%' : '35%',
+          }}
+        ></div>
+        
+        <div className="p-8 relative z-10 flex flex-col h-full">
+          <div className="flex items-start mb-6">
+            <div 
+              className="flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-500 mr-4 overflow-hidden"
+              style={{ 
+                background: isHovered ? getColorClass(color, 15) : 'rgba(243, 244, 246, 0.8)',
+                color: isHovered ? getColorClass(color, 100) : '#6B7280',
+                transform: isHovered ? 'rotate(5deg) scale(1.1)' : 'rotate(0) scale(1)'
+              }}
+            >
+              {/* Анимированное свечение для иконки */}
+              <div 
+                className="absolute inset-0 transition-all duration-500"
+                style={{
+                  background: `radial-gradient(circle at center, ${getColorClass(color, 30)} 0%, transparent 70%)`,
+                  opacity: isHovered ? 1 : 0,
+                  animation: isHovered ? 'pulse 2s infinite ease-in-out' : 'none'
+                }}
+              ></div>
+              <div 
+                className="transition-all duration-300"
+                style={{
+                  transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+                }}
+              >
         {icon}
+              </div>
+            </div>
+            <h3 
+              className="text-xl font-bold transition-all duration-300"
+              style={{ 
+                color: isHovered ? getColorClass(color, 100) : '#1A1A1A',
+                transform: isHovered ? 'translateX(5px)' : 'translateX(0)'
+              }}
+            >
+              {title}
+            </h3>
+          </div>
+          <p className="text-gray-600 flex-grow transition-all duration-300"
+             style={{
+               transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+             }}
+          >{description}</p>
+          
+          {/* Анимированный декоративный элемент в углу */}
+          <div 
+            className="absolute bottom-3 right-3 opacity-10 text-gray-300 transition-all duration-700"
+            style={{
+              opacity: isHovered ? 0.2 : 0.1,
+              transform: isHovered ? 'rotate(45deg) scale(1.2)' : 'rotate(0) scale(1)',
+            }}
+          >
+            <div className="w-16 h-16 rounded-full border-4 border-dashed"
+              style={{ 
+                borderColor: getColorClass(color, 40),
+                animation: isHovered ? 'spin-slow 10s linear infinite' : 'none'
+              }}
+            ></div>
+          </div>
+          
+          {/* Эффект блеска при наведении */}
+          <div 
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
+            style={{
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+              transform: isHovered ? 'translateX(100%)' : 'translateX(-100%)',
+              transition: 'transform 0.8s ease-in-out, opacity 0.3s ease-in-out',
+            }}
+          ></div>
+        </div>
       </div>
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
     </div>
   );
 };
 
 const BenefitsSection = () => {
+  const [hoveredBenefit, setHoveredBenefit] = useState<number | null>(null);
+  const [animateBackground, setAnimateBackground] = useState(false);
+  
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+  
+  // Эффект для анимации фоновых элементов при появлении секции
+  useEffect(() => {
+    if (inView) {
+      setAnimateBackground(true);
+    }
+  }, [inView]);
+
   const benefits = [
     {
       id: 1,
       title: 'Поддержка 24/7',
       description: 'Наши русскоговорящие менеджеры доступны круглосуточно и помогут с любым вопросом',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path fillRule="evenodd" d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z" clipRule="evenodd" />
-        </svg>
-      ),
+      icon: <Clock className="w-6 h-6" />,
+      color: 'primary'
     },
     {
       id: 2,
       title: 'Гарантия лучшей цены',
       description: 'Мы предлагаем самые выгодные цены на аренду и экскурсии. Нашли дешевле? Мы вернем разницу!',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 01-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004zM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991-.257.193-.574.336-.921.421z" />
-          <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v.816a3.836 3.836 0 00-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 01-.921-.421l-.879-.66a.75.75 0 00-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 001.5 0v-.81a3.833 3.833 0 001.719-.756c.712-.566 1.112-1.35 1.112-2.178 0-.829-.4-1.612-1.113-2.178-.502-.4-1.102-.647-1.719-.756V6z" clipRule="evenodd" />
-        </svg>
-      ),
+      icon: <CreditCard className="w-6 h-6" />,
+      color: 'primary'
     },
     {
       id: 3,
       title: 'Проверенные партнеры',
       description: 'Мы тщательно отбираем партнеров и проверяем все предложения, чтобы вы получили лучший сервис',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
-        </svg>
-      ),
+      icon: <CheckCircle className="w-6 h-6" />,
+      color: 'primary'
     },
     {
       id: 4,
       title: 'Местные эксперты',
       description: 'Наши гиды и консультанты - местные жители, которые знают Пхукет как свои пять пальцев',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path fillRule="evenodd" d="M8.25 6.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z" clipRule="evenodd" />
-          <path d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z" />
-        </svg>
-      ),
+      icon: <Users className="w-6 h-6" />,
+      color: 'primary'
     },
     {
       id: 5,
       title: 'Безопасные платежи',
       description: 'Защищенная система оплаты и прозрачные условия бронирования без скрытых платежей',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path d="M18.75 8.25h1.875c1.036 0 1.875.84 1.875 1.875v3.75c0 1.036-.84 1.875-1.875 1.875H18.75V8.25z" />
-          <path d="M12 8.25h4.875v7.5H12v-7.5z" />
-          <path fillRule="evenodd" d="M7.5 6.75C7.5 5.64 8.34 4.5 9.75 4.5h.75v3.75c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75V4.5h.75c1.41 0 2.25 1.14 2.25 2.25v12c0 1.11-.84 2.25-2.25 2.25h-8.5c-1.41 0-2.25-1.14-2.25-2.25v-12z" clipRule="evenodd" />
-          <path d="M3.75 6.75h1.875v7.5H3.75v-7.5z" />
-        </svg>
-      ),
+      icon: <Shield className="w-6 h-6" />,
+      color: 'primary'
     },
     {
       id: 6,
       title: 'Индивидуальный подход',
       description: 'Мы учтем все ваши пожелания и подберем варианты, идеально подходящие именно вам',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
-          <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
-        </svg>
-      ),
+      icon: <Sparkles className="w-6 h-6" />,
+      color: 'primary'
     },
   ];
 
   return (
-    <section className="py-20 bg-dark">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary mb-4">Почему выбирают нас</h2>
-          <p className="text-lg text-secondary-light max-w-3xl mx-auto">
+    <section className="py-24 relative overflow-hidden bg-light">
+      {/* Анимированные декоративные элементы */}
+      <div 
+        className={`absolute top-0 right-0 w-96 h-96 rounded-full bg-primary/5 blur-3xl transition-all duration-[2000ms] ease-in-out ${
+          animateBackground ? '-translate-y-1/2 translate-x-1/2 opacity-100' : 'translate-y-0 translate-x-0 opacity-0'
+        }`}
+        style={{
+          animationName: 'floatingBubble',
+          animationDuration: '15s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '0.5s',
+        }}
+      ></div>
+      <div 
+        className={`absolute bottom-0 left-0 w-80 h-80 rounded-full bg-primary/5 blur-3xl transition-all duration-[2000ms] ease-in-out ${
+          animateBackground ? 'translate-y-1/2 -translate-x-1/2 opacity-100' : 'translate-y-0 translate-x-0 opacity-0'
+        }`}
+        style={{
+          animationName: 'floatingBubble',
+          animationDuration: '12s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+        }}
+      ></div>
+      
+      {/* Анимированные плавающие круги */}
+      <div 
+        className={`absolute top-40 right-1/4 w-24 h-24 border border-primary/10 rounded-full transition-all duration-[1500ms] ${
+          animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+        }`}
+        style={{
+          animationName: 'floating',
+          animationDuration: '10s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+        }}
+      ></div>
+      <div 
+        className={`absolute bottom-60 left-1/3 w-16 h-16 border border-primary/10 rounded-full transition-all duration-[1500ms] ${
+          animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+        }`}
+        style={{
+          animationName: 'floating',
+          animationDuration: '8s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '0.5s',
+        }}
+      ></div>
+      
+      {/* Плавающие частицы */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(8)].map((_, idx) => (
+          <div 
+            key={`particle-${idx}`}
+            className="absolute bg-primary rounded-full opacity-20"
+            style={{
+              width: `${Math.random() * 8 + 4}px`,
+              height: `${Math.random() * 8 + 4}px`,
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationName: 'floatParticle',
+              animationDuration: `${Math.random() * 15 + 10}s`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationIterationCount: 'infinite',
+              animationTimingFunction: 'linear',
+              animationDirection: idx % 2 === 0 ? 'alternate' : 'alternate-reverse',
+            }}
+          ></div>
+        ))}
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div 
+          ref={ref}
+          className={`text-center mb-16 transition-all duration-700 ease-out
+                    ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+        >
+          <span className="inline-block text-primary font-semibold mb-2 animate-pulse">НАШИ ПРЕИМУЩЕСТВА</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-dark mb-6 relative overflow-hidden">
+            <span className={`inline-block transition-all duration-700 delay-150 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              Почему клиенты 
+            </span>
+            <span className={`text-primary inline-block transition-all duration-700 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              &nbsp;выбирают нас
+            </span>
+            <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-primary rounded-full transition-all duration-700 delay-500 ${inView ? 'w-32 opacity-100' : 'w-0 opacity-0'}`}></span>
+          </h2>
+          <p className={`text-lg text-gray-600 max-w-3xl mx-auto transition-all duration-700 delay-400 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
             Более 5000 туристов уже воспользовались нашими услугами за последний год
           </p>
+          <div className={`flex items-center justify-center gap-2 mt-4 transition-all duration-700 delay-500 ${inView ? 'opacity-100' : 'opacity-0'}`}>
+            <Sparkles className="text-primary w-5 h-5" style={{
+              animation: 'spin-slow 6s linear infinite'
+            }} />
+            <span className="text-gray-500 text-sm">Проверенное качество</span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {benefits.map((benefit) => (
-            <div 
+          {benefits.map((benefit, index) => (
+            <BenefitCard
               key={benefit.id} 
-              className="bg-gradient-to-b from-dark-light to-dark p-8 rounded-xl shadow-md hover:shadow-xl transition-shadow border border-secondary/10 relative overflow-hidden"
-            >
-              <div className="flex items-start mb-4">
-                <div className="bg-primary-light p-3 rounded-lg text-primary mr-4 relative z-10">
-                  {benefit.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-secondary mt-3">{benefit.title}</h3>
-              </div>
-              <p className="text-secondary-light pl-20">{benefit.description}</p>
-              
-              {/* Декоративный элемент */}
-              <div className="absolute -bottom-6 -right-6 w-32 h-32 rounded-full bg-primary opacity-5"></div>
-            </div>
+              icon={benefit.icon}
+              title={benefit.title}
+              description={benefit.description}
+              index={index}
+              color={benefit.color}
+              onHover={setHoveredBenefit}
+              isHovered={hoveredBenefit === index}
+            />
           ))}
         </div>
         
-        <div className="mt-16 text-center">
-          <div className="inline-block bg-gradient-to-r from-primary to-primary-light text-white py-3 px-8 rounded-full font-medium text-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer">
-            Узнать больше о нас
+        <div className={`mt-16 text-center transition-all duration-700 ease-out
+                    ${inView ? 'opacity-100 translate-y-0 delay-700' : 'opacity-0 translate-y-10'}`}>
+          <Link 
+            href="/about" 
+            className="group inline-flex items-center bg-primary hover:bg-primary/90 text-white hover:text-white font-medium py-4 px-8 rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl relative overflow-hidden"
+          >
+            {/* Эффект блеска на кнопке */}
+            <div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                left: '-100%',
+                top: '0',
+                animation: 'shine 2s infinite linear',
+              }}
+            ></div>
+            
+            <span className="relative z-10">Узнать больше о нас</span>
+            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-all duration-300 relative z-10" />
+          </Link>
+        </div>
+        
+        {/* Анимированные декоративные элементы */}
+        <div 
+          className={`absolute top-1/4 right-0 w-32 h-32 opacity-5 pointer-events-none transition-all duration-1000 ${
+            animateBackground ? 'opacity-5 rotate-0' : 'opacity-0 rotate-45'
+          }`}
+          style={{
+            animation: animateBackground ? 'float-rotate 15s infinite linear' : 'none'
+          }}
+        >
+          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 0L120 80H200L135 130L155 200L100 155L45 200L65 130L0 80H80L100 0Z" fill="currentColor" className="text-primary" />
+          </svg>
           </div>
+        <div 
+          className={`absolute bottom-1/4 left-0 w-32 h-32 opacity-5 pointer-events-none transition-all duration-1000 ${
+            animateBackground ? 'opacity-5 translate-x-0' : 'opacity-0 -translate-x-10'
+          }`}
+          style={{
+            animation: animateBackground ? 'float-circle 12s infinite ease-in-out' : 'none'
+          }}
+        >
+          <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="80" stroke="currentColor" strokeWidth="10" className="text-primary" />
+            <circle cx="100" cy="100" r="40" fill="currentColor" className="text-primary" />
+          </svg>
         </div>
       </div>
+      
+      {/* CSS-анимации */}
+      <style jsx>{`
+        @keyframes floating {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(0, 15px); }
+          100% { transform: translate(0, 0); }
+        }
+        
+        @keyframes floatingBubble {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(10px, 10px) scale(1.05); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.2); opacity: 0.8; }
+          100% { transform: scale(1); opacity: 0.5; }
+        }
+        
+        @keyframes floatParticle {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(100px, 50px); }
+          100% { transform: translate(0, 0); }
+        }
+        
+        @keyframes shine {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+        
+        @keyframes spin-slow {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes float-rotate {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          25% { transform: translate(10px, 10px) rotate(90deg); }
+          50% { transform: translate(0, 20px) rotate(180deg); }
+          75% { transform: translate(-10px, 10px) rotate(270deg); }
+          100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        @keyframes float-circle {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(20px, 10px) scale(1.1); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+      `}</style>
     </section>
   );
 };

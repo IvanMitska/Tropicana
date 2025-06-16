@@ -1,13 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 
 interface FAQItem {
   id: string;
   category: string;
   question: string;
   answer: string;
+  isNew?: boolean;
+  isPopular?: boolean;
 }
 
 const faqItems: FAQItem[] = [
@@ -15,7 +18,8 @@ const faqItems: FAQItem[] = [
     id: '1',
     category: 'Общие вопросы',
     question: 'Как я могу связаться с поддержкой?',
-    answer: 'Вы можете связаться с нашей поддержкой через форму обратной связи на этой странице, по телефону горячей линии или через онлайн-чат. Мы работаем ежедневно с 9:00 до 21:00.'
+    answer: 'Вы можете связаться с нашей поддержкой через форму обратной связи на этой странице, по телефону горячей линии или через онлайн-чат. Мы работаем ежедневно с 9:00 до 21:00.',
+    isPopular: true
   },
   {
     id: '2',
@@ -27,7 +31,8 @@ const faqItems: FAQItem[] = [
     id: '3',
     category: 'Аренда',
     question: 'Какова минимальная длительность аренды?',
-    answer: 'Минимальная длительность аренды составляет 1 сутки. Для некоторых категорий объектов возможна почасовая аренда.'
+    answer: 'Минимальная длительность аренды составляет 1 сутки. Для некоторых категорий объектов возможна почасовая аренда.',
+    isNew: true
   },
   {
     id: '4',
@@ -68,77 +73,108 @@ export default function FAQ() {
   });
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-semibold mb-6">Часто задаваемые вопросы</h2>
+    <div className="bg-white rounded-2xl p-8 md:p-10">
+      <h2 className="text-2xl md:text-[28px] font-semibold mb-8 text-[#333333]">Часто задаваемые вопросы</h2>
 
-      <div className="mb-6">
+      <div className="mb-8">
         <div className="relative">
           <input
             type="text"
             placeholder="Поиск по вопросам..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-3 pl-10 border border-[#E0E0E0] rounded-xl bg-[#FAFAFA] focus:outline-none focus:ring-1 focus:ring-primary transition-all"
           />
-          <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+          <MagnifyingGlassIcon className="absolute left-3 top-3.5 h-5 w-5 text-[#707070]" />
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-6">
-        <button
-          onClick={() => setSelectedCategory('all')}
-          className={`px-4 py-2 rounded-full text-sm font-medium ${
-            selectedCategory === 'all'
-              ? 'bg-blue-600 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Все категории
-        </button>
-        {categories.map(category => (
+      <div className="flex flex-wrap gap-2 mb-8">
+        <div className="flex flex-wrap gap-2">
           <button
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium ${
-              selectedCategory === category
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            onClick={() => setSelectedCategory('all')}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              selectedCategory === 'all'
+                ? 'bg-[#F5F5F7] text-[#333333]'
+                : 'bg-white text-[#707070] border border-[#E0E0E0] hover:bg-[#F5F5F7]'
             }`}
           >
-            {category}
+            Все категории
           </button>
-        ))}
+          {categories.map(category => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                selectedCategory === category
+                  ? 'bg-[#F5F5F7] text-[#333333]'
+                  : 'bg-white text-[#707070] border border-[#E0E0E0] hover:bg-[#F5F5F7]'
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {filteredItems.map(item => (
           <div
             key={item.id}
-            className="border border-gray-200 rounded-lg overflow-hidden"
+            className="border border-[#E0E0E0] rounded-xl overflow-hidden transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] hover:translate-y-[-2px] focus-within:ring-1 focus-within:ring-primary"
           >
             <button
               onClick={() => toggleItem(item.id)}
-              className="w-full px-4 py-4 text-left flex items-center justify-between hover:bg-gray-50 focus:outline-none"
+              className="w-full px-6 py-4 text-left flex items-center justify-between transition-all"
+              aria-expanded={openItems.has(item.id)}
+              aria-controls={`faq-answer-${item.id}`}
             >
-              <span className="font-medium">{item.question}</span>
-              <ChevronDownIcon
-                className={`h-5 w-5 text-gray-500 transition-transform ${
-                  openItems.has(item.id) ? 'transform rotate-180' : ''
-                }`}
-              />
-            </button>
-            {openItems.has(item.id) && (
-              <div className="px-4 py-3 bg-gray-50">
-                <p className="text-gray-600">{item.answer}</p>
+              <div className="flex items-center">
+                <span className={`text-base ${openItems.has(item.id) ? 'font-semibold' : 'font-medium'} text-[#333333]`}>
+                  {item.question}
+                </span>
+                {item.isNew && (
+                  <span className="ml-2 text-xs px-2 py-0.5 bg-[#FFF2E8] text-primary rounded-full font-medium">
+                    Новый
+                  </span>
+                )}
+                {item.isPopular && (
+                  <span className="ml-2 flex space-x-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary"></span>
+                  </span>
+                )}
               </div>
-            )}
+              <div className="h-6 w-6 flex items-center justify-center rounded-full border border-[#E0E0E0] transition-transform">
+                {openItems.has(item.id) ? (
+                  <MinusIcon className="h-3 w-3 text-[#333333]" />
+                ) : (
+                  <PlusIcon className="h-3 w-3 text-[#333333]" />
+                )}
+              </div>
+            </button>
+            <div 
+              className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                openItems.has(item.id) 
+                  ? 'max-h-[500px] opacity-100' 
+                  : 'max-h-0 opacity-0'
+              }`}
+              id={`faq-answer-${item.id}`}
+              aria-hidden={!openItems.has(item.id)}
+            >
+              <div className="px-6 pb-6 pt-0">
+                <div className="w-full h-px bg-[#E0E0E0] mb-4"></div>
+                <p className="text-[15px] leading-relaxed text-[#707070]">{item.answer}</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
 
       {filteredItems.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-gray-500">По вашему запросу ничего не найдено</p>
+        <div className="text-center py-10 bg-[#FAFAFA] rounded-xl border border-[#E0E0E0] mt-4">
+          <p className="text-[#707070]">По вашему запросу ничего не найдено</p>
         </div>
       )}
     </div>

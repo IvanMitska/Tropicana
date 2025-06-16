@@ -104,7 +104,7 @@ export default function VehicleGallery({ images, className = '' }: VehicleGaller
           <button
             key={image.id}
             className={`relative aspect-[4/3] rounded-md overflow-hidden border-2 transition-all duration-300 ${
-              index === activeImageIndex ? 'border-blue-500 scale-[1.02]' : 'border-transparent hover:border-gray-300'
+              index === activeImageIndex ? 'border-primary scale-[1.02]' : 'border-transparent hover:border-gray-300'
             }`}
             onClick={() => setActiveImageIndex(index)}
             aria-label={`Выбрать изображение ${index + 1}`}
@@ -201,7 +201,7 @@ export default function VehicleGallery({ images, className = '' }: VehicleGaller
             <button
               key={image.id}
               className={`relative h-16 w-24 flex-shrink-0 rounded-md overflow-hidden border-2 transition-all duration-300 ${
-                index === activeImageIndex ? 'border-blue-500' : 'border-transparent hover:border-gray-300'
+                index === activeImageIndex ? 'border-primary' : 'border-transparent hover:border-gray-300'
               }`}
               onClick={() => setActiveImageIndex(index)}
               aria-label={`Выбрать изображение ${index + 1}`}

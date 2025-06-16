@@ -358,7 +358,7 @@ export default function TourDetailPage() {
             {/* Боковая панель бронирования (правая колонка) */}
             <div>
               <div className="bg-white rounded-xl shadow-md p-6 sticky top-24">
-                <div className="text-2xl font-bold text-primary mb-2">3 500 ₽</div>
+                <div className="text-2xl font-bold text-primary mb-2">3 500 ฿</div>
                 <div className="text-gray-500 text-sm mb-4">Цена за 1 человека</div>
                 
                 <div className="mb-4">
@@ -391,22 +391,22 @@ export default function TourDetailPage() {
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <input type="checkbox" id="transfer" className="mr-2" />
-                      <label htmlFor="transfer" className="text-sm">Трансфер из отеля (+500 ₽)</label>
+                      <label htmlFor="transfer" className="text-sm">Трансфер из отеля (+500 ฿)</label>
                     </div>
                     <div className="flex items-center">
                       <input type="checkbox" id="snorkel" className="mr-2" />
-                      <label htmlFor="snorkel" className="text-sm">Аренда снаряжения для снорклинга (+300 ₽)</label>
+                      <label htmlFor="snorkel" className="text-sm">Аренда снаряжения для снорклинга (+300 ฿)</label>
                     </div>
                     <div className="flex items-center">
                       <input type="checkbox" id="photo" className="mr-2" />
-                      <label htmlFor="photo" className="text-sm">Фотосъемка (+1000 ₽)</label>
+                      <label htmlFor="photo" className="text-sm">Фотосъемка (+1000 ฿)</label>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex justify-between items-center font-bold text-lg mb-4">
                   <div>Итого:</div>
-                  <div className="text-primary">7 000 ₽</div>
+                  <div className="text-primary">7 000 ฿</div>
                 </div>
                 
                 <button className="w-full bg-primary hover:bg-primary-light text-white py-3 px-4 rounded-lg transition-colors font-medium">

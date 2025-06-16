@@ -136,7 +136,7 @@ const TourBookingWidget: React.FC<TourBookingWidgetProps> = ({ tour }) => {
   
   // Форматирование цены
   const formatPrice = (price: number) => {
-    return `${price.toLocaleString()} ${tour.pricing.currency === 'RUB' ? '₽' : tour.pricing.currency}`;
+    return `${price.toLocaleString()} ${tour.pricing.currency === 'THB' ? '฿' : tour.pricing.currency}`;
   };
   
   return (

@@ -61,7 +61,7 @@ const paymentSchema = new Schema<IPayment>(
     },
     currency: {
       type: String,
-      default: 'RUB'
+      default: 'THB'
     },
     // Статус платежа
     status: {

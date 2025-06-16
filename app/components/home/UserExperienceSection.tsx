@@ -1,97 +1,597 @@
-import React from 'react';
-import Image from 'next/image';
+'use client';
 
-const UserExperienceSection = () => {
-  const steps = [
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useInView } from 'react-intersection-observer';
+import { 
+  Home, 
+  MapPin, 
+  Calendar, 
+  CreditCard, 
+  MessageSquare, 
+  Star,
+  CheckCircle2,
+  ArrowRight,
+  Zap,
+  HeartHandshake,
+  Shield,
+  Clock,
+  Sparkles
+} from 'lucide-react';
+
+export default function UserExperienceSection() {
+  const [animateBackground, setAnimateBackground] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+  
+  const { ref, inView } = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
+
+  const { ref: stepsRef, inView: stepsInView } = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
+  
+  // Эффект для анимации фоновых элементов при появлении секции
+  useEffect(() => {
+    if (inView) {
+      setAnimateBackground(true);
+    }
+  }, [inView]);
+
+  const experienceCards = [
     {
       id: 1,
-      title: 'Выберите услугу',
-      description: 'Просмотрите каталог недвижимости, транспорта или экскурсий и выберите то, что подходит именно вам',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z" clipRule="evenodd" />
-        </svg>
-      ),
+      title: 'Удобный поиск',
+      description: 'Благодаря интуитивно понятному интерфейсу и продвинутым фильтрам, вы быстро найдете именно то, что ищете',
+      icon: <Home className="w-6 h-6" />,
+      color: 'primary',
+      delay: 100
     },
     {
       id: 2,
-      title: 'Забронируйте',
-      description: 'Выберите даты, заполните необходимую информацию и оплатите бронирование онлайн',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
-          <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z" clipRule="evenodd" />
-        </svg>
-      ),
+      title: 'Точная локация',
+      description: 'Все объекты имеют точную геолокацию и подробное описание района и инфраструктуры',
+      icon: <MapPin className="w-6 h-6" />,
+      color: 'primary',
+      delay: 200
     },
     {
       id: 3,
-      title: 'Получите подтверждение',
-      description: 'Мы отправим вам подтверждение бронирования с деталями по электронной почте',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path fillRule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clipRule="evenodd" />
-          <path fillRule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zm9.586 4.594a.75.75 0 00-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 00-1.06 1.06l1.5 1.5a.75.75 0 001.116-.062l3-3.75z" clipRule="evenodd" />
-        </svg>
-      ),
+      title: 'Мгновенное бронирование',
+      description: 'Бронируйте онлайн без ожидания подтверждения наличия и долгой переписки',
+      icon: <Calendar className="w-6 h-6" />,
+      color: 'primary',
+      delay: 300
     },
     {
       id: 4,
-      title: 'Наслаждайтесь Пхукетом',
-      description: 'Отдыхайте без забот с нашей круглосуточной поддержкой на русском языке',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-12 h-12">
-          <path d="M15.75 8.25a.75.75 0 01.75.75c0 1.12-.492 2.126-1.27 2.812a.75.75 0 11-.992-1.124A2.243 2.243 0 0015 9a.75.75 0 01.75-.75z" />
-          <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM4.575 15.6a8.25 8.25 0 009.348 4.425 1.966 1.966 0 00-1.84-1.275.983.983 0 01-.97-.822l-.073-.437c-.094-.565.25-1.11.8-1.267l.99-.282c.427-.123.783-.418.982-.816l.036-.073a1.453 1.453 0 012.328-.377L16.5 15h.628a2.25 2.25 0 011.983 1.186 8.25 8.25 0 00-6.345-12.4c.044.262.18.503.389.658l1.553 1.162a.75.75 0 11-.9 1.2L12 6.75l-1.553.934a.75.75 0 11-.768-1.286l2.25-1.35a.75.75 0 11.85 1.174l.165.123a.75.75 0 01.037 1.042l-.456.527a.75.75 0 01-.574.256h-1.95a.75.75 0 00-.574.256l-.458.529a.75.75 0 01-1.148-.208L6.5 7.697l-.01-.015a.75.75 0 01.148-.863l.858-.857a.75.75 0 01.148-.144A8.25 8.25 0 014.575 15.6z" clipRule="evenodd" />
-        </svg>
-      ),
+      title: 'Безопасная оплата',
+      description: 'Оплачивайте удобным для вас способом с полной защитой от мошенничества',
+      icon: <CreditCard className="w-6 h-6" />,
+      color: 'primary',
+      delay: 400
+    },
+    {
+      id: 5,
+      title: 'Поддержка 24/7',
+      description: 'Наша команда поддержки всегда готова помочь вам с любыми вопросами в любое время суток',
+      icon: <MessageSquare className="w-6 h-6" />,
+      color: 'primary',
+      delay: 500
+    },
+    {
+      id: 6,
+      title: 'Проверенные отзывы',
+      description: 'Читайте честные отзывы от реальных клиентов, чтобы сделать правильный выбор',
+      icon: <Star className="w-6 h-6" />,
+      color: 'primary',
+      delay: 600
     },
   ];
 
+  // Шаги бронирования
+  const bookingSteps = [
+    {
+      id: 1,
+      title: 'Выберите объект',
+      description: 'Найдите идеальное жилье или транспорт с помощью наших фильтров',
+      icon: <Home className="w-5 h-5" />,
+      color: 'primary',
+      image: '/images/booking-step-1.jpg'
+    },
+    {
+      id: 2,
+      title: 'Укажите даты',
+      description: 'Выберите даты аренды и количество гостей',
+      icon: <Calendar className="w-5 h-5" />,
+      color: 'primary',
+      image: '/images/booking-step-2.jpg'
+    },
+    {
+      id: 3,
+      title: 'Подтвердите заказ',
+      description: 'Проверьте детали и оплатите бронирование',
+      icon: <CreditCard className="w-5 h-5" />,
+      color: 'primary',
+      image: '/images/booking-step-3.jpg'
+    },
+    {
+      id: 4,
+      title: 'Наслаждайтесь отдыхом',
+      description: 'Получите подтверждение и наслаждайтесь вашим пребыванием',
+      icon: <CheckCircle2 className="w-5 h-5" />,
+      color: 'primary',
+      image: '/images/booking-step-4.jpg'
+    }
+  ];
+
+  // Преимущества
+  const benefits = [
+    {
+      id: 1,
+      title: 'Быстрые ответы',
+      description: 'Наши менеджеры отвечают на запросы в течение 15 минут',
+      icon: <Zap />
+    },
+    {
+      id: 2,
+      title: 'Гарантия соответствия',
+      description: 'Все объекты проверены нашими специалистами',
+      icon: <Shield />
+    },
+    {
+      id: 3,
+      title: 'Персональный подход',
+      description: 'Индивидуальный подбор объектов под ваши требования',
+      icon: <HeartHandshake />
+    },
+    {
+      id: 4,
+      title: 'Круглосуточная поддержка',
+      description: 'Мы на связи 24/7 для решения любых вопросов',
+      icon: <Clock />
+    }
+  ];
+
+  // Получение цвета для карточки
+  const getColor = (colorName: string, opacity = 10) => {
+    switch (colorName) {
+      case 'primary':
+        return `bg-primary/${opacity} border-primary/20 text-primary`;
+      case 'secondary':
+        return `bg-primary/${opacity} border-primary/20 text-primary`;
+      case 'accent':
+        return `bg-primary/${opacity} border-primary/20 text-primary`;
+      default:
+        return `bg-gray-100 border-gray-200 text-gray-700`;
+    }
+  };
+  
+  // Динамический цвет для элементов
+  const getColorClass = (colorName: string, opacity = 100) => {
+    return `rgb(var(--color-primary) / ${opacity}%)`;
+  };
+
   return (
-    <section className="py-20 bg-light">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">Как это работает</h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Простой процесс бронирования всего за 4 шага
+    <section className="py-24 relative overflow-hidden">
+      {/* Анимированные декоративные элементы фона */}
+      <div 
+        className={`absolute top-0 right-0 w-96 h-96 rounded-full bg-primary/5 blur-3xl transition-all duration-[2000ms] ease-in-out ${
+          animateBackground ? '-translate-y-1/3 translate-x-1/3 opacity-100' : 'translate-y-0 translate-x-0 opacity-0'
+        }`}
+        style={{
+          animationName: 'floatingBubble',
+          animationDuration: '15s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '0.5s',
+        }}
+      ></div>
+      <div 
+        className={`absolute bottom-0 left-0 w-80 h-80 rounded-full bg-primary/5 blur-3xl transition-all duration-[2000ms] ease-in-out ${
+          animateBackground ? 'translate-y-1/3 -translate-x-1/3 opacity-100' : 'translate-y-0 translate-x-0 opacity-0'
+        }`}
+        style={{
+          animationName: 'floatingBubble',
+          animationDuration: '12s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+        }}
+      ></div>
+      
+      {/* Анимированные плавающие элементы */}
+      <div 
+        className={`absolute top-40 left-1/4 w-12 h-12 border border-primary/10 rounded-full transition-all duration-[1500ms] ${
+          animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+        }`}
+        style={{
+          animationName: 'floating',
+          animationDuration: '10s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+        }}
+      ></div>
+      <div 
+        className={`absolute bottom-40 right-1/4 w-20 h-20 border border-primary/10 rounded-full transition-all duration-[1500ms] ${
+          animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+        }`}
+        style={{
+          animationName: 'floating',
+          animationDuration: '8s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '0.5s',
+        }}
+      ></div>
+      <div 
+        className={`absolute top-1/3 right-1/3 w-6 h-6 bg-primary/20 rounded-full transition-all duration-[1500ms] ${
+          animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+        }`}
+        style={{
+          animationName: 'pulse',
+          animationDuration: '5s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '1s',
+        }}
+      ></div>
+      
+      {/* Плавающие частицы */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(8)].map((_, idx) => (
+          <div 
+            key={`particle-${idx}`}
+            className="absolute bg-primary rounded-full opacity-20"
+            style={{
+              width: `${Math.random() * 8 + 4}px`,
+              height: `${Math.random() * 8 + 4}px`,
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationName: 'floatParticle',
+              animationDuration: `${Math.random() * 15 + 10}s`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationIterationCount: 'infinite',
+              animationTimingFunction: 'linear',
+              animationDirection: idx % 2 === 0 ? 'alternate' : 'alternate-reverse',
+            }}
+          ></div>
+        ))}
+      </div>
+      
+      <div ref={ref} className="container mx-auto px-4 relative z-10">
+        <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-700 ease-out ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <span className="inline-block text-primary font-semibold tracking-wide uppercase mb-2 animate-pulse">Удобный сервис для вас</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-dark relative overflow-hidden">
+            <span className={`inline-block transition-all duration-700 delay-150 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              Создаем 
+            </span>
+            <span className={`text-primary inline-block transition-all duration-700 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              &nbsp;идеальный опыт
+            </span>
+            <span className={`inline-block transition-all duration-700 delay-450 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              &nbsp;для наших клиентов
+            </span>
+            <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-primary rounded-full transition-all duration-700 delay-500 ${inView ? 'w-32 opacity-100' : 'w-0 opacity-0'}`}></span>
+          </h2>
+          <p className={`text-gray-600 text-lg max-w-2xl mx-auto transition-all duration-700 delay-400 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            Мы упростили процесс аренды на Пхукете, чтобы сделать ваш отдых максимально комфортным и беззаботным. Вот что отличает наш сервис:
           </p>
+          <div className={`flex items-center justify-center gap-2 mt-4 transition-all duration-700 delay-500 ${inView ? 'opacity-100' : 'opacity-0'}`}>
+            <Sparkles className="text-primary w-5 h-5" style={{
+              animation: 'spin-slow 6s linear infinite'
+            }} />
+            <span className="text-gray-500 text-sm">Простой и понятный сервис</span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step) => (
-            <div key={step.id} className="relative">
-              {/* Соединяющая линия между шагами (на десктопах) */}
-              {step.id < steps.length && (
-                <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-primary-light" style={{ width: 'calc(100% - 3rem)' }}></div>
-              )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {experienceCards.map((card) => (
+            <div 
+              key={card.id}
+              className="rounded-xl p-6 border bg-white shadow-sm transition-all duration-500 relative overflow-hidden group"
+              style={{ 
+                transitionDelay: `${card.delay}ms`,
+                opacity: inView ? 1 : 0,
+                transform: inView ? 'translateY(0)' : 'translateY(30px)',
+                boxShadow: hoveredCard === card.id ? `0 10px 30px rgba(var(--color-primary), 0.15)` : '',
+                transform: hoveredCard === card.id ? 'translateY(-5px)' : 'translateY(0)'
+              }}
+              onMouseEnter={() => setHoveredCard(card.id)}
+              onMouseLeave={() => setHoveredCard(null)}
+            >
+              {/* Анимированная рамка при наведении */}
+              <div 
+                className="absolute inset-0 rounded-xl transition-all duration-700 ease-out pointer-events-none"
+                style={{
+                  borderWidth: hoveredCard === card.id ? '2px' : '0px',
+                  borderStyle: 'solid',
+                  borderColor: getColorClass(card.color, 50),
+                  opacity: hoveredCard === card.id ? 1 : 0,
+                }}
+              ></div>
               
-              <div className="bg-white rounded-xl shadow-md p-8 border-t-4 border-primary relative z-10 transition-all duration-300 hover:shadow-lg">
-                <div className="flex justify-center mb-6">
-                  <div className="w-16 h-16 flex items-center justify-center rounded-full bg-primary-light text-primary">
-                    {step.icon}
-                  </div>
+              <div className={`relative flex items-center justify-center w-14 h-14 rounded-xl mb-6 transition-all duration-500 ${getColor(card.color, 15)}`}
+                style={{
+                  transform: hoveredCard === card.id ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0)',
+                }}
+              >
+                {/* Анимированное свечение для иконки */}
+                <div 
+                  className="absolute inset-0 transition-all duration-500 rounded-xl"
+                  style={{
+                    background: `radial-gradient(circle at center, ${getColorClass(card.color, 30)} 0%, transparent 70%)`,
+                    opacity: hoveredCard === card.id ? 1 : 0,
+                    animation: hoveredCard === card.id ? 'pulse 2s infinite ease-in-out' : 'none'
+                  }}
+                ></div>
+                
+                {/* Иконка */}
+                <div 
+                  className="relative z-10 transition-all duration-300"
+                  style={{
+                    transform: hoveredCard === card.id ? 'scale(1.1)' : 'scale(1)',
+                  }}
+                >
+                  {card.icon}
                 </div>
                 
-                <div className="absolute -top-4 -left-4 bg-primary text-white text-lg font-bold rounded-full w-8 h-8 flex items-center justify-center">
-                  {step.id}
-                </div>
-                
-                <h3 className="text-xl font-semibold text-center text-dark mb-4">{step.title}</h3>
-                <p className="text-center text-gray-600">{step.description}</p>
+                {/* Декоративный элемент под иконкой */}
+                <div 
+                  className={`absolute w-10 h-10 rounded-lg opacity-30 transition-all duration-500 ${getColor(card.color, 30)}`}
+                  style={{ 
+                    transform: hoveredCard === card.id ? 'rotate(45deg) scale(0.8)' : 'rotate(10deg) scale(1)' 
+                  }}
+                ></div>
               </div>
+              
+              <h3 
+                className="text-xl font-bold text-dark mb-3 transition-all duration-300"
+                style={{
+                  color: hoveredCard === card.id ? 'rgb(var(--color-primary))' : '',
+                  transform: hoveredCard === card.id ? 'translateX(4px)' : 'translateX(0)',
+                }}
+              >
+                {card.title}
+              </h3>
+              <p 
+                className="text-gray-600 transition-all duration-300"
+                style={{
+                  transform: hoveredCard === card.id ? 'translateY(-2px)' : 'translateY(0)'
+                }}
+              >
+                {card.description}
+              </p>
+              
+              {/* Эффект блеска при наведении */}
+              <div 
+                className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 rounded-xl transition-all duration-700"
+                style={{
+                  opacity: hoveredCard === card.id ? 1 : 0,
+                  transform: hoveredCard === card.id ? 'translateX(100%)' : 'translateX(-100%)',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                }}
+              ></div>
+              
+              {/* Декоративные элементы на карточке */}
+              <div 
+                className={`absolute -top-2 -right-2 w-16 h-16 pointer-events-none transition-all duration-700 opacity-0 ${
+                  hoveredCard === card.id ? 'opacity-10' : 'group-hover:opacity-5'
+                }`}
+                style={{
+                  clipPath: 'polygon(100% 0, 0 0, 100% 100%)',
+                  background: getColorClass(card.color, 100),
+                  transform: hoveredCard === card.id ? 'scale(1.2)' : 'scale(1)'
+                }}
+              ></div>
             </div>
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <div className="inline-block bg-primary text-white py-3 px-8 rounded-full font-medium text-lg shadow-md hover:bg-primary-dark transition-colors duration-300 cursor-pointer">
-            Начать бронирование
+        {/* Процесс бронирования */}
+        <div ref={stepsRef} className="mt-24">
+          <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-700 ease-out ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <span className="inline-block text-primary font-semibold tracking-wide uppercase mb-2 animate-pulse">Простой процесс</span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-dark relative overflow-hidden">
+              <span className={`inline-block transition-all duration-700 delay-150 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                Забронировать 
+              </span>
+              <span className={`text-primary inline-block transition-all duration-700 delay-300 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                &nbsp;всего за 4 шага
+              </span>
+              <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-primary rounded-full transition-all duration-700 delay-500 ${stepsInView ? 'w-32 opacity-100' : 'w-0 opacity-0'}`}></span>
+            </h2>
+            <p className={`text-gray-600 text-lg max-w-2xl mx-auto transition-all duration-700 delay-400 ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+              Мы сделали процесс бронирования максимально простым и быстрым
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* Анимированная соединительная линия */}
+            <div 
+              className={`hidden md:block absolute top-1/2 left-0 z-0 transition-all duration-1000 ease-in-out h-0.5 bg-gradient-to-r from-primary/10 via-primary/50 to-primary/10 ${
+                stepsInView ? 'right-0 opacity-100' : 'right-full opacity-0'
+              }`}
+              style={{
+                transform: 'translateY(-50%)',
+                boxShadow: '0 0 10px rgba(var(--color-primary), 0.3)',
+              }}
+            ></div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {bookingSteps.map((step, index) => (
+                <div 
+                  key={step.id}
+                  className="relative bg-white rounded-xl border border-gray-100 overflow-hidden transition-all duration-500 group"
+                  style={{ 
+                    transitionDelay: `${index * 150}ms`,
+                    opacity: stepsInView ? 1 : 0,
+                    transform: stepsInView ? 'translateY(0)' : 'translateY(30px)',
+                    boxShadow: hoveredStep === step.id ? `0 15px 30px rgba(var(--color-primary), 0.15)` : '0 4px 6px rgba(0, 0, 0, 0.05)',
+                    transform: hoveredStep === step.id ? 'translateY(-5px)' : 'translateY(0)'
+                  }}
+                  onMouseEnter={() => setHoveredStep(step.id)}
+                  onMouseLeave={() => setHoveredStep(null)}
+                >
+                  {/* Анимированная рамка при наведении */}
+                  <div 
+                    className="absolute inset-0 rounded-xl transition-all duration-700 ease-out pointer-events-none"
+                    style={{
+                      borderWidth: hoveredStep === step.id ? '2px' : '0px',
+                      borderStyle: 'solid',
+                      borderColor: getColorClass(step.color, 50),
+                      opacity: hoveredStep === step.id ? 1 : 0,
+                    }}
+                  ></div>
+                  
+                  {/* Верхняя анимированная полоса */}
+                  <div 
+                    className={`h-1 transition-all duration-500`}
+                    style={{ 
+                      background: getColorClass(step.color, 100),
+                      width: hoveredStep === step.id ? '100%' : '50%',
+                      marginLeft: hoveredStep === step.id ? '0%' : '25%',
+                    }}
+                  ></div>
+                  
+                  <div className="p-6">
+                    {/* Номер шага с анимацией */}
+                    <div 
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-medium text-sm mb-4 relative overflow-hidden transition-all duration-500`}
+                      style={{ 
+                        background: getColorClass(step.color, 100),
+                        boxShadow: hoveredStep === step.id ? `0 0 15px ${getColorClass(step.color, 50)}` : 'none',
+                        transform: hoveredStep === step.id ? 'scale(1.1)' : 'scale(1)'
+                      }}
+                    >
+                      {/* Эффект свечения для номера */}
+                      {hoveredStep === step.id && (
+                        <div 
+                          className="absolute inset-0 transition-all duration-500"
+                          style={{
+                            background: `radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, transparent 70%)`,
+                            animation: 'pulse 2s infinite ease-in-out'
+                          }}
+                        ></div>
+                      )}
+                      <span className="relative z-10">{step.id}</span>
+                    </div>
+                    
+                    <h3 
+                      className="text-lg font-bold mb-2 transition-all duration-300"
+                      style={{
+                        color: hoveredStep === step.id ? 'rgb(var(--color-primary))' : 'var(--color-dark)',
+                        transform: hoveredStep === step.id ? 'translateX(4px)' : 'translateX(0)',
+                      }}
+                    >
+                      {step.title}
+                    </h3>
+                    <p 
+                      className="text-gray-600 mb-4 transition-all duration-300"
+                      style={{
+                        transform: hoveredStep === step.id ? 'translateY(-2px)' : 'translateY(0)'
+                      }}
+                    >
+                      {step.description}
+                    </p>
+                    
+                    {/* Иконка с анимацией */}
+                    <div 
+                      className={`flex items-center gap-2 text-sm transition-all duration-300`}
+                      style={{
+                        color: hoveredStep === step.id ? 'rgb(var(--color-primary))' : '#6B7280',
+                        transform: hoveredStep === step.id ? 'translateX(4px)' : 'translateX(0)',
+                      }}
+                    >
+                      <span 
+                        className="transition-all duration-300"
+                        style={{
+                          transform: hoveredStep === step.id ? 'scale(1.1)' : 'scale(1)',
+                        }}
+                      >
+                      {step.icon}
+                      </span>
+                      <span className="font-medium">Шаг {step.id}</span>
+                    </div>
+                  </div>
+                  
+                  {/* Эффект блеска при наведении */}
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 transition-all duration-700"
+                    style={{
+                      opacity: hoveredStep === step.id ? 1 : 0,
+                      transform: hoveredStep === step.id ? 'translateX(100%)' : 'translateX(-100%)',
+                      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                    }}
+                  ></div>
+                </div>
+              ))}
+              </div>
+        </div>
+
+          {/* CTA кнопка */}
+          <div className={`mt-16 text-center transition-all duration-700 ${stepsInView ? 'opacity-100 translate-y-0 delay-[800ms]' : 'opacity-0 translate-y-10'}`}>
+            <Link 
+              href="/book-now" 
+              className="group inline-flex items-center bg-primary hover:bg-primary/90 text-white font-medium py-4 px-8 rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl relative overflow-hidden"
+            >
+              {/* Эффект блеска на кнопке */}
+              <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                  left: '-100%',
+                  top: '0',
+                  animation: 'shine 2s infinite linear',
+                }}
+              ></div>
+              
+              <span className="relative z-10 mr-2 transition-all duration-300 group-hover:translate-x-1">Начать бронирование</span>
+              <ArrowRight className="w-5 h-5 relative z-10 transition-all duration-500 group-hover:translate-x-2" />
+            </Link>
           </div>
         </div>
       </div>
+      
+      {/* CSS-анимации */}
+      <style jsx>{`
+        @keyframes floating {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(0, 15px); }
+          100% { transform: translate(0, 0); }
+        }
+        
+        @keyframes floatingBubble {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(10px, 10px) scale(1.05); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.2); opacity: 0.8; }
+          100% { transform: scale(1); opacity: 0.5; }
+        }
+        
+        @keyframes floatParticle {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(100px, 50px); }
+          100% { transform: translate(0, 0); }
+        }
+        
+        @keyframes shine {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+        
+        @keyframes spin-slow {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </section>
   );
-};
-
-export default UserExperienceSection; 
+} 

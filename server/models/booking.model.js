@@ -67,7 +67,7 @@ const bookingSchema = new mongoose.Schema({
     },
     currency: {
       type: String,
-      default: 'RUB'
+      default: 'THB'
     }
   },
   // Статус бронирования

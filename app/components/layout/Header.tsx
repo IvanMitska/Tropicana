@@ -7,7 +7,7 @@ import { Menu, X, User, LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/app/hooks/useAuth';
 import { Button } from '../ui/Button';
-import { Dropdown } from '../ui/Dropdown';
+import { Dropdown, DropdownItem } from '../ui/Dropdown';
 
 const navigation = [
   { name: 'Главная', href: '/' },
@@ -46,17 +46,20 @@ export const Header = () => {
     setIsMenuOpen(false);
   };
 
-  const userMenuItems = [
+  const userMenuItems: DropdownItem[] = [
     {
+      id: 'profile',
       label: 'Профиль',
       icon: <User className="h-4 w-4 mr-2" />,
       href: '/profile',
     },
     {
+      id: 'bookings',
       label: 'Мои бронирования',
       href: '/profile/bookings',
     },
     {
+      id: 'logout',
       label: 'Выйти',
       icon: <LogOut className="h-4 w-4 mr-2" />,
       onClick: () => logout(),
@@ -75,10 +78,10 @@ export const Header = () => {
         <div className="flex items-center justify-between">
           {/* Логотип */}
           <Link href="/" className="flex items-center">
-            <div className="relative h-10 w-32">
+            <div className="relative h-16 w-52">
               <Image
                 src="/images/logo.png"
-                alt="RentWeb Logo"
+                alt="Пхукет логотип"
                 fill
                 sizes="(max-width: 768px) 100vw, 256px"
                 style={{ objectFit: 'contain' }}
@@ -110,7 +113,7 @@ export const Header = () => {
                 items={userMenuItems}
                 align="right"
                 trigger={
-                  <Button variant="outline" size="small">
+                  <Button variant="outline" size="sm">
                     <User className="h-4 w-4 mr-2" />
                     {user.name || user.email}
                   </Button>
@@ -119,12 +122,12 @@ export const Header = () => {
             ) : (
               <>
                 <Link href="/login">
-                  <Button variant="outline" size="small">
+                  <Button variant="outline" size="sm">
                     Войти
                   </Button>
                 </Link>
                 <Link href="/register">
-                  <Button variant="primary" size="small">
+                  <Button variant="default" size="sm">
                     Регистрация
                   </Button>
                 </Link>
@@ -171,6 +174,7 @@ export const Header = () => {
               {user ? (
                 <>
                   <Link 
+                    id='profile-mobile'
                     href="/profile"
                     className="flex items-center text-base py-2 border-b border-gray-100"
                     onClick={closeMenu}
@@ -179,6 +183,7 @@ export const Header = () => {
                     Профиль
                   </Link>
                   <Link 
+                    id='bookings-mobile'
                     href="/profile/bookings"
                     className="text-base py-2 border-b border-gray-100"
                     onClick={closeMenu}
@@ -198,13 +203,13 @@ export const Header = () => {
                 </>
               ) : (
                 <div className="flex flex-col space-y-3 pt-3">
-                  <Link href="/login" onClick={closeMenu}>
-                    <Button variant="outline" className="w-full">
+                  <Link href="/login">
+                    <Button variant="outline" size="sm" className="w-full">
                       Войти
                     </Button>
                   </Link>
-                  <Link href="/register" onClick={closeMenu}>
-                    <Button variant="primary" className="w-full">
+                  <Link href="/register">
+                    <Button variant="default" size="sm" className="w-full">
                       Регистрация
                     </Button>
                   </Link>

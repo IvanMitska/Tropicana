@@ -251,7 +251,7 @@ export default function TransferPage() {
                   <h3 className="text-xl font-bold text-dark mb-2">{option.title}</h3>
                   <p className="text-gray-600 text-sm mb-4">{option.description}</p>
                   <div className="mb-4">
-                    <span className="text-primary font-bold text-2xl">{option.price} ₽</span>
+                    <span className="text-primary font-bold text-2xl">{option.price} ฿</span>
                     <span className="text-gray-500 text-sm"> / в одну сторону</span>
                   </div>
                   <ul className="text-sm text-gray-600 mb-6">

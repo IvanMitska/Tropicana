@@ -1,0 +1,106 @@
+/* Styles for TransportationMethodFilter component */
+/* 
+  Primary color: #E69980 (coral/orange for buttons and highlights)
+  Secondary color: #2F4741 (dark teal for backgrounds)
+  Text colors: White on dark backgrounds, dark on light backgrounds
+  Border radius: Match existing site's rounded corners
+  Typography: Maintain existing font family and sizing
+*/
+
+.container {
+  background-color: #2f4741;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: Arial, sans-serif; /* TODO: Заменить на шрифт сайта */
+  min-width: 250px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding-bottom: 0.75rem;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.headerIcon {
+  font-size: 0.8rem;
+}
+
+.optionsList {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 0.75rem;
+}
+
+.optionItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.optionCheckbox {
+  margin-right: 0.75rem;
+  width: 16px;
+  height: 16px;
+  accent-color: #e69980;
+}
+
+.optionIcon {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.optionLabel {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 1rem;
+}
+
+.resetButton {
+  color: #e69980;
+  background-color: transparent;
+  border: 1px solid #e69980;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: background-color 0.2s ease;
+}
+
+.resetButton:hover {
+  background-color: rgba(230, 153, 128, 0.1);
+}
+
+.showButton {
+  background-color: #e69980;
+  color: #2f4741;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  font-family: inherit;
+  transition: background-color 0.2s ease;
+}
+
+.showButton:hover {
+  background-color: #e28a6d;
+}

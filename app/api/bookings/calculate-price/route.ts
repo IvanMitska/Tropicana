@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
         optionsPrice,
         taxAmount,
         totalPrice,
-        currency: 'RUB',
+        currency: 'THB',
         daysCount: days
       },
       calculatedOptions

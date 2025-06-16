@@ -190,7 +190,7 @@ export default function VehicleFilterSidebar({
       <div className="mb-6">
         <h4 className="text-sm font-medium text-gray-900 mb-3 flex items-center">
           <DollarSign className="h-4 w-4 mr-1" />
-          Цена (₽ в сутки)
+          Цена (฿ в сутки)
         </h4>
         <div className="grid grid-cols-2 gap-2">
           <div>

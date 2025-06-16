@@ -255,7 +255,7 @@ export default function DashboardPage() {
                           </div>
                           <div className="flex justify-between items-center mt-2">
                             <div className="text-sm">
-                              <span className="font-medium">{booking.price.toLocaleString('ru-RU')} ₽</span>
+                              <span className="font-medium">{booking.price.toLocaleString('ru-RU')} ฿</span>
                               {booking.type === 'property' || booking.type === 'vehicle' ? (
                                 <span className="text-gray-500"> / за весь период</span>
                               ) : null}

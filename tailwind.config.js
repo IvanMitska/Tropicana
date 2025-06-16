@@ -7,23 +7,31 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '480px',
+      },
       colors: {
         primary: {
-          DEFAULT: '#FF8C42',
-          light: '#FFA869',
-          dark: '#E57930',
+          DEFAULT: '#22A699',
+          light: '#4DC0B5',
+          dark: '#1C857A',
           foreground: 'hsl(var(--primary-foreground))',
         },
         secondary: {
-          DEFAULT: '#F2D0A4',
-          light: '#FBE3C4',
-          dark: '#E6BC86',
+          DEFAULT: '#F2BE22',
+          light: '#F7D056',
+          dark: '#D9A50E',
           foreground: 'hsl(var(--secondary-foreground))',
         },
         dark: {
-          DEFAULT: '#0A2A2A',
-          light: '#0F3737',
-          dark: '#051C1C',
+          DEFAULT: '#333333',
+          light: '#4D4D4D',
+          dark: '#222222',
+        },
+        light: {
+          DEFAULT: '#F5F5F5',
+          dark: '#E0E0E0',
+          darker: '#CCCCCC',
         },
         accent: {
           DEFAULT: 'hsl(var(--accent))',
@@ -53,9 +61,10 @@ module.exports = {
         sans: ['var(--font-inter)', 'sans-serif'],
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        lg: '12px',
+        md: '8px',
+        sm: '4px',
+        xl: '16px',
       },
     },
   },

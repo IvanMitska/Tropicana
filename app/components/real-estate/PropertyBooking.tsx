@@ -113,7 +113,7 @@ export default function PropertyBooking({
   const formatPrice = (amount: number): string => {
     return new Intl.NumberFormat('ru-RU', {
       style: 'currency',
-      currency: 'RUB',
+      currency: 'THB',
       maximumFractionDigits: 0,
     }).format(amount);
   };

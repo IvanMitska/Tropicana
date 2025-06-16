@@ -1,243 +1,511 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star as StarIcon, User as UserIcon, Settings as CogIcon, Calendar as CalendarIcon, Fuel, Car } from 'lucide-react';
-import { Vehicle } from '@/app/models/Vehicle';
+import { Star, Users, Calendar, Zap, ChevronRight, Gauge, Award, Shield, Check, MapPin, CircleCheck } from 'lucide-react';
+import { Vehicle } from '@/types/vehicle';
+import { motion, AnimatePresence } from 'framer-motion';
 
+// Интерфейс для данных о транспорте
 interface VehicleCardProps {
   vehicle: Vehicle;
-  onQuickView: (vehicle: Vehicle) => void;
-  viewMode?: 'grid' | 'list';
+  priority?: boolean;
+  inView?: boolean;
+  index?: number;
 }
 
-export default function VehicleCard({ vehicle, onQuickView, viewMode = 'grid' }: VehicleCardProps) {
-  // Находим главное изображение
-  const mainImage = vehicle.images.find(img => img.isFeatured) || vehicle.images[0];
+const VehicleCard: React.FC<VehicleCardProps> = ({ 
+  vehicle, 
+  priority = false,
+  inView = true,
+  index = 0
+}) => {
+  // Состояния для интерактивности
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
   
-  // Форматирование цены
-  const formatPrice = (price: number): string => {
-    return new Intl.NumberFormat('ru-RU', {
-      style: 'currency',
-      currency: 'RUB',
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
-
-  // Получение описания типа транспорта
-  const getVehicleTypeLabel = (type: string): string => {
-    const types: Record<string, string> = {
-      car: 'Автомобиль',
-      motorcycle: 'Мотоцикл',
-      boat: 'Лодка',
-      yacht: 'Яхта',
-      bicycle: 'Велосипед',
-      scooter: 'Скутер',
-      rv: 'Автодом',
-      other: 'Другой',
-    };
-    return types[type] || 'Транспорт';
-  };
-
-  // Функция для открытия быстрого просмотра
-  const handleQuickView = (e: React.MouseEvent) => {
-    e.preventDefault();
-    onQuickView(vehicle);
-  };
-
-  // Компонент карточки в режиме сетки
-  if (viewMode === 'grid') {
-    return (
-      <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
-        <div className="relative">
-          {/* Изображение */}
-          <div className="relative h-48 w-full">
-            <Image
-              src={mainImage?.url || '/images/car1.jpg'}
-              alt={mainImage?.alt || vehicle.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
-          
-          {/* Бейдж избранного */}
-          {vehicle.featured && (
-            <div className="absolute top-2 left-2 bg-rose-600 text-white text-xs px-2 py-1 rounded">
-              Популярное
-            </div>
-          )}
-          
-          {/* Кнопка быстрого просмотра */}
-          <button
-            onClick={handleQuickView}
-            className="absolute bottom-2 right-2 bg-white/90 text-gray-800 text-sm px-3 py-1 rounded-full shadow-sm hover:bg-white"
-          >
-            Быстрый просмотр
-          </button>
-        </div>
-        
-        <div className="p-4">
-          {/* Заголовок и тип */}
-          <div className="mb-2">
-            <div className="text-xs font-medium text-gray-500 uppercase">
-              {getVehicleTypeLabel(vehicle.type)}
-            </div>
-            <Link href={`/transport/${vehicle.id}`} className="block">
-              <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
-                {vehicle.title}
-              </h3>
-            </Link>
-          </div>
-          
-          {/* Основные характеристики */}
-          <div className="grid grid-cols-2 gap-2 mb-3 text-sm text-gray-600">
-            <div className="flex items-center">
-              <Car className="h-4 w-4 mr-1 text-gray-400" />
-              <span>{vehicle.make} {vehicle.model}</span>
-            </div>
-            <div className="flex items-center">
-              <CalendarIcon className="h-4 w-4 mr-1 text-gray-400" />
-              <span>{vehicle.year} г.</span>
-            </div>
-            <div className="flex items-center">
-              <UserIcon className="h-4 w-4 mr-1 text-gray-400" />
-              <span>{vehicle.specifications.capacity} мест</span>
-            </div>
-            <div className="flex items-center">
-              <Fuel className="h-4 w-4 mr-1 text-gray-400" />
-              <span>
-                {vehicle.specifications.fuelType === 'electric' ? 'Электро' : vehicle.specifications.fuelConsumption + ' л/100км'}
-              </span>
-            </div>
-          </div>
-          
-          {/* Рейтинг и цена */}
-          <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
-            <div className="flex items-center">
-              <StarIcon className="h-4 w-4 text-yellow-500 mr-1" />
-              <span className="font-medium">{vehicle.rating.toFixed(1)}</span>
-              <span className="text-xs text-gray-500 ml-1">({vehicle.reviews.length})</span>
-            </div>
-            <div className="text-right">
-              <div className="text-lg font-bold text-gray-900">
-                {formatPrice(vehicle.pricing.daily)}
-              </div>
-              <div className="text-xs text-gray-500">за сутки</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Ограничиваем названия и описания
+  const truncatedTitle = vehicle.name.length > 30 
+    ? `${vehicle.name.substring(0, 30)}...` 
+    : vehicle.name;
   
-  // Компонент карточки в режиме списка
+  const truncatedDescription = vehicle.description && vehicle.description.length > 100
+    ? `${vehicle.description.substring(0, 100)}...`
+    : vehicle.description;
+
+  // Вычисляем угол наклона на основе позиции мыши (3D эффект)
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateY = ((x - centerX) / centerX) * 8; // Максимальный угол поворота 8 градусов
+    const rotateX = ((centerY - y) / centerY) * 8;
+    
+    setMousePosition({ x: rotateY, y: rotateX });
+  };
+
+  const resetMousePosition = () => {
+    setMousePosition({ x: 0, y: 0 });
+  };
+  
+  // Анимационные варианты
+  const cardVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 50,
+    },
+    visible: (i: number) => ({ 
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.1 * (i + 1),
+        duration: 0.6,
+        ease: [0.215, 0.61, 0.355, 1]
+      }
+    }),
+    hover: { 
+      y: -10,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    }
+  };
+  
+  // Эффект переворота карточки
+  const flipVariants = {
+    front: {
+      rotateY: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.215, 0.61, 0.355, 1]
+      }
+    },
+    back: {
+      rotateY: 180,
+      transition: {
+        duration: 0.5,
+        ease: [0.215, 0.61, 0.355, 1]
+      }
+    }
+  };
+  
+  // Рендеринг звезд рейтинга
+  const renderStars = (rating: number) => {
+    const stars = [];
+    
+    for (let i = 0; i < 5; i++) {
+      stars.push(
+        <motion.span 
+          key={i} 
+          className={`text-${i < rating ? 'primary' : 'gray-400'}`}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            transition: {
+              delay: 0.2 + (i * 0.1),
+              duration: 0.3,
+            }
+          }}
+          whileHover={{ 
+            scale: 1.2,
+            rotate: [0, 5, -5, 0],
+            transition: { duration: 0.3 } 
+          }}
+        >
+          <Star className="w-4 h-4 fill-current" />
+        </motion.span>
+      );
+    }
+    
+    return stars;
+  };
+  
+  // Получаем характеристики транспорта для отображения
+  const features = [
+    { icon: <Users className="h-4 w-4" />, text: `${vehicle.seats} мест` },
+    { icon: <Gauge className="h-4 w-4" />, text: vehicle.automatic ? 'Автомат' : 'Механика' },
+    { icon: <Zap className="h-4 w-4" />, text: `${vehicle.power} л.с.` },
+  ];
+  
+  // Список преимуществ для обратной стороны карточки
+  const benefits = [
+    'Страховка включена',
+    'Неограниченный пробег',
+    'Техподдержка 24/7',
+    'Бесплатная отмена за 24ч',
+    'Доставка по Пхукету'
+  ];
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg">
-      <div className="flex flex-col md:flex-row">
-        {/* Изображение */}
-        <div className="relative md:w-1/3">
-          <div className="relative h-48 md:h-full w-full">
+    <motion.div
+      ref={cardRef}
+      className="h-full perspective-1000 group relative cursor-pointer"
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={cardVariants}
+      custom={index}
+      whileHover="hover"
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        resetMousePosition();
+      }}
+      onClick={() => setIsFlipped(!isFlipped)}
+      style={{ perspective: "1000px" }}
+    >
+      <motion.div 
+        className="relative w-full h-full preserve-3d"
+        animate={isFlipped ? "back" : "front"}
+        variants={flipVariants}
+        style={{ 
+          transformStyle: "preserve-3d",
+          transform: `
+            perspective(1000px)
+            rotateY(${isFlipped ? 180 : mousePosition.x}deg)
+            rotateX(${isFlipped ? 0 : mousePosition.y}deg)
+          `
+        }}
+      >
+        {/* Передняя сторона карточки */}
+        <motion.div 
+          className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden flex flex-col h-full bg-white/5 backdrop-blur-sm border border-white/10 shadow-2xl"
+          style={{ 
+            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden"
+          }}
+        >
+          {/* Изображение с градиентом и эффектом */}
+          <div className="relative h-48 sm:h-56 overflow-hidden">
             <Image
-              src={mainImage?.url || '/images/car1.jpg'}
-              alt={mainImage?.alt || vehicle.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              src={vehicle.image}
+              alt={vehicle.name}
+              width={500}
+              height={300}
+              priority={priority}
+              className="object-cover w-full h-full transform duration-700 ease-in-out group-hover:scale-110"
             />
+            
+            {/* Градиентный оверлей */}
+            <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent opacity-70"></div>
+            
+            {/* Тип транспорта с 3D эффектом */}
+            <motion.div 
+              className="absolute top-4 left-4 bg-primary/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.3 }}
+              style={{ 
+                transformStyle: "preserve-3d",
+                transform: "translateZ(20px)"
+              }}
+              whileHover={{ 
+                scale: 1.05, 
+                backgroundColor: "rgba(var(--color-primary), 1)"
+              }}
+            >
+              {vehicle.type}
+            </motion.div>
+            
+            {/* Цена с 3D эффектом */}
+            <motion.div 
+              className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-dark px-3 py-2 rounded-lg text-sm font-bold"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.3 }}
+              style={{ 
+                transformStyle: "preserve-3d",
+                transform: "translateZ(30px)"
+              }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <span className="text-primary">{vehicle.price}</span> ฿/день
+            </motion.div>
+            
+            {/* Декоративный элемент */}
+            {isHovered && (
+              <motion.div 
+                className="absolute -bottom-6 -right-6 w-20 h-20 rounded-full bg-primary/30 blur-xl"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              />
+            )}
           </div>
           
-          {/* Бейдж избранного */}
-          {vehicle.featured && (
-            <div className="absolute top-2 left-2 bg-rose-600 text-white text-xs px-2 py-1 rounded">
-              Популярное
-            </div>
-          )}
-        </div>
-        
-        <div className="p-4 md:w-2/3">
-          <div className="flex flex-col h-full">
-            {/* Заголовок и тип */}
-            <div className="mb-2">
-              <div className="text-xs font-medium text-gray-500 uppercase">
-                {getVehicleTypeLabel(vehicle.type)}
-              </div>
-              <Link href={`/transport/${vehicle.id}`} className="block">
-                <h3 className="text-xl font-semibold text-gray-900 hover:text-blue-600 transition-colors">
-                  {vehicle.title}
-                </h3>
-              </Link>
-            </div>
-            
-            {/* Краткое описание */}
-            <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-              {vehicle.description}
-            </p>
-            
-            {/* Основные характеристики */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3 text-sm text-gray-600">
-              <div className="flex items-center">
-                <Car className="h-4 w-4 mr-1 text-gray-400" />
-                <span>{vehicle.make} {vehicle.model}</span>
-              </div>
-              <div className="flex items-center">
-                <CalendarIcon className="h-4 w-4 mr-1 text-gray-400" />
-                <span>{vehicle.year} г.</span>
-              </div>
-              <div className="flex items-center">
-                <UserIcon className="h-4 w-4 mr-1 text-gray-400" />
-                <span>{vehicle.specifications.capacity} мест</span>
-              </div>
-              <div className="flex items-center">
-                <Fuel className="h-4 w-4 mr-1 text-gray-400" />
-                <span>
-                  {vehicle.specifications.fuelType === 'electric' ? 'Электро' : vehicle.specifications.fuelConsumption + ' л/100км'}
-                </span>
-              </div>
-            </div>
-            
-            <div className="mt-auto">
-              {/* Дополнительные функции */}
-              <div className="flex flex-wrap gap-1 mb-2">
-                {vehicle.features.slice(0, 3).map((feature, index) => (
-                  <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                    {feature}
-                  </span>
-                ))}
-                {vehicle.features.length > 3 && (
-                  <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
-                    +{vehicle.features.length - 3}
-                  </span>
-                )}
+          {/* Контент карточки */}
+          <div className="flex flex-col flex-grow p-5 relative">
+            {/* Название и рейтинг */}
+            <div className="mb-3">
+              <motion.h3 
+                className="text-lg font-bold text-white mb-1 tracking-tight"
+                style={{ 
+                  transformStyle: "preserve-3d",
+                  transform: "translateZ(10px)"
+                }}
+                whileHover={{ 
+                  color: "rgb(var(--color-primary))",
+                  x: 5,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                {truncatedTitle}
+              </motion.h3>
+              
+              <div className="flex items-center space-x-1 mb-2">
+                {renderStars(vehicle.rating)}
+                <motion.span 
+                  className="text-white/60 text-xs ml-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  ({vehicle.reviewCount})
+                </motion.span>
               </div>
               
-              {/* Рейтинг, цена и кнопки */}
-              <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
-                <div className="flex items-center">
-                  <StarIcon className="h-4 w-4 text-yellow-500 mr-1" />
-                  <span className="font-medium">{vehicle.rating.toFixed(1)}</span>
-                  <span className="text-xs text-gray-500 ml-1">({vehicle.reviews.length})</span>
-                </div>
-                
-                <div className="flex items-center gap-3">
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900">
-                      {formatPrice(vehicle.pricing.daily)}
-                    </div>
-                    <div className="text-xs text-gray-500">за сутки</div>
-                  </div>
-                  
-                  <button
-                    onClick={handleQuickView}
-                    className="px-3 py-1.5 bg-gray-100 text-gray-800 text-sm rounded-md hover:bg-gray-200"
-                  >
-                    Быстрый просмотр
-                  </button>
-                </div>
-              </div>
+              <motion.div 
+                className="text-white/70 text-sm flex items-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                style={{ 
+                  transformStyle: "preserve-3d",
+                  transform: "translateZ(5px)"
+                }}
+              >
+                <MapPin className="w-3 h-3 mr-1 text-primary inline" /> 
+                <span>{vehicle.location || 'Пхукет'}</span>
+              </motion.div>
             </div>
+            
+            {/* Характеристики */}
+            <motion.div 
+              className="flex items-center gap-3 mb-3 text-white/80 text-sm"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
+            >
+              {features.map((feature, i) => (
+                <motion.div 
+                  key={i} 
+                  className="flex items-center gap-1"
+                  initial={{ opacity: 0, x: -5 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 + (i * 0.1) }}
+                  style={{ 
+                    transformStyle: "preserve-3d",
+                    transform: "translateZ(15px)"
+                  }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    color: "rgb(var(--color-primary))"
+                  }}
+                >
+                  <span className="text-primary">{feature.icon}</span>
+                  <span>{feature.text}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+            
+            {/* Дополнительная информация */}
+            {truncatedDescription && (
+              <motion.p 
+                className="text-white/60 text-sm mb-4 flex-grow"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+              >
+                {truncatedDescription}
+              </motion.p>
+            )}
+            
+            {/* Кнопка действия */}
+            <motion.div 
+              className="flex justify-between items-center mt-auto"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              style={{ 
+                transformStyle: "preserve-3d",
+                transform: "translateZ(20px)"
+              }}
+            >
+              <span className="text-white/50 text-xs flex items-center">
+                <Calendar className="h-3 w-3 mr-1 text-primary" /> 
+                {vehicle.availability || 'Доступно сейчас'}
+              </span>
+              
+              <motion.button
+                className="flex items-center gap-1 text-primary font-medium text-sm"
+                whileHover={{ 
+                  x: 5,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>Подробнее</span>
+                <ChevronRight className="h-4 w-4" />
+              </motion.button>
+            </motion.div>
+            
+            {/* Обратная часть подсказки */}
+            <motion.div 
+              className="absolute bottom-2 right-2 text-white/30 text-xs"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+            >
+              Нажмите для информации
+            </motion.div>
           </div>
-        </div>
-      </div>
-    </div>
+          
+          {/* Индикатор 3D эффекта */}
+          {isHovered && !isFlipped && (
+            <motion.div 
+              className="absolute inset-0 border border-primary/20 rounded-2xl pointer-events-none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            />
+          )}
+        </motion.div>
+        
+        {/* Задняя сторона карточки */}
+        <motion.div 
+          className="absolute inset-0 backface-hidden rounded-2xl overflow-hidden flex flex-col h-full bg-white/5 backdrop-blur-sm border border-white/10 shadow-2xl"
+          style={{ 
+            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "rotateY(180deg)"
+          }}
+        >
+          <div className="p-6 flex flex-col h-full relative">
+            {/* Заголовок задней стороны */}
+            <motion.div 
+              className="text-center mb-6"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              style={{ 
+                transformStyle: "preserve-3d",
+                transform: "translateZ(20px)"
+              }}
+            >
+              <h3 className="text-xl font-bold text-white mb-2">{vehicle.name}</h3>
+              <div className="flex justify-center">
+                {renderStars(vehicle.rating)}
+              </div>
+              <div className="mt-2 inline-block bg-primary/80 text-white rounded-full px-4 py-1 text-sm">
+                {vehicle.price} ฿/день
+              </div>
+            </motion.div>
+            
+            {/* Преимущества */}
+            <motion.div 
+              className="mb-6 flex-grow"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              style={{ 
+                transformStyle: "preserve-3d",
+                transform: "translateZ(10px)"
+              }}
+            >
+              <h4 className="text-white font-medium mb-3 flex items-center">
+                <Award className="w-4 h-4 mr-2 text-primary" />
+                Преимущества аренды
+              </h4>
+              
+              <ul className="space-y-3">
+                {benefits.map((benefit, i) => (
+                  <motion.li 
+                    key={i} 
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 + (i * 0.1) }}
+                    whileHover={{ x: 5 }}
+                  >
+                    <CircleCheck className="w-4 h-4 mr-2 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-white/80 text-sm">{benefit}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+            
+            {/* Кнопки действий */}
+            <div className="space-y-3">
+              <Link href={`/transport/${vehicle.id}`}>
+                <motion.button 
+                  className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 rounded-lg transition-all duration-300 flex items-center justify-center"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  style={{ 
+                    transformStyle: "preserve-3d",
+                    transform: "translateZ(30px)"
+                  }}
+                >
+                  Забронировать сейчас
+                </motion.button>
+              </Link>
+              
+              <motion.button 
+                className="w-full bg-white/10 hover:bg-white/20 text-white font-medium py-2 rounded-lg transition-all duration-300 flex items-center justify-center"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsFlipped(false);
+                }}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                style={{ 
+                  transformStyle: "preserve-3d",
+                  transform: "translateZ(20px)"
+                }}
+              >
+                Вернуться к информации
+              </motion.button>
+            </div>
+            
+            {/* Паттерн на заднем плане */}
+            <div className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full bg-primary/5 blur-3xl"></div>
+            <div className="absolute -left-10 -top-10 w-40 h-40 rounded-full bg-primary/5 blur-2xl"></div>
+          </div>
+        </motion.div>
+      </motion.div>
+      
+      {/* 3D тень */}
+      <motion.div 
+        className="absolute -inset-0.5 rounded-2xl bg-dark z-[-1] translate-y-4"
+        style={{ 
+          opacity: isHovered ? 0.3 : 0.1,
+          filter: "blur(16px)",
+          transform: `
+            translateY(20px)
+            rotateX(${-mousePosition.y}deg)
+            rotateY(${-mousePosition.x}deg)
+            scale(0.95)
+          `,
+          transition: "opacity 0.3s ease"
+        }}
+      />
+    </motion.div>
   );
-} 
+};
+
+export default VehicleCard; 

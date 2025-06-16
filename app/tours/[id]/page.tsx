@@ -15,6 +15,7 @@ import SimilarTours from '../../components/tours/SimilarTours';
 import { tourAPI } from '../../lib/api';
 import { Tour, TourReview } from '../../models/Tour';
 import Link from 'next/link';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const tabs = [
   { id: 'description', label: 'Описание' },
@@ -24,7 +25,28 @@ const tabs = [
   { id: 'virtual', label: 'Виртуальный тур' },
 ];
 
-export default function TourDetailPage() {
+// Создаем клиент React Query для этой страницы
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
+
+// Компонент-обертка с провайдером
+function TourDetailPageWrapper() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TourDetailPage />
+    </QueryClientProvider>
+  );
+}
+
+export default TourDetailPageWrapper;
+
+function TourDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('description');

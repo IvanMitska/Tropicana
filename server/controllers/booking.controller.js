@@ -153,7 +153,7 @@ exports.calculatePrice = async (req, res) => {
         optionsPrice,
         taxAmount,
         totalPrice,
-        currency: 'RUB',
+        currency: 'THB',
         daysCount: days
       },
       calculatedOptions
@@ -258,7 +258,7 @@ exports.createBooking = async (req, res) => {
         optionsPrice: priceData.optionsPrice,
         taxAmount: priceData.taxAmount,
         totalPrice: priceData.totalPrice,
-        currency: priceData.currency || 'RUB'
+        currency: priceData.currency || 'THB'
       },
       status: 'draft',
       paymentStatus: 'pending'

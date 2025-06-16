@@ -14,31 +14,34 @@ interface TimelineItemProps {
 }
 
 const TimelineItem = ({ year, title, description, image, isLeft = true, inView }: TimelineItemProps) => {
-  const contentClass = isLeft 
-    ? 'md:mr-auto md:ml-0 md:text-right' 
-    : 'md:ml-auto md:mr-0 md:text-left';
-  
-  const animationClass = isLeft
-    ? inView ? 'md:translate-x-0 opacity-100' : 'md:-translate-x-10 opacity-0'
-    : inView ? 'md:translate-x-0 opacity-100' : 'md:translate-x-10 opacity-0';
+  const itemAlignment = isLeft ? 'md:flex-row' : 'md:flex-row-reverse';
+  const textAlign = isLeft ? 'md:text-left' : 'md:text-right';
+  const contentOrder = isLeft ? 'md:order-1' : 'md:order-2';
+  const imageOrder = isLeft ? 'md:order-2' : 'md:order-1';
+
+  const animationClass = inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10';
 
   return (
-    <div className={`flex flex-col md:flex-row items-center mb-12 transition-all duration-1000 ${animationClass}`}>
-      <div className={`w-full md:w-5/12 ${contentClass}`}>
-        <span className="inline-block text-sm font-semibold bg-blue-600 text-white px-3 py-1 rounded-full mb-2">
+    <div className={`flex flex-col ${itemAlignment} items-center mb-16 transition-all duration-700 ease-out ${animationClass}`}>
+      {/* Content Block */}
+      <div className={`w-full md:w-5/12 px-4 ${contentOrder} ${textAlign}`}>
+        <span className="inline-block text-sm font-semibold bg-[#e5916e] text-white px-3 py-1 rounded-md mb-3 shadow-sm">
           {year}
         </span>
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
-        <p className="text-gray-600 mb-4">{description}</p>
+        <h3 className="text-2xl font-bold text-[#1e3c3c] mb-3">{title}</h3>
+        <p className="text-gray-700 text-base leading-relaxed">{description}</p>
       </div>
       
-      <div className="w-full md:w-2/12 flex justify-center items-center">
-        <div className="h-full w-1 bg-blue-600 hidden md:block" />
-        <div className="w-8 h-8 rounded-full bg-blue-600 border-4 border-white shadow" />
+      {/* Timeline Separator */}
+      <div className="w-full md:w-2/12 flex justify-center items-center my-4 md:my-0">
+        <div className="w-10 h-10 rounded-full bg-[#1e3c3c] border-4 border-white shadow-md flex items-center justify-center">
+          <div className="w-3 h-3 bg-white rounded-full"></div>
+        </div>
       </div>
       
-      <div className="w-full md:w-5/12 mt-4 md:mt-0">
-        <div className="relative h-60 w-full rounded-lg overflow-hidden shadow-md">
+      {/* Image Block */}
+      <div className={`w-full md:w-5/12 px-4 ${imageOrder}`}>
+        <div className="relative h-64 w-full rounded-lg overflow-hidden shadow-xl transform transition-transform duration-500 hover:scale-105">
           <Image
             src={image}
             alt={title}
@@ -53,60 +56,48 @@ const TimelineItem = ({ year, title, description, image, isLeft = true, inView }
 
 const HistorySection = () => {
   const [ref, inView] = useInView({
-    triggerOnce: false,
-    threshold: 0.1,
+    triggerOnce: true, // Анимация сработает один раз
+    threshold: 0.2,   // Сработает, когда 20% секции видно
   });
 
   const timelineData = [
     {
-      year: '2016',
+      year: '2023',
       title: 'Основание компании',
-      description: 'Наша компания начала свой путь с небольшого офиса и команды из 5 человек, предлагая аренду квартир в центре города.',
-      image: '/images/about/history-2016.jpg',
-    },
-    {
-      year: '2018',
-      title: 'Расширение на рынке недвижимости',
-      description: 'Мы вышли на новый уровень, добавив в каталог элитную недвижимость и загородные дома для отдыха.',
-      image: '/images/about/history-2018.jpg',
-    },
-    {
-      year: '2020',
-      title: 'Запуск направления транспорта',
-      description: 'В условиях пандемии мы адаптировались к новым реалиям и запустили сервис аренды автомобилей для путешествий по стране.',
-      image: '/images/about/history-2020.jpg',
-    },
-    {
-      year: '2022',
-      title: 'Туристическое направление',
-      description: 'Мы начали предлагать уникальные туры и экскурсии, создавая комплексные решения для путешественников.',
-      image: '/images/about/history-2022.jpg',
+      description: 'Мы создали "Пхукет", чтобы сделать аренду и отдых на острове максимально простыми и прозрачными для каждого.',
+      image: '/images/about/history.jpg',
     },
     {
       year: '2024',
-      title: 'Международная экспансия',
-      description: 'Сегодня мы выходим на международный рынок, предлагая сервис аренды по всему миру.',
-      image: '/images/about/history-2024.jpg',
+      title: 'Запуск сервиса и первые клиенты',
+      description: 'В первый же год работы мы помогли десяткам клиентов найти идеальное жилье, транспорт и экскурсии на Пхукете.',
+      image: '/images/about/history-launch.jpg',
+    },
+    {
+      year: '2025',
+      title: 'Планы на будущее',
+      description: 'Мы активно развиваем сервис, расширяем каталог и внедряем новые технологии для вашего удобства.',
+      image: '/images/about/history-future.jpg',
     }
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={ref} className="py-16 md:py-24 bg-[#f5f5f5]">
+      <div className="container mx-auto px-4">
         <div 
-          ref={ref}
-          className={`text-center mb-16 transition-all duration-1000 ${
+          className={`text-center mb-12 md:mb-20 transition-all duration-700 ease-out ${
             inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">История нашего развития</h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            С момента основания мы прошли долгий путь, постоянно развиваясь и совершенствуя наши услуги для клиентов.
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1e3c3c] mb-4">Наша история успеха</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            От небольшой команды энтузиастов до ведущего сервиса аренды и организации отдыха на Пхукете.
           </p>
         </div>
 
         <div className="relative">
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-blue-200" />
+          {/* Вертикальная линия таймлайна (для десктопов) */}
+          <div className="hidden md:block absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2 w-1 bg-gray-300 rounded-full"></div>
           
           {timelineData.map((item, index) => (
             <TimelineItem 
@@ -116,7 +107,7 @@ const HistorySection = () => {
               description={item.description}
               image={item.image}
               isLeft={index % 2 === 0}
-              inView={inView}
+              inView={inView} // Передаем состояние видимости в каждый элемент
             />
           ))}
         </div>

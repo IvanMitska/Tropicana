@@ -26,7 +26,7 @@ const paymentSchema = new mongoose.Schema({
   },
   currency: {
     type: String,
-    default: 'RUB'
+    default: 'THB'
   },
   // Статус платежа
   status: {

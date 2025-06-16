@@ -1,113 +1,361 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Building, Car, Compass, Plane, MapPin, Sparkles } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
 
 const ServicesSection = () => {
+  // Состояние для отслеживания наведения
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [animateBackground, setAnimateBackground] = useState(false);
+  
+  // Хук для отслеживания видимости секции
+  const { ref, inView } = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
+
+  // Эффект для анимации фоновых элементов
+  useEffect(() => {
+    if (inView) {
+      setAnimateBackground(true);
+    }
+  }, [inView]);
+  
   const services = [
     {
       id: 'real-estate',
       title: 'Аренда недвижимости',
       description: 'Широкий выбор апартаментов, вилл и домов для краткосрочной и долгосрочной аренды на Пхукете',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
-          <path d="M19.006 3.705a.75.75 0 00-.512-1.41L6 6.838V3a.75.75 0 00-.75-.75h-1.5A.75.75 0 003 3v4.93l-1.006.365a.75.75 0 00.512 1.41l16.5-6z" />
-          <path fillRule="evenodd" d="M3.019 11.115L18 5.667V9.09l4.006 1.456a.75.75 0 11-.512 1.41l-.494-.18v8.475h.75a.75.75 0 010 1.5H2.25a.75.75 0 010-1.5H3v-9.129l.019-.006zM18 20.25v-9.565l1.5.545v9.02H18zm-9-6a.75.75 0 00-.75.75v4.5c0 .414.336.75.75.75h3a.75.75 0 00.75-.75V15a.75.75 0 00-.75-.75H9z" clipRule="evenodd" />
-        </svg>
-      ),
+      icon: <Building size={24} />,
+      image: '/images/hero-real-estate.jpg',
+      accentColor: 'primary',
       link: '/real-estate',
-      bgClass: 'bg-gradient-to-br from-dark to-dark-light',
+      stats: '500+ объектов'
     },
     {
       id: 'transport',
       title: 'Аренда транспорта',
       description: 'Автомобили, мотоциклы, скутеры и водный транспорт для комфортного передвижения по острову',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
-          <path d="M3.375 4.5C2.339 4.5 1.5 5.34 1.5 6.375V13.5h12V6.375c0-1.036-.84-1.875-1.875-1.875h-8.25zM13.5 15h-12v2.625c0 1.035.84 1.875 1.875 1.875h.375a3 3 0 116 0h3a.75.75 0 00.75-.75V15z" />
-          <path d="M8.25 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0zM15.75 6.75a.75.75 0 00-.75.75v11.25c0 .087.015.17.042.248a3 3 0 015.958.464c.853-.175 1.522-.935 1.464-1.883a18.659 18.659 0 00-3.732-10.104 1.837 1.837 0 00-1.47-.725H15.75z" />
-          <path d="M19.5 19.5a1.5 1.5 0 10-3 0 1.5 1.5 0 003 0z" />
-        </svg>
-      ),
+      icon: <Car size={24} />,
+      image: '/images/hero-transport.jpg',
+      accentColor: 'primary',
       link: '/transport',
-      bgClass: 'bg-gradient-to-br from-dark to-dark-light',
+      stats: '50+ моделей'
     },
     {
       id: 'tours',
       title: 'Экскурсии',
       description: 'Увлекательные экскурсии по Пхукету и соседним островам с опытными русскоговорящими гидами',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
-          <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-        </svg>
-      ),
+      icon: <Compass size={24} />,
+      image: '/images/hero-bg-3.jpg',
+      accentColor: 'primary',
       link: '/tours',
-      bgClass: 'bg-gradient-to-br from-dark to-dark-light',
+      stats: '30+ направлений'
     },
     {
       id: 'transfer',
       title: 'Трансферы',
       description: 'Комфортные трансферы из аэропорта в отель и обратно, а также между различными точками острова',
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10">
-          <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
-        </svg>
-      ),
+      icon: <Plane size={24} />,
+      image: '/images/transfer-bg.jpg',
+      accentColor: 'primary',
       link: '/transfer',
-      bgClass: 'bg-gradient-to-br from-dark to-dark-light',
+      stats: 'От 900฿'
     },
   ];
 
+  // Динамический цвет для карточек
+  const getColorClass = (colorName: string, opacity = 100) => {
+    const baseColors: { [key: string]: string } = {
+      primary: `rgb(var(--color-primary) / ${opacity}%)`,
+      secondary: `rgb(var(--color-secondary) / ${opacity}%)`,
+      accent: `rgb(var(--color-accent) / ${opacity}%)`
+    };
+    
+    return baseColors[colorName] || baseColors.primary;
+  };
+
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">Наши услуги</h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Все, что нужно для идеального отдыха на Пхукете в одном месте
+    <section id="services" className="py-16 md:py-24 bg-light relative overflow-hidden overflow-fix" ref={ref}>
+      {/* Анимированные декоративные элементы */}
+      <div 
+        className={`absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl transition-all duration-[2000ms] ease-in-out ${
+          animateBackground ? '-translate-y-1/2 translate-x-1/2 opacity-100' : 'translate-y-0 translate-x-0 opacity-0'
+        }`}
+        style={{
+          animationName: 'floatingBubble',
+          animationDuration: '15s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '0.5s',
+          animationFillMode: 'both'
+        }}
+      ></div>
+      <div 
+        className={`absolute bottom-0 left-0 w-80 h-80 bg-primary/5 rounded-full blur-3xl transition-all duration-[2000ms] ease-in-out ${
+          animateBackground ? 'translate-y-1/2 -translate-x-1/2 opacity-100' : 'translate-y-0 translate-x-0 opacity-0'
+        }`}
+        style={{
+          animationName: 'floatingBubble',
+          animationDuration: '12s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '0s',
+          animationFillMode: 'both'
+        }}
+      ></div>
+      
+      {/* Дополнительные анимированные элементы */}
+      <div 
+        className={`absolute top-1/3 left-[10%] w-32 h-32 bg-primary/10 rounded-full blur-xl transition-all duration-[2000ms] ${
+          animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+        }`}
+        style={{
+          animationName: 'pulse',
+          animationDuration: '8s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '1s',
+        }}
+      ></div>
+      <div 
+        className={`absolute bottom-1/3 right-[10%] w-40 h-40 bg-primary/10 rounded-full blur-xl transition-all duration-[2000ms] ${
+          animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+        }`}
+        style={{
+          animationName: 'pulse',
+          animationDuration: '10s',
+          animationIterationCount: 'infinite',
+          animationTimingFunction: 'ease-in-out',
+          animationDelay: '2s',
+        }}
+      ></div>
+      
+      {/* Плавающие частицы */}
+      <div className="absolute inset-0 overflow-hidden">
+        {[...Array(8)].map((_, idx) => (
+          <div 
+            key={`particle-${idx}`}
+            className="absolute bg-primary rounded-full opacity-20"
+            style={{
+              width: `${Math.random() * 10 + 5}px`,
+              height: `${Math.random() * 10 + 5}px`,
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationName: 'floatParticle',
+              animationDuration: `${Math.random() * 20 + 10}s`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationIterationCount: 'infinite',
+              animationTimingFunction: 'linear',
+              animationDirection: idx % 2 === 0 ? 'alternate' : 'alternate-reverse',
+            }}
+          ></div>
+        ))}
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className={`text-center mb-10 md:mb-16 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <span className="inline-block text-primary font-semibold mb-2 animate-pulse">СЕРВИСЫ</span>
+          <h2 className="text-2xl md:text-3xl lg:text-5xl font-bold text-dark mb-4 md:mb-6 relative overflow-hidden">
+            <span className={`inline-block transition-all duration-700 delay-150 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              Все, что нужно для отдыха
+            </span> 
+            <br className="hidden xs:block" />
+            <span className={`text-primary inline-block transition-all duration-700 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              в одном месте
+            </span>
+            <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 md:w-24 h-1 bg-primary rounded-full transition-all duration-700 delay-500 ${inView ? 'md:w-32 opacity-100' : 'w-0 opacity-0'}`}></span>
+          </h2>
+          <p className={`text-base md:text-lg text-gray-600 max-w-3xl mx-auto transition-all duration-700 delay-400 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            Полный спектр услуг для комфортного отдыха на Пхукете
           </p>
+          <div className={`flex items-center justify-center gap-2 mt-4 transition-all duration-700 delay-500 ${inView ? 'opacity-100' : 'opacity-0'}`}>
+            <Sparkles className="text-primary w-4 h-4 md:w-5 md:h-5 animate-spin-slow" />
+            <span className="text-gray-500 text-xs md:text-sm">Проверенное качество</span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              className="relative overflow-hidden rounded-xl shadow-lg group"
-            >
-              <div className={`${service.bgClass} p-6 h-full`}>
-                <div className="mb-6 text-primary">{service.icon}</div>
-                <h3 className="text-xl font-semibold text-secondary mb-3">{service.title}</h3>
-                <p className="text-secondary-light mb-8">{service.description}</p>
-                
-                <Link 
-                  href={service.link} 
-                  className="inline-flex items-center text-primary hover:text-primary-light"
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          {services.map((service, index) => (
+              <div
+                key={service.id}
+                className={`group transition-all duration-700 ease-out`}
+                style={{
+                  transitionDelay: `${index * 150}ms`,
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? 'translateY(0)' : 'translateY(50px)'
+                }}
+                onMouseEnter={() => setHoveredService(service.id)}
+                onMouseLeave={() => setHoveredService(null)}
+              >
+                <div 
+                  className="relative overflow-hidden rounded-xl h-full transition-all duration-500 border border-gray-200 shadow-md hover:shadow-xl"
+                  style={{
+                    transform: hoveredService === service.id ? 'translateY(-8px)' : 'translateY(0)',
+                    boxShadow: hoveredService === service.id ? `0 8px 30px -5px ${getColorClass(service.accentColor, 20)}` : ''
+                  }}
                 >
-                  <span className="mr-2">Подробнее</span>
-                  <ArrowRight size={16} />
-                </Link>
-                
-                {/* Декоративные элементы в стиле логотипа */}
-                <div className="absolute top-4 right-4 opacity-10">
-                  <svg className="w-24 h-24" viewBox="0 0 100 100" fill="currentColor">
-                    {service.id === 'real-estate' && (
-                      <path d="M50,10 L90,40 L90,90 L10,90 L10,40 Z M30,60 L30,80 L45,80 L45,60 Z M55,60 L55,80 L70,80 L70,60 Z" className="text-primary" />
-                    )}
-                    {service.id === 'transport' && (
-                      <path d="M20,50 Q50,20 80,50 Q50,80 20,50 Z M40,40 L60,40 L70,60 L30,60 Z M35,70 A5,5 0 1,0 25,70 A5,5 0 1,0 35,70 Z M75,70 A5,5 0 1,0 65,70 A5,5 0 1,0 75,70 Z" className="text-primary" />
-                    )}
-                    {service.id === 'tours' && (
-                      <path d="M50,10 A40,40 0 1,0 50,90 A40,40 0 1,0 50,10 Z M50,30 A20,20 0 1,0 50,70 A20,20 0 1,0 50,30 Z M30,20 L20,10 Z M70,20 L80,10 Z M20,70 L10,80 Z M80,80 L70,70 Z" className="text-primary" />
-                    )}
-                    {service.id === 'transfer' && (
-                      <path d="M50,10 C25,10 10,30 10,50 C10,75 30,90 50,90 C70,90 90,75 90,50 C90,30 75,10 50,10 Z M50,30 A20,20 0 1,0 50,70 A20,20 0 1,0 50,30 Z" className="text-primary" />
-                    )}
-                  </svg>
+                  {/* Анимированная рамка при наведении */}
+                  <div 
+                    className="absolute inset-0 rounded-xl transition-all duration-700 ease-out pointer-events-none"
+                    style={{
+                      borderWidth: hoveredService === service.id ? '2px' : '0px',
+                      borderStyle: 'solid',
+                      borderColor: getColorClass(service.accentColor, 50),
+                      opacity: hoveredService === service.id ? 1 : 0,
+                      boxSizing: 'border-box',
+                    }}
+                  ></div>
+                  
+                  {/* Фоновое изображение с улучшенной анимацией */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
+                    style={{
+                      backgroundImage: `url('${service.image}')`,
+                      opacity: hoveredService === service.id ? 0.9 : 0.15,
+                      transform: hoveredService === service.id ? 'scale(1.1) rotate(1deg)' : 'scale(1) rotate(0deg)'
+                    }}
+                  ></div>
+                  
+                  {/* Цветной градиент в зависимости от accentColor */}
+                  <div 
+                    className="absolute inset-0 transition-all duration-700" 
+                    style={{
+                      background: `linear-gradient(145deg, ${getColorClass(service.accentColor, hoveredService === service.id ? 25 : 15)}, transparent)`,
+                      opacity: hoveredService === service.id ? 1 : 0.8
+                    }}
+                  ></div>
+                  
+                  {/* Контент карточки */}
+                  <div className="p-5 md:p-6">
+                    <div className="flex items-start mb-4">
+                      <div className="mr-4 flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
+                        {service.icon}
+                      </div>
+                      <h3 className="text-lg md:text-xl font-bold text-dark">{service.title}</h3>
+                    </div>
+                    
+                    <p className="text-sm md:text-base text-gray-600 mb-4">
+                      {service.description}
+                    </p>
+                    
+                    <div className="flex items-center justify-between mt-auto">
+                      <span className="text-xs md:text-sm font-medium text-primary bg-primary/10 py-1 px-3 rounded-full">
+                        {service.stats}
+                      </span>
+                      
+                      <Link 
+                        href={service.link} 
+                        className="text-primary hover:text-primary-dark transition-colors flex items-center text-sm md:text-base"
+                      >
+                        Подробнее 
+                        <ArrowRight className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
           ))}
         </div>
+        
+        {/* Кнопка просмотра всех услуг с анимацией */}
+        <div className={`mt-16 text-center transition-all duration-700 ${inView ? 'opacity-100 translate-y-0 delay-[800ms]' : 'opacity-0 translate-y-10'}`}>
+          <Link 
+            href="/services" 
+            className="group inline-flex items-center px-8 py-4 bg-white border border-gray-200 rounded-xl text-dark font-medium shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-500 hover:bg-primary hover:text-white hover:border-primary"
+          >
+            {/* Эффект блеска на кнопке */}
+            <div 
+              className="absolute inset-0 transition-all duration-700 opacity-0 group-hover:opacity-100"
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                left: '-100%',
+                top: '0',
+                animation: 'shine 2s infinite linear',
+              }}
+            ></div>
+            
+            <span className="mr-2 relative z-10 transition-all duration-300 group-hover:translate-x-1">Смотреть все услуги</span>
+            <ArrowRight size={18} className="transition-all duration-500 relative z-10 group-hover:translate-x-2" />
+          </Link>
+        </div>
+        
+        {/* Плавающие элементы фона с анимацией */}
+        <div 
+          className={`absolute top-1/4 right-1/4 w-24 h-24 border border-primary/10 rounded-full transition-all duration-[2000ms] ${
+            animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+          }`}
+          style={{
+            animationName: 'floating',
+            animationDuration: '10s',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in-out',
+          }}
+        ></div>
+        <div 
+          className={`absolute bottom-1/4 left-1/3 w-16 h-16 border border-primary/10 rounded-full transition-all duration-[2000ms] ${
+            animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+          }`}
+          style={{
+            animationName: 'floating',
+            animationDuration: '7s',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in-out',
+            animationDelay: '1s',
+          }}
+        ></div>
+        <div 
+          className={`absolute top-2/3 right-1/3 w-8 h-8 bg-primary/5 rounded-full transition-all duration-[2000ms] ${
+            animateBackground ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+          }`}
+          style={{
+            animationName: 'floating',
+            animationDuration: '8s',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in-out',
+            animationDelay: '0.5s',
+          }}
+        ></div>
       </div>
+      
+      {/* CSS-анимации */}
+      <style jsx>{`
+        @keyframes floating {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(0, 15px); }
+          100% { transform: translate(0, 0); }
+        }
+        
+        @keyframes floatingBubble {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(10px, 10px) scale(1.05); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.2); opacity: 0.8; }
+          100% { transform: scale(1); opacity: 0.5; }
+        }
+        
+        @keyframes floatParticle {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(100px, 50px); }
+          100% { transform: translate(0, 0); }
+        }
+        
+        @keyframes shine {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+        
+        @keyframes spin-slow {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </section>
   );
 };

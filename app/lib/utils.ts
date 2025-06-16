@@ -21,7 +21,7 @@ export function generateBookingNumber(): string {
 /**
  * Форматирует цену с валютой
  */
-export function formatPrice(amount: number, currency: string = 'RUB'): string {
+export function formatPrice(amount: number, currency: string = 'THB'): string {
   return new Intl.NumberFormat('ru-RU', {
     style: 'currency',
     currency,

@@ -1,0 +1,77 @@
+/* Styles for CategoryFilters component */
+/* 
+  Primary color: #E69980 (coral/orange for selected pills)
+  Pill styling: horizontally scrollable, count numbers, multiple selections.
+*/
+
+.container {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent items from wrapping to the next line */
+  padding-bottom: 10px; /* For scrollbar visibility if needed */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: thin; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome/Safari/Opera */
+.container::-webkit-scrollbar {
+  height: 4px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Align pills in a row */
+  gap: 0.5rem; /* Space between pills */
+  padding: 0.5rem 0;
+}
+
+.pill {
+  display: inline-flex; /* Allow for icon + text layout */
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px; /* Rounded pill shape */
+  cursor: pointer;
+  background-color: white;
+  color: #333;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.pill:hover {
+  border-color: #e69980;
+  background-color: #f9f9f9;
+}
+
+.pillSelected {
+  background-color: #e69980;
+  color: white;
+  border-color: #e69980;
+}
+
+.pillSelected:hover {
+  background-color: #e28a6d;
+}
+
+.pillName {
+  margin-right: 0.25rem;
+}
+
+.pillCount {
+  font-size: 0.8em;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 10px;
+  min-width: 1.2rem;
+  text-align: center;
+}
+
+.pillSelected .pillCount {
+  background-color: rgba(255, 255, 255, 0.25);
+}

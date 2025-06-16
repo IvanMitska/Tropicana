@@ -33,7 +33,7 @@ export default function CalendarFixPage() {
   return (
     <div className="min-h-screen bg-[#546161] py-12">
       <div className="max-w-4xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-white mb-8 text-center">Пхукет на ладони</h1>
+        <h1 className="text-3xl font-bold text-white mb-8 text-center">Пхукет</h1>
         
         <div className="flex flex-wrap justify-center items-center gap-4 mb-8">
           <div className="bg-[#546161]/50 p-4 rounded-full flex items-center text-white">

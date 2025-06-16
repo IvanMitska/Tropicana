@@ -20,7 +20,7 @@ export default function PropertyDetailPage({ params }: { params: { id: string } 
     reviewCount: 48,
     price: 15000,
     priceUnit: 'сутки',
-    currency: '₽',
+    currency: '฿',
     location: 'Камала, Пхукет',
     bedrooms: 3,
     bathrooms: 2,

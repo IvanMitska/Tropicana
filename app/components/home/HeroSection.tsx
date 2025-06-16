@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, MapPin, Calendar, ChevronDown, Car, Building, Map, Sailboat } from 'lucide-react';
+import { Search, MapPin, Calendar, ChevronDown, Car, Building, Map, Sailboat, ArrowRight, Compass, Plane } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useInView } from 'react-intersection-observer';
@@ -11,7 +11,7 @@ const HeroSection = () => {
   const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
-  
+
   const { ref: heroRef, inView: heroInView } = useInView({
     triggerOnce: true,
     threshold: 0.1
@@ -24,9 +24,11 @@ const HeroSection = () => {
       title: 'Аренда жилья',
       subtitle: 'на Пхукете',
       description: 'Комфортное размещение в виллах и апартаментах с полным сервисом',
-      image: '/images/hero-real-estate.jpg',
+      image: 'https://images.pexels.com/photos/53610/large-home-residential-house-architecture-53610.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      accentColor: 'primary',
       ctaText: 'Подобрать жильё',
       ctaLink: '/real-estate',
+      icon: <Building className="w-6 h-6" />,
       stats: [
         { value: '500+', label: 'объектов' },
         { value: 'от 800฿', label: 'в сутки' },
@@ -38,9 +40,11 @@ const HeroSection = () => {
       title: 'Аренда транспорта',
       subtitle: 'на Пхукете',
       description: 'Автомобили, мотоциклы и другой транспорт для комфортного перемещения',
-      image: '/images/hero-transport.jpg',
+      image: 'https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      accentColor: 'primary',
       ctaText: 'Забронировать',
       ctaLink: '/transport',
+      icon: <Car className="w-6 h-6" />,
       stats: [
         { value: '50+', label: 'моделей' },
         { value: 'от 400฿', label: 'в сутки' },
@@ -52,9 +56,11 @@ const HeroSection = () => {
       title: 'Экскурсии',
       subtitle: 'на Пхукете',
       description: 'Увлекательные экскурсии по острову и прилегающим территориям',
-      image: '/images/hero-bg-3.jpg',
+      image: 'https://images.pexels.com/photos/1174732/pexels-photo-1174732.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      accentColor: 'primary',
       ctaText: 'Исследовать',
       ctaLink: '/tours',
+      icon: <Compass className="w-6 h-6" />,
       stats: [
         { value: '30+', label: 'направлений' },
         { value: 'от 1500฿', label: 'за тур' },
@@ -68,10 +74,10 @@ const HeroSection = () => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % slides.length);
     }, 7000);
-    
+
     return () => clearInterval(interval);
   }, [slides.length]);
-  
+
   // Эффект для анимации при загрузке страницы
   useEffect(() => {
     setHasAnimated(true);
@@ -80,22 +86,23 @@ const HeroSection = () => {
   // Получаем текущий слайд для отображения
   const currentSlide = slides[activeSlide];
   
-  // Иконки для разных типов услуг
-  const getIconForService = (id: string) => {
-    switch(id) {
-      case 'real-estate': return <Building className="w-6 h-6" />;
-      case 'transport': return <Car className="w-6 h-6" />;
-      case 'tours': return <Map className="w-6 h-6" />;
-      default: return <Sailboat className="w-6 h-6" />;
-    }
+  // Динамический цвет для текущего слайда
+  const getColorClass = (colorName, opacity = 100) => {
+    const baseColors = {
+      primary: `rgb(var(--color-primary) / ${opacity}%)`,
+      secondary: `rgb(var(--color-secondary) / ${opacity}%)`,
+      accent: `rgb(var(--color-accent) / ${opacity}%)`
+    };
+    
+    return baseColors[colorName] || baseColors.primary;
   };
 
   return (
-    <section 
+    <section
       ref={heroRef}
-      className="relative min-h-[700px] w-full overflow-hidden bg-dark"
+      className="relative min-h-[600px] sm:min-h-[700px] lg:min-h-[800px] w-full overflow-hidden bg-dark min-h-adjust"
     >
-      {/* Динамический фон с эффектами */}
+      {/* Динамический фон с улучшенными эффектами */}
       {slides.map((slide, index) => (
         <div 
           key={slide.id}
@@ -103,109 +110,130 @@ const HeroSection = () => {
             index === activeSlide ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          {/* Фоновое изображение с эффектами */}
+          {/* Фоновое изображение с улучшенными эффектами */}
           <div 
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-cover bg-center opacity-65"
             style={{
               backgroundImage: `url('${slide.image}')`,
-              opacity: 0.7,
-              filter: 'saturate(1.2) contrast(1.1)',
+              opacity: 0.65,
+              filter: 'saturate(1.3) contrast(1.1)',
               transform: index === activeSlide && heroInView ? 'scale(1.05)' : 'scale(1)',
               transition: 'transform 8s ease-out, opacity 1.5s ease-in-out',
             }}
           ></div>
           
-          {/* Градиенты и эффекты */}
-          <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-dark to-transparent"></div>
+          {/* Современные градиенты и эффекты */}
+          <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/80 to-dark/40"></div>
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-dark to-transparent"></div>
           
-          {/* Декоративные элементы */}
-          <div className="absolute top-1/4 right-0 w-96 h-96 rounded-full bg-secondary/20 blur-3xl"></div>
-          <div className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full bg-primary/20 blur-3xl"></div>
+          {/* Декоративные элементы с динамическим цветом */}
+          <div 
+            className="absolute top-1/4 right-0 w-96 h-96 rounded-full blur-3xl"
+            style={{ 
+              background: getColorClass(slide.accentColor, 15),
+              opacity: index === activeSlide ? 1 : 0,
+              transition: 'opacity 1.5s ease-in-out'
+            }}
+          ></div>
+          <div 
+            className="absolute bottom-1/4 left-1/3 w-64 h-64 rounded-full blur-3xl"
+          style={{
+              background: getColorClass(slide.accentColor, 20),
+              opacity: index === activeSlide ? 1 : 0,
+              transition: 'opacity 1.5s ease-in-out'
+            }}
+          ></div>
+          
+          {/* Геометрические элементы для современного вида */}
+          <div className="absolute top-[15%] right-[15%] w-32 h-32 border border-white/10 rounded-full"></div>
+          <div className="absolute bottom-[20%] left-[10%] w-48 h-48 border border-white/5 rounded-full"></div>
+          <div className="absolute top-[30%] left-[5%] w-16 h-16 border border-white/10 rounded-full"></div>
         </div>
       ))}
       
       {/* Основной контент с асимметричной компоновкой */}
-      <div className="container mx-auto px-4 relative z-10 h-full flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 py-16 md:py-20">
+      <div className="container mx-auto px-4 relative z-10 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-10 h-full items-center py-10 md:py-20">
           {/* Левая колонка - текст и информация */}
-          <div className={`lg:col-span-6 transition-all duration-700 ease-out ${hasAnimated ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-            <h1 className="text-4xl lg:text-7xl font-bold text-white leading-tight mb-4">
-              <span className={`text-secondary inline-block transition-transform duration-700 ease-out delay-300 ${hasAnimated ? 'translate-y-0' : 'translate-y-8'}`}>
-                Пхукет
-              </span>{' '}
-              <span className={`inline-block transition-transform duration-700 ease-out delay-[400ms] ${hasAnimated ? 'translate-y-0' : 'translate-y-8'}`}>
+          <div className="lg:col-span-6 lg:col-start-1 flex flex-col justify-center">
+            <h1 className={`text-3xl sm:text-4xl lg:text-7xl font-bold text-white leading-tight mb-4 md:mb-6 transition-all duration-700 ease-out ${hasAnimated ? 'opacity-100' : 'opacity-0'}`}>
+              {/* Wrapper for "Пхукет" and its underline, for animation and block layout */}
+              <span className={`block relative transition-all duration-700 delay-300 ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <span className="text-primary">Пхукет</span>
+                {/* Underline for "Пхукет", relative to the span above */}
+                <span className="absolute -bottom-3 left-0 w-24 md:w-32 h-1 bg-primary/60 rounded-full"></span>
+              </span>
+
+              {/* Wrapper for "на ладони", for animation and block layout */}
+              <span className={`block transition-all duration-700 delay-[450ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                {/* text-white is inherited from h1 */}
                 на ладони
               </span>
-              <span className="absolute -bottom-2 left-0 w-24 h-1 bg-secondary/60 rounded-full"></span>
             </h1>
             
-            <p className={`text-xl text-light/90 max-w-xl mb-10 transition-all duration-700 delay-[600ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-              Аренда недвижимости, транспорта и экскурсии в одном месте для комфортного отдыха на острове Пхукет
+            <p className={`text-base sm:text-xl text-light/90 max-w-xl mb-6 sm:mb-10 transition-all duration-700 delay-[800ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+              Аренда недвижимости, транспорта и экскурсии в одном месте для комфортного отдыха на острове
             </p>
             
-            {/* Карточки с преимуществами */}
-            <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 transition-all duration-700 delay-[800ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-              <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center hover:bg-white/15 transition-all">
-                <div className="flex items-center justify-center mb-2">
-                  <span className="bg-secondary/20 w-10 h-10 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-secondary">
-                      <path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </div>
-                <h3 className="text-sm font-semibold text-white">Лучшие локации</h3>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center hover:bg-white/15 transition-all">
-                <div className="flex items-center justify-center mb-2">
-                  <span className="bg-secondary/20 w-10 h-10 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-secondary">
-                      <path d="M12 .75a8.25 8.25 0 00-4.135 15.39c.686.398 1.115 1.008 1.134 1.623a.75.75 0 00.577.706c.352.083.71.148 1.074.195.323.041.6-.218.6-.544v-4.661a6.75 6.75 0 1113.5 0v4.661c0 .326.277.585.6.544.364-.047.722-.112 1.074-.195a.75.75 0 00.577-.706c.02-.615.448-1.225 1.134-1.623A8.25 8.25 0 0012 .75z" />
-                      <path fillRule="evenodd" d="M9.75 15.75a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V16.5a.75.75 0 01.75-.75zm4.5 0a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V16.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </div>
-                <h3 className="text-sm font-semibold text-white">Мгновенное бронирование</h3>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center hover:bg-white/15 transition-all">
-                <div className="flex items-center justify-center mb-2">
-                  <span className="bg-secondary/20 w-10 h-10 rounded-full flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-secondary">
-                      <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </div>
-                <h3 className="text-sm font-semibold text-white">24/7 поддержка</h3>
-              </div>
+            {/* Слайдер переключения услуг в карточках */}
+            <div className={`flex flex-wrap gap-2 mb-6 sm:mb-10 transition-all duration-700 delay-[1000ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+              {slides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  onClick={() => setActiveSlide(index)}
+                  className={`relative px-3 sm:px-5 py-2 sm:py-3 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+                    index === activeSlide 
+                      ? 'bg-white/10 backdrop-blur-sm text-white' 
+                      : 'bg-transparent text-white/60 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ${
+                      index === activeSlide
+                        ? `bg-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'}/20`
+                        : 'bg-white/10'
+                    }`}>
+                      {slide.icon}
+                    </span>
+                    {slide.title}
+                  </div>
+                  {index === activeSlide && (
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full"></span>
+                  )}
+                </button>
+              ))}
             </div>
             
-            {/* Статистика текущего слайда */}
-            <div className={`flex flex-wrap gap-8 mb-10 transition-all duration-700 delay-[1000ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            {/* Динамическая статистика */}
+            <div className={`grid grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-4 mb-6 sm:mb-10 transition-all duration-700 delay-[1200ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
               {currentSlide.stats.map((stat, idx) => (
-                <div key={idx} className="text-white">
-                  <div className="text-2xl font-bold text-secondary">{stat.value}</div>
-                  <div className="text-sm text-white/70">{stat.label}</div>
+              <div 
+                key={idx} 
+                  className={`bg-white/10 backdrop-blur-sm p-3 sm:p-4 rounded-xl transition-all duration-300 hover:bg-white/15`}
+                >
+                  <div 
+                    className="text-xl sm:text-2xl font-bold text-white" 
+                  >
+                    {stat.value}
+                  </div>
+                  <div className="text-xs sm:text-sm text-white font-medium">{stat.label}</div>
                 </div>
               ))}
             </div>
             
             {/* Кнопки действий */}
-            <div className={`flex flex-wrap gap-4 transition-all duration-700 delay-[1200ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            <div className={`flex flex-wrap gap-3 sm:gap-4 transition-all duration-700 delay-[1400ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
               <Link 
                 href={currentSlide.ctaLink}
-                className="group inline-flex items-center bg-secondary hover:bg-secondary/90 text-dark font-medium py-3 px-8 rounded-md shadow-lg transition-all hover:shadow-secondary/20 hover:shadow-xl"
+                className="group inline-flex items-center bg-primary hover:bg-primary/90 text-white hover:text-white font-medium py-2.5 sm:py-3 px-6 sm:px-8 text-sm sm:text-base rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl"
               >
                 <span>{currentSlide.ctaText}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform">
-                  <path d="M3.478 2.404a.75.75 0 00-.926.941l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.404z" />
-                </svg>
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
               
               <Link 
                 href="/about"
-                className="inline-flex items-center bg-transparent border border-white/30 text-white hover:bg-white/10 font-medium py-3 px-8 rounded-md transition-all"
+                className="inline-flex items-center bg-transparent border border-white/30 text-white hover:text-white hover:bg-white/10 font-medium py-2.5 sm:py-3 px-6 sm:px-8 text-sm sm:text-base rounded-md transition-all"
               >
                 О компании
               </Link>
@@ -213,102 +241,87 @@ const HeroSection = () => {
           </div>
           
           {/* Правая колонка - интерактивные карточки услуг */}
-          <div className="relative lg:col-span-6 min-h-[400px]">
-            {/* Большая карточка текущего слайда */}
-            <div 
-              className={`absolute top-0 left-1/2 lg:left-0 transform -translate-x-1/2 lg:translate-x-0 w-full max-w-md bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden shadow-2xl transition-all duration-700 hover:shadow-secondary/20 hover:shadow-2xl ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-              style={{zIndex: 5}}
-            >
-              <div className="relative h-56 overflow-hidden">
-                <div 
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url('${currentSlide.image}')`,
-                    transform: heroInView ? 'scale(1.05)' : 'scale(1)',
-                    transition: 'transform 8s ease-out',
-                  }}
-                ></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
-                <div className="absolute bottom-4 left-4">
-                  <span className="bg-secondary/80 text-dark text-xs font-bold px-3 py-1 rounded-full">
-                    {currentSlide.stats[1].value} {currentSlide.stats[1].label}
-                  </span>
-                </div>
-              </div>
-              <div className="p-6">
-                <div className="flex items-center mb-4">
-                  <span className="bg-white/20 w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                    {getIconForService(currentSlide.id)}
-                  </span>
-                  <div>
-                    <h3 className="text-xl font-semibold text-white">{currentSlide.title}</h3>
-                    <p className="text-white/70 text-sm">{currentSlide.subtitle}</p>
-                  </div>
-                </div>
-                <p className="text-white/80 mb-4">{currentSlide.description}</p>
-                <Link 
-                  href={currentSlide.ctaLink}
-                  className="inline-block text-secondary hover:text-white transition-colors"
-                >
-                  Узнать больше →
-                </Link>
-              </div>
-            </div>
-            
-            {/* Маленькие карточки для других услуг */}
-            {slides
-              .filter((_, idx) => idx !== activeSlide)
-              .map((slide, idx) => (
+          <div className="lg:col-span-6 lg:col-start-7 min-h-[300px] sm:min-h-[400px] relative hidden sm:block">
+            {/* Плавающие карточки услуг */}
+            {slides.map((slide, index) => {
+              // Рассчитываем позицию для карточки
+              const offset = (index - activeSlide + slides.length) % slides.length;
+              
+              // Стиль для карточки в зависимости от текущего слайда
+              const cardStyle = {
+                zIndex: slides.length - offset,
+                opacity: offset === 0 ? 1 : offset === 1 ? 0.7 : offset === 2 ? 0.4 : 0,
+                transform: `translateX(${offset === 0 ? '0' : offset === 1 ? '15%' : offset === 2 ? '30%' : '45%'}) 
+                           translateY(${offset === 0 ? '0' : offset === 1 ? '10%' : offset === 2 ? '20%' : '30%'}) 
+                           scale(${offset === 0 ? 1 : offset === 1 ? 0.9 : offset === 2 ? 0.8 : 0.7})`,
+              };
+              
+              return (
                 <div 
                   key={slide.id}
-                  className={`absolute top-64 ${idx === 0 ? 'left-5 lg:left-24' : 'right-5 lg:right-0'} w-full max-w-xs bg-white/10 backdrop-blur-md rounded-xl overflow-hidden cursor-pointer shadow-lg transition-all duration-700 hover:shadow-xl ${hasAnimated ? 'opacity-100 translate-y-0 delay-500' : 'opacity-0 translate-y-10'}`}
-                  style={{zIndex: 4 - idx}}
-                  onClick={() => setActiveSlide(slides.findIndex(s => s.id === slide.id))}
+                  className={`absolute top-0 right-0 w-full max-w-md bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden transition-all duration-700 shadow-xl hover:shadow-2xl`}
+                  style={cardStyle}
                 >
-                  <div className="relative h-32 overflow-hidden">
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center"
-                      style={{
-                        backgroundImage: `url('${slide.image}')`,
-                      }}
-                    ></div>
+                  <div className="relative h-56 overflow-hidden">
+                    <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${slide.image}')` }}></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
-                  </div>
-                  <div className="p-4">
-                    <div className="flex items-center">
-                      <span className="bg-white/20 w-8 h-8 rounded-full flex items-center justify-center mr-3">
-                        {getIconForService(slide.id)}
+                    <div className="absolute top-4 right-4">
+                      <span className={`bg-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'}/80 text-white text-xs font-bold px-3 py-1 rounded-full`}>
+                        {slide.stats[1].value}
                       </span>
-                      <h3 className="text-lg font-semibold text-white">{slide.title}</h3>
                     </div>
                   </div>
+                  <div className="p-6">
+                    <div className="flex items-center mb-4">
+                      <span className={`bg-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'}/20 w-12 h-12 rounded-full flex items-center justify-center mr-4`}>
+                        {slide.icon}
+                      </span>
+                      <div>
+                        <h3 className="text-xl font-semibold text-white">{slide.title}</h3>
+                        <p className="text-white/70 text-sm">{slide.subtitle}</p>
+                      </div>
+                    </div>
+                    <p className="text-white/80 mb-6">{slide.description}</p>
+                    <Link 
+                      href={slide.ctaLink}
+                      className={`flex items-center text-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'} hover:underline`}
+                    >
+                      <span>{slide.ctaText}</span>
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Link>
+                  </div>
                 </div>
-              ))
-            }
+              );
+            })}
           </div>
         </div>
       </div>
-      
-      {/* Индикаторы слайдера */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
-        {slides.map((slide, index) => (
-          <button
-            key={slide.id}
-            className={`h-2.5 rounded-full transition-all ${
-              index === activeSlide ? 'bg-secondary w-10' : 'bg-white/50 w-2.5'
-            }`}
-            onClick={() => setActiveSlide(index)}
-          />
-        ))}
+
+      {/* Индикаторы слайдов */}
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+        <div className="flex items-center gap-3">
+          {slides.map((slide, index) => (
+            <button
+              key={slide.id}
+              onClick={() => setActiveSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === activeSlide 
+                  ? `bg-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'} scale-110`
+                  : 'bg-white/30 hover:bg-white/50'
+              }`}
+              aria-label={`Перейти к слайду ${slide.title}`}
+            />
+          ))}
+        </div>
       </div>
       
-      {/* Скролл вниз */}
-      <div className="absolute bottom-6 left-6 transform z-10">
+      {/* Современный индикатор скролла */}
+      <div className="absolute bottom-6 right-10 z-10 hidden lg:block">
         <a 
           href="#services" 
           className="flex flex-col items-center text-white/70 hover:text-white transition-colors"
         >
-          <span className="text-xs mb-2">Открыть сервисы</span>
+          <span className="text-xs mb-2 rotate-90 origin-center">Scroll</span>
           <div className="w-6 h-10 rounded-full border border-white/30 flex items-center justify-center p-1">
             <div className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"></div>
           </div>
@@ -318,4 +331,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection; 
+export default HeroSection;

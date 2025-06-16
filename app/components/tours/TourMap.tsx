@@ -66,7 +66,7 @@ const TourMap: React.FC<TourMapProps> = ({ tours }) => {
   // Функции для форматирования
   const formatPrice = (tour: Tour) => {
     const { basePrice, currency, priceType } = tour.pricing;
-    const currencySymbol = currency === 'RUB' ? '₽' : currency;
+    const currencySymbol = currency === 'THB' ? '฿' : currency;
     
     return `${basePrice.toLocaleString()} ${currencySymbol}${priceType === 'perPerson' ? '/чел.' : '/группа'}`;
   };

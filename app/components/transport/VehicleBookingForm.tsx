@@ -82,7 +82,7 @@ const OptionCheckbox = ({
       <span>{label}</span>
     </label>
     <span className="text-gray-700">
-      +{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 }).format(price)}
+      +{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'THB', maximumFractionDigits: 0 }).format(price)}
     </span>
   </div>
 );
@@ -190,7 +190,7 @@ export default function VehicleBookingForm({
   const formatPrice = (price: number): string => {
     return new Intl.NumberFormat('ru-RU', {
       style: 'currency',
-      currency: 'RUB',
+      currency: 'THB',
       maximumFractionDigits: 0,
     }).format(price);
   };

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { format, addMonths, getDaysInMonth, startOfMonth, getDay, isToday, isBefore, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, subMonths, isWeekend, startOfDay, isAfter, addDays } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import styles from './CalendarInterface.module.css';
@@ -15,6 +16,194 @@ interface CalendarInterfaceProps {
   onParticipantChange: (count: number) => void;
   resultsForSelection: number;
 }
+
+// Компонент модального окна, который будет монтироваться через портал
+const CalendarModal = ({
+  isOpen,
+  onClose,
+  currentMonth,
+  changeMonth,
+  days,
+  weekDays,
+  tempStartDate,
+  tempEndDate,
+  handleDateClick,
+  participants,
+  minParticipants,
+  maxParticipants,
+  countAnimation,
+  handleParticipantChange,
+  handleReset,
+  handleApply,
+  onParticipantChange
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  currentMonth: Date;
+  changeMonth: (increment: number) => void;
+  days: ReturnType<any>;
+  weekDays: string[];
+  tempStartDate: Date | null;
+  tempEndDate: Date | null;
+  handleDateClick: (day: Date) => void;
+  participants: number;
+  minParticipants: number;
+  maxParticipants: number;
+  countAnimation: boolean;
+  handleParticipantChange: (change: number) => void;
+  handleReset: () => void;
+  handleApply: () => void;
+  onParticipantChange?: (count: number) => void;
+}) => {
+  if (!isOpen) return null;
+  
+  // Используем портал для монтирования модального окна в корень DOM-дерева
+  return ReactDOM.createPortal(
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div 
+        className={styles.modalContent} 
+        onClick={(e) => e.stopPropagation()} // Предотвращаем закрытие при клике на само модальное окно
+      >
+        {/* Заголовок модального окна */}
+        <div className={styles.modalHeader}>
+          <h2 className={styles.modalTitle}>Даты</h2>
+          <button className={styles.closeButton} onClick={onClose} aria-label="Закрыть">
+            <FaTimes />
+          </button>
+        </div>
+        
+        <div className={styles.calendarWrapper}>
+          {/* Навигация по месяцам */}
+          <div className={styles.calendarNavigation}>
+            <button 
+              className={styles.navButton} 
+              onClick={() => changeMonth(-1)}
+              aria-label="Предыдущий месяц"
+            >
+              <FaChevronLeft />
+            </button>
+            <span className={styles.currentMonthDisplay}>
+              {format(currentMonth, 'LLLL yyyy', { locale: ru })}
+            </span>
+            <button 
+              className={styles.navButton} 
+              onClick={() => changeMonth(1)}
+              aria-label="Следующий месяц"
+            >
+              <FaChevronRight />
+            </button>
+          </div>
+
+          {/* Сетка календаря */}
+          <div className={styles.calendarGrid}>
+            {/* Дни недели */}
+            <div className={styles.weekDays}>
+              {weekDays.map((day, index) => (
+                <div 
+                  key={index} 
+                  className={`${styles.weekDay} ${(index === 5 || index === 6) ? styles.weekendWeekDay : ''}`}
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            {/* Дни месяца */}
+            <div className={styles.days}>
+              {/* Пустые ячейки в начале месяца */}
+              {Array.from({ length: new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay() === 0 ? 6 : new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay() - 1 }).map((_, index) => (
+                <div key={`empty-${index}`} className={`${styles.day} ${styles.emptyDay}`}></div>
+              ))}
+              
+              {/* Дни месяца */}
+              {days.map((day: any, index: number) => {
+                const today = new Date();
+                const isToday = isSameDay(day.date, today);
+                
+                // Определение классов для ячейки дня
+                let dayClasses = `${styles.day}`;
+                
+                if (day.isPast) {
+                  dayClasses += ` ${styles.pastDay}`;
+                }
+                
+                if (day.isWeekendDay) {
+                  dayClasses += ` ${styles.weekendDay}`;
+                }
+                
+                if (isToday) {
+                  dayClasses += ` ${styles.today}`;
+                }
+                
+                if (tempStartDate && tempEndDate && (isSameDay(day.date, tempStartDate) || isSameDay(day.date, tempEndDate))) {
+                  dayClasses += ` ${styles.rangeEndDay}`;
+                } else if (day.isInRange) {
+                  dayClasses += ` ${styles.rangeDay}`;
+                }
+                
+                return (
+                  <div
+                    key={index}
+                    className={dayClasses}
+                    onClick={() => handleDateClick(day.date)}
+                  >
+                    {format(day.date, 'd')}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Секция для выбора количества гостей */}
+          {onParticipantChange && (
+            <div className={styles.guestsSection}>
+              <div className={styles.guestsLabel}>Количество гостей</div>
+              <div className={styles.guestsControls}>
+                <button 
+                  className={styles.guestButton}
+                  onClick={() => handleParticipantChange(-1)}
+                  disabled={participants <= minParticipants}
+                  aria-label="Уменьшить количество гостей"
+                >
+                  -
+                </button>
+                <span className={`${styles.guestCount} ${countAnimation ? styles.pulse : ''}`}>
+                  {participants}
+                </span>
+                <button 
+                  className={styles.guestButton}
+                  onClick={() => handleParticipantChange(1)}
+                  disabled={participants >= maxParticipants}
+                  aria-label="Увеличить количество гостей"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Кнопки действий */}
+          <div className={styles.actionButtons}>
+            <button 
+              className={styles.resetButton} 
+              onClick={handleReset}
+            >
+              Сбросить
+            </button>
+            <button 
+              className={styles.applyButton} 
+              onClick={handleApply}
+              disabled={!tempStartDate}
+            >
+              Применить
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>,
+    document.body // Монтируем в body
+  );
+};
 
 const CalendarInterface: React.FC<CalendarInterfaceProps> = ({
   initialStartDate,
@@ -35,6 +224,7 @@ const CalendarInterface: React.FC<CalendarInterfaceProps> = ({
   const [tempStartDate, setTempStartDate] = useState<Date | null>(startDate);
   const [tempEndDate, setTempEndDate] = useState<Date | null>(endDate);
   const [participants, setParticipants] = useState<number>(participantCount);
+  const [countAnimation, setCountAnimation] = useState<boolean>(false);
 
   // Обработчик клика вне календаря для его закрытия
   useEffect(() => {
@@ -302,6 +492,11 @@ const CalendarInterface: React.FC<CalendarInterfaceProps> = ({
     const newCount = participants + change;
     if (newCount >= 1 && newCount <= 10) {
       setParticipants(newCount);
+      // Активируем анимацию
+      setCountAnimation(true);
+      // Сбрасываем анимацию после завершения
+      setTimeout(() => setCountAnimation(false), 300);
+      
       if (onParticipantChange) {
         onParticipantChange(newCount);
       }
@@ -333,149 +528,26 @@ const CalendarInterface: React.FC<CalendarInterfaceProps> = ({
         <FaCalendarAlt className={styles.calendarIcon} />
       </div>
 
-      {/* Модальное окно с календарём */}
-      {isCalendarOpen && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalContent} ref={calendarRef}>
-            {/* Заголовок модального окна */}
-            <div className={styles.modalHeader}>
-              <h2 className={styles.modalTitle}>Даты</h2>
-              <button 
-                className={styles.closeButton} 
-                onClick={handleClose}
-                aria-label="Закрыть"
-              >
-                <FaTimes />
-              </button>
-            </div>
-            
-            {/* Контейнер для двух календарей */}
-            <div className={styles.calendarWrapper}>
-              {/* Навигация по месяцам */}
-              <div className={styles.calendarNavigation}>
-                <button 
-                  className={styles.navButton} 
-                  onClick={() => changeMonth(-1)}
-                  aria-label="Предыдущий месяц"
-                >
-                  <FaChevronLeft />
-                </button>
-                
-                <div className={styles.currentMonthDisplay}>
-                  {format(currentMonth, 'LLLL yyyy', { locale: ru })}
-                </div>
-                
-                <button 
-                  className={styles.navButton} 
-                  onClick={() => changeMonth(1)}
-                  aria-label="Следующий месяц"
-                >
-                  <FaChevronRight />
-                </button>
-              </div>
-              
-              {/* Календарная сетка */}
-              <div className={styles.calendarGrid}>
-                {/* Дни недели */}
-                <div className={styles.weekDays}>
-                  {weekDays.map((day, index) => (
-                    <div 
-                      key={day} 
-                      className={`${styles.weekDay} ${index >= 5 ? styles.weekendWeekDay : ''}`}
-                    >
-                      {day}
-                    </div>
-                  ))}
-                </div>
-                
-                {/* Дни месяца */}
-                <div className={styles.days}>
-                  {/* Пустые ячейки в начале месяца */}
-                  {Array.from({ length: new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay() === 0 ? 6 : new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay() - 1 }).map((_, index) => (
-                    <div key={`empty-${index}`} className={`${styles.day} ${styles.emptyDay}`}></div>
-                  ))}
-                  
-                  {/* Дни месяца */}
-                  {days.map((day, index) => {
-                    const today = new Date();
-                    const isToday = isSameDay(day.date, today);
-                    
-                    // Определение классов для ячейки дня
-                    let dayClasses = `${styles.day}`;
-                    
-                    if (day.isPast) {
-                      dayClasses += ` ${styles.pastDay}`;
-                    }
-                    
-                    if (day.isWeekendDay) {
-                      dayClasses += ` ${styles.weekendDay}`;
-                    }
-                    
-                    if (isToday) {
-                      dayClasses += ` ${styles.today}`;
-                    }
-                    
-                    if (tempStartDate && tempEndDate && (isSameDay(day.date, tempStartDate) || isSameDay(day.date, tempEndDate))) {
-                      dayClasses += ` ${styles.rangeEndDay}`;
-                    } else if (day.isInRange) {
-                      dayClasses += ` ${styles.rangeDay}`;
-                    }
-                    
-                    return (
-                      <div
-                        key={index}
-                        className={dayClasses}
-                        onClick={() => handleDateClick(day.date)}
-                      >
-                        {format(day.date, 'd')}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-              
-              {/* Количество гостей */}
-              <div className={styles.guestsSection}>
-                <div className={styles.guestsLabel}>Количество гостей</div>
-                <div className={styles.guestsControls}>
-                  <button 
-                    className={styles.guestButton}
-                    onClick={() => handleParticipantChange(-1)}
-                    disabled={participants <= 1}
-                  >
-                    −
-                  </button>
-                  <span className={styles.guestCount}>{participants}</span>
-                  <button 
-                    className={styles.guestButton}
-                    onClick={() => handleParticipantChange(1)}
-                    disabled={participants >= 10}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-              
-              {/* Кнопки действий */}
-              <div className={styles.actionButtons}>
-                <button 
-                  className={styles.resetButton}
-                  onClick={handleReset}
-                >
-                  Сбросить
-                </button>
-                <button 
-                  className={styles.applyButton}
-                  onClick={handleApply}
-                  disabled={!tempStartDate}
-                >
-                  Применить
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Используем компонент модального окна, который будет монтироваться через портал */}
+      <CalendarModal
+        isOpen={isCalendarOpen}
+        onClose={handleClose}
+        currentMonth={currentMonth}
+        changeMonth={changeMonth}
+        days={days}
+        weekDays={weekDays}
+        tempStartDate={tempStartDate}
+        tempEndDate={tempEndDate}
+        handleDateClick={handleDateClick}
+        participants={participants}
+        minParticipants={1}
+        maxParticipants={10}
+        countAnimation={countAnimation}
+        handleParticipantChange={handleParticipantChange}
+        handleReset={handleReset}
+        handleApply={handleApply}
+        onParticipantChange={onParticipantChange}
+      />
     </div>
   );
 };

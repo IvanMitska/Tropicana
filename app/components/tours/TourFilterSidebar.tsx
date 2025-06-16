@@ -167,7 +167,7 @@ const TourFilterSidebar: React.FC<TourFilterSidebarProps> = ({ filters, onFilter
       
       {/* Ценовой диапазон */}
       <div className="mb-6">
-        <h3 className="font-medium mb-3">Стоимость (₽)</h3>
+        <h3 className="font-medium mb-3">Стоимость (฿)</h3>
         <div className="flex space-x-2 mb-3">
           <input
             type="number"

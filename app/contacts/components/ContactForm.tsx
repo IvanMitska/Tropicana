@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
+import { PaperClipIcon, XMarkIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Имя должно содержать минимум 2 символа'),
@@ -34,9 +35,10 @@ export default function ContactForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors }
+    formState: { errors, isDirty, isValid }
   } = useForm<FormData>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    mode: 'onChange'
   });
 
   const onSubmit = async (data: FormData) => {
@@ -83,61 +85,70 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <h2 className="text-2xl font-semibold mb-6">Обратная связь</h2>
+    <div className="bg-white rounded-xl shadow-2xl p-6 sm:p-8 md:p-10 max-w-2xl mx-auto">
+      <h2 className="text-3xl font-bold text-[#1e3c3c] mb-8 text-center">Свяжитесь с нами</h2>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Имя *
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Ваше имя
           </label>
           <input
+            id="name"
             type="text"
             {...register('name')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Иван Иванов"
+            className={`w-full px-4 py-2.5 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e5916e]/50 focus:border-[#e5916e] transition-colors duration-200`}
           />
           {errors.name && (
-            <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+            <p className="mt-1.5 text-xs text-red-600">{errors.name.message}</p>
           )}
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email *
-          </label>
-          <input
-            type="email"
-            {...register('email')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-          )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              {...register('email')}
+              placeholder="you@example.com"
+              className={`w-full px-4 py-2.5 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e5916e]/50 focus:border-[#e5916e] transition-colors duration-200`}
+            />
+            {errors.email && (
+              <p className="mt-1.5 text-xs text-red-600">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1.5">
+              Телефон
+            </label>
+            <input
+              id="phone"
+              type="tel"
+              {...register('phone')}
+              placeholder="+7 (999) 123-45-67"
+              className={`w-full px-4 py-2.5 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e5916e]/50 focus:border-[#e5916e] transition-colors duration-200`}
+            />
+            {errors.phone && (
+              <p className="mt-1.5 text-xs text-red-600">{errors.phone.message}</p>
+            )}
+          </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Телефон *
-          </label>
-          <input
-            type="tel"
-            {...register('phone')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          {errors.phone && (
-            <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Тема обращения *
+          <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Тема обращения
           </label>
           <select
+            id="subject"
             {...register('subject')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className={`w-full px-4 py-2.5 border ${errors.subject ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e5916e]/50 focus:border-[#e5916e] transition-colors duration-200 bg-white`}
           >
-            <option value="">Выберите тему</option>
+            <option value="">Выберите тему...</option>
             {subjects.map(subject => (
               <option key={subject} value={subject}>
                 {subject}
@@ -145,45 +156,58 @@ export default function ContactForm() {
             ))}
           </select>
           {errors.subject && (
-            <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>
+            <p className="mt-1.5 text-xs text-red-600">{errors.subject.message}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Сообщение *
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Сообщение
           </label>
           <textarea
+            id="message"
             {...register('message')}
-            rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows={5}
+            placeholder="Расскажите подробнее о вашем вопросе..."
+            className={`w-full px-4 py-2.5 border ${errors.message ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e5916e]/50 focus:border-[#e5916e] transition-colors duration-200`}
           />
           {errors.message && (
-            <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
+            <p className="mt-1.5 text-xs text-red-600">{errors.message.message}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Прикрепить файлы
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Прикрепить файлы (необязательно)
           </label>
-          <input
-            type="file"
-            multiple
-            onChange={handleFileChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+            <div className="space-y-1 text-center">
+              <PaperClipIcon className="mx-auto h-10 w-10 text-gray-400" />
+              <div className="flex text-sm text-gray-600">
+                <label
+                  htmlFor="file-upload"
+                  className="relative cursor-pointer bg-white rounded-md font-medium text-[#e5916e] hover:text-[#c97b5e] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#e5916e]/50"
+                >
+                  <span>Загрузите файлы</span>
+                  <input id="file-upload" type="file" multiple onChange={handleFileChange} className="sr-only" />
+                </label>
+                <p className="pl-1">или перетащите сюда</p>
+              </div>
+              <p className="text-xs text-gray-500">PNG, JPG, GIF, PDF до 10MB</p>
+            </div>
+          </div>
           {files.length > 0 && (
-            <div className="mt-2 space-y-2">
+            <div className="mt-3 space-y-2">
               {files.map((file, index) => (
-                <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                  <span className="text-sm truncate">{file.name}</span>
+                <div key={index} className="flex items-center justify-between bg-gray-50 p-2.5 rounded-md border border-gray-200">
+                  <span className="text-sm text-gray-700 truncate mr-2">{file.name} <span className="text-gray-500 text-xs">({(file.size / 1024).toFixed(1)} KB)</span></span>
                   <button
                     type="button"
                     onClick={() => removeFile(index)}
-                    className="text-red-600 hover:text-red-800"
+                    className="text-red-500 hover:text-red-700 transition-colors p-1 rounded-full hover:bg-red-100"
+                    aria-label="Удалить файл"
                   >
-                    Удалить
+                    <XMarkIcon className="h-4 w-4" />
                   </button>
                 </div>
               ))}
@@ -191,31 +215,33 @@ export default function ContactForm() {
           )}
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Подтвердите, что вы не робот *
-          </label>
-          <div className="flex items-center space-x-2">
+        <div className="pt-2">
+          <label className="flex items-center space-x-2.5 cursor-pointer">
             <input
               type="checkbox"
               {...register('captcha')}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className={`h-4 w-4 text-[#e5916e] focus:ring-[#e5916e]/50 border-gray-300 rounded ${errors.captcha ? 'ring-2 ring-red-500 ring-offset-1' : ''}`}
             />
-            <span className="text-sm text-gray-600">
-              Я подтверждаю, что я не робот
+            <span className="text-sm text-gray-700">
+              Я подтверждаю, что я не робот и согласен с обработкой персональных данных
             </span>
-          </div>
+          </label>
           {errors.captcha && (
-            <p className="mt-1 text-sm text-red-600">{errors.captcha.message}</p>
+            <p className="mt-1.5 text-xs text-red-600">{errors.captcha.message}</p>
           )}
         </div>
 
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isSubmitting || !isDirty || !isValid}
+          className="w-full flex items-center justify-center bg-[#e5916e] text-white py-3 px-6 rounded-lg font-semibold hover:bg-[#c97b5e] focus:outline-none focus:ring-2 focus:ring-[#e5916e]/50 focus:ring-offset-2 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0"
         >
-          {isSubmitting ? 'Отправка...' : 'Отправить сообщение'}
+          {isSubmitting ? (
+            <>
+              <ArrowPathIcon className="animate-spin h-5 w-5 mr-2.5" />
+              Отправка...
+            </>
+          ) : 'Отправить сообщение'}
         </button>
       </form>
     </div>

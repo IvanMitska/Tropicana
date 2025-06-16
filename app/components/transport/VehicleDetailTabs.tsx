@@ -272,7 +272,7 @@ export default function VehicleDetailTabs({ vehicle, className = '' }: VehicleDe
               <div className="mt-4 p-3 bg-blue-50 rounded-lg">
                 <p className="text-blue-800">
                   Доступна доставка в пределах {vehicle.location.serviceRadius || 30} км
-                  {vehicle.location.deliveryFee ? ` за ${vehicle.location.deliveryFee} руб.` : ' (бесплатно)'}
+                  {vehicle.location.deliveryFee ? ` за ${vehicle.location.deliveryFee} ฿` : ' (бесплатно)'}
                 </p>
               </div>
             )}
@@ -309,7 +309,7 @@ export default function VehicleDetailTabs({ vehicle, className = '' }: VehicleDe
                     <span className="text-blue-500 mr-2">•</span>
                     <span>Страховой депозит: {new Intl.NumberFormat('ru-RU', {
                       style: 'currency',
-                      currency: 'RUB',
+                      currency: 'THB',
                       maximumFractionDigits: 0,
                     }).format(vehicle.rentalTerms.securityDeposit)}</span>
                   </li>
@@ -352,7 +352,7 @@ export default function VehicleDetailTabs({ vehicle, className = '' }: VehicleDe
                       <span className="text-blue-500 mr-2">•</span>
                       <span>Штраф за опоздание: {new Intl.NumberFormat('ru-RU', {
                         style: 'currency',
-                        currency: 'RUB',
+                        currency: 'THB',
                         maximumFractionDigits: 0,
                       }).format(vehicle.rentalTerms.overtimeFee)} в час</span>
                     </li>
@@ -417,7 +417,7 @@ export default function VehicleDetailTabs({ vehicle, className = '' }: VehicleDe
                     <p className="font-medium">
                       Стоимость доставки: {new Intl.NumberFormat('ru-RU', {
                         style: 'currency',
-                        currency: 'RUB',
+                        currency: 'THB',
                         maximumFractionDigits: 0,
                       }).format(vehicle.location.deliveryFee)}
                     </p>

@@ -94,7 +94,7 @@ const tourSchema = new mongoose.Schema({
     },
     currency: {
       type: String,
-      default: 'RUB'
+      default: 'THB'
     },
     priceType: {
       type: String,
