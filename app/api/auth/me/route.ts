@@ -3,6 +3,9 @@ import { verifyJwtToken } from '@/app/lib/jwt';
 import connectDB from '@/app/lib/mongodb';
 import User from '@/app/models/User';
 
+// Указываем, что этот маршрут должен рендериться динамически
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     // Получаем токен из куки

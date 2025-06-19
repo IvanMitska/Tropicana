@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAuthTokenFromRequest, verifyJwtToken } from '@/app/lib/jwt';
 import { getUserById, sanitizeUser } from '@/app/models/User';
 
+// Указываем, что этот маршрут должен рендериться динамически
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     // Получаем токен из cookies

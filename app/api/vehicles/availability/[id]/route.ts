@@ -1,24 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Vehicle, VehicleAvailability } from '@/app/models/Vehicle';
 import { eachDayOfInterval, parseISO } from 'date-fns';
+import { generateMockVehicles } from '../../mock-data';
 
-// Используем тот же механизм получения транспортных средств из предыдущих файлов
-let MOCK_VEHICLES: Vehicle[] = [];
-
-async function getMockVehicles(): Promise<Vehicle[]> {
-  if (MOCK_VEHICLES.length === 0) {
-    try {
-      const response = await fetch('http://localhost:3000/api/vehicles?limit=50');
-      const data = await response.json();
-      MOCK_VEHICLES = data.vehicles || [];
-    } catch (error) {
-      console.error('Error fetching vehicles:', error);
-      return [];
-    }
-  }
-  
-  return MOCK_VEHICLES;
-}
+// Указываем, что этот маршрут должен рендериться динамически
+export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: NextRequest,
@@ -41,7 +27,7 @@ export async function GET(
     }
     
     // Получаем все транспортные средства
-    const allVehicles = await getMockVehicles();
+    const allVehicles = generateMockVehicles();
     
     // Находим транспортное средство по ID
     const vehicle = allVehicles.find(v => v.id === id);

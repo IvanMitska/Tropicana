@@ -1,30 +1,13 @@
 import { NextResponse } from 'next/server';
 import { Vehicle } from '@/app/models/Vehicle';
+import { generateMockVehicles } from '../mock-data';
 
-// Используем функцию генерации тестовых данных из основного эндпоинта
-let MOCK_VEHICLES: Vehicle[] = [];
-
-// Заглушка для имитации получения данных из БД
-async function getMockVehicles(): Promise<Vehicle[]> {
-  if (MOCK_VEHICLES.length === 0) {
-    // Если данных нет, запрашиваем их из основного API
-    try {
-      const response = await fetch('http://localhost:3000/api/vehicles?limit=50');
-      const data = await response.json();
-      MOCK_VEHICLES = data.vehicles || [];
-    } catch (error) {
-      console.error('Error fetching vehicles:', error);
-      // В случае ошибки возвращаем пустой массив
-      return [];
-    }
-  }
-  
-  return MOCK_VEHICLES;
-}
+// Указываем, что этот маршрут должен рендериться динамически
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const allVehicles = await getMockVehicles();
+    const allVehicles = generateMockVehicles();
     
     // Фильтрация только популярных/рекомендуемых транспортных средств
     const featuredVehicles = allVehicles
