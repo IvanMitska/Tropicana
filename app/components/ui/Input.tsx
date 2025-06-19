@@ -2,7 +2,7 @@
 
 import React, { forwardRef } from 'react';
 import { VariantProps, cva } from 'class-variance-authority';
-import { cn } from "@/app/lib/utils";
+import { cn } from "../../lib/utils";
 
 const inputVariants = cva(
   'w-full rounded-md border bg-white px-3 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary',
