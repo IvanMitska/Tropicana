@@ -1,3 +1,8 @@
+// Загружаем переменные окружения по умолчанию для Netlify
+if (process.env.NODE_ENV === 'production' || process.env.NETLIFY) {
+  require('./netlify-env.js');
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,

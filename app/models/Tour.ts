@@ -244,4 +244,6 @@ const TourSchema = new Schema({
 }, { timestamps: true });
 
 // Экспортируем модель
-export const Tour = models.Tour || model('Tour', TourSchema); 
+const TourModel = models.Tour || model('Tour', TourSchema);
+export const Tour = TourModel;
+export default TourModel; 

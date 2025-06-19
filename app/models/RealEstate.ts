@@ -244,4 +244,6 @@ const RealEstateSchema = new Schema({
 }, { timestamps: true });
 
 // Экспортируем модель
-export const RealEstate = models.RealEstate || model('RealEstate', RealEstateSchema); 
+const RealEstateModel = models.RealEstate || model('RealEstate', RealEstateSchema);
+export const RealEstate = RealEstateModel;
+export default RealEstateModel; 

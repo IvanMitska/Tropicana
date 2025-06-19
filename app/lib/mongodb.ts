@@ -1,9 +1,5 @@
 import mongoose from 'mongoose';
 
-if (!process.env.MONGODB_URI) {
-  throw new Error('Пожалуйста, укажите MONGODB_URI в переменных окружения');
-}
-
 const MONGODB_URI = process.env.MONGODB_URI;
 
 /**
@@ -22,6 +18,10 @@ if (!cached) {
 }
 
 async function connectDB() {
+  if (!MONGODB_URI) {
+    throw new Error('Пожалуйста, укажите MONGODB_URI в переменных окружения');
+  }
+
   if (cached.conn) {
     return cached.conn;
   }
@@ -46,4 +46,5 @@ async function connectDB() {
   return cached.conn;
 }
 
-export default connectDB; 
+export default connectDB;
+export { connectDB as connectToDatabase }; 
