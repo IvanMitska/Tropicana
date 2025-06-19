@@ -22,6 +22,12 @@ async function connectDB() {
     throw new Error('Пожалуйста, укажите MONGODB_URI в переменных окружения');
   }
 
+  // В процессе сборки возвращаем заглушку для placeholder URI
+  if (MONGODB_URI.includes('placeholder') || MONGODB_URI.includes('0.0.0.0')) {
+    console.log('MongoDB: Using placeholder connection during build');
+    throw new Error('MongoDB не доступен во время сборки (используется placeholder)');
+  }
+
   if (cached.conn) {
     return cached.conn;
   }

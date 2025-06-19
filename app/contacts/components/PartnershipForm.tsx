@@ -14,7 +14,7 @@ const formSchema = z.object({
   website: z.string().url('Введите корректный URL сайта').optional().or(z.literal('')),
   partnershipType: z.string().min(1, 'Выберите тип сотрудничества'),
   description: z.string().min(20, 'Описание должно содержать минимум 20 символов'),
-  files: z.array(z.instanceof(File)).optional()
+  files: z.any().optional() // Изменяем на z.any() для совместимости с SSR
 });
 
 type FormData = z.infer<typeof formSchema>;

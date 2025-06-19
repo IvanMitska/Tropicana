@@ -13,7 +13,7 @@ const formSchema = z.object({
   phone: z.string().regex(/^\+?[1-9]\d{10,14}$/, 'Введите корректный номер телефона'),
   subject: z.string().min(1, 'Выберите тему обращения'),
   message: z.string().min(10, 'Сообщение должно содержать минимум 10 символов'),
-  files: z.array(z.instanceof(File)).optional(),
+  files: z.any().optional(), // Изменяем на z.any() для совместимости с SSR
   captcha: z.string().min(1, 'Пожалуйста, подтвердите, что вы не робот')
 });
 
