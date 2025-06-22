@@ -9,6 +9,7 @@ import { MapPin, Menu, X, User, Search, ShoppingCart, Heart, Building, Car, Comp
 const MainHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(80);
   const { user, isLoading } = useAuth();
 
   // Блокировка скролла при открытом меню
@@ -37,6 +38,20 @@ const MainHeader = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Получение реальной высоты хедера
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      const header = document.querySelector('header');
+      if (header) {
+        setHeaderHeight(header.offsetHeight);
+      }
+    };
+
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+    return () => window.removeEventListener('resize', updateHeaderHeight);
   }, []);
 
   return (
@@ -129,9 +144,10 @@ const MainHeader = () => {
 
       {/* Мобильная навигация - боковое меню */}
       <div 
-        className={`md:hidden fixed inset-0 z-[99999] transition-all duration-300 ${
+        className={`md:hidden fixed left-0 right-0 bottom-0 z-[9997] transition-all duration-300 ${
           isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
+        style={{ top: `${headerHeight}px` }}
       >
         {/* Темный overlay */}
         <div 
@@ -143,36 +159,14 @@ const MainHeader = () => {
         
         {/* Боковая панель */}
         <div 
-          className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-transform duration-300 ease-out ${
+          className={`absolute top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl transform transition-transform duration-300 ease-out ${
             isMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          {/* Заголовок меню */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-white">
-            <div className="flex items-center">
-              <div className="relative w-8 h-8 mr-3">
-                <Image 
-                  src="/images/logo-header-dream.png" 
-                  alt="Phuket Dream" 
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-dark">Phuket Dream</h3>
-                <p className="text-xs text-gray-600">Ваш отдых на Пхукете</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsMenuOpen(false)}
-              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-            >
-              <X size={20} className="text-gray-600" />
-            </button>
-          </div>
+
           
           {/* Навигационные ссылки - обновлено */}
-          <nav className="p-4 flex-1">
+          <nav className="pt-6 px-4 pb-4 flex-1">
             <div className="space-y-0">
               {[
                 { 
@@ -237,7 +231,7 @@ const MainHeader = () => {
                   <svg className="w-3 h-3 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  +66 123 456 789
+                  +66 99 489 29 17
                 </div>
               </div>
             </div>

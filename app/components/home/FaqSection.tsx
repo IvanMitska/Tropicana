@@ -381,7 +381,9 @@ const FaqSection = () => {
               <span className="relative z-10 transition-all duration-300 group-hover:translate-x-1">Все вопросы и ответы</span>
             </a>
             <a 
-              href="/contacts" 
+              href="https://t.me/phuket_dream" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl relative overflow-hidden group"
             >
               {/* Эффект блеска на кнопке */}
@@ -394,7 +396,7 @@ const FaqSection = () => {
                   animation: 'shine 2s infinite linear',
                 }}
               ></div>
-              <span className="relative z-10 transition-all duration-300 group-hover:translate-x-1">Связаться с нами</span>
+              <span className="relative z-10 transition-all duration-300 group-hover:translate-x-1">Написать в Telegram</span>
             </a>
           </div>
         </div>

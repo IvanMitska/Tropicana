@@ -108,12 +108,14 @@ const RealEstateHero: React.FC<RealEstateHeroProps> = ({ hasAnimated }) => {
                 </svg>
               </a>
               
-              <Link 
-                href="/contacts"
+              <a 
+                href="https://t.me/phuket_dream"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center bg-transparent border border-white/30 text-white hover:bg-white/10 font-medium py-3 px-8 rounded-md transition-all"
               >
-                Связаться с нами
-              </Link>
+                Написать в Telegram
+              </a>
             </div>
           </div>
           

@@ -8,7 +8,26 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost', 'images.unsplash.com', 'images.pexels.com'], // Добавьте здесь домены для изображений
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+        port: '',
+        pathname: '/**',
+      }
+    ],
     unoptimized: process.env.NODE_ENV === 'production', // Отключаем оптимизацию изображений для Netlify
   },
   env: {

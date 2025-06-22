@@ -179,9 +179,10 @@ const ServicesSection = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
           {services.map((service, index) => (
-              <div
+              <Link
                 key={service.id}
-                className={`group transition-all duration-700 ease-out`}
+                href={service.link}
+                className={`group transition-all duration-700 ease-out block`}
                 style={{
                   transitionDelay: `${index * 150}ms`,
                   opacity: inView ? 1 : 0,
@@ -191,7 +192,7 @@ const ServicesSection = () => {
                 onMouseLeave={() => setHoveredService(null)}
               >
                 <div 
-                  className="relative overflow-hidden rounded-xl h-full transition-all duration-500 border border-gray-200 shadow-md hover:shadow-xl"
+                  className="relative overflow-hidden rounded-xl h-full transition-all duration-500 border border-gray-200 shadow-md hover:shadow-xl cursor-pointer"
                   style={{
                     transform: hoveredService === service.id ? 'translateY(-8px)' : 'translateY(0)',
                     boxShadow: hoveredService === service.id ? `0 8px 30px -5px ${getColorClass(service.accentColor, 20)}` : ''
@@ -246,40 +247,15 @@ const ServicesSection = () => {
                         {service.stats}
                       </span>
                       
-                      <Link 
-                        href={service.link} 
-                        className="text-primary hover:text-primary-dark transition-colors flex items-center text-sm md:text-base"
-                      >
+                      <span className="text-primary hover:text-primary-dark transition-colors flex items-center text-sm md:text-base">
                         Подробнее 
                         <ArrowRight className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                      </Link>
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
           ))}
-        </div>
-        
-        {/* Кнопка просмотра всех услуг с анимацией */}
-        <div className={`mt-16 text-center transition-all duration-700 ${inView ? 'opacity-100 translate-y-0 delay-[800ms]' : 'opacity-0 translate-y-10'}`}>
-          <Link 
-            href="/services" 
-            className="group inline-flex items-center px-8 py-4 bg-white border border-gray-200 rounded-xl text-dark font-medium shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-500 hover:bg-primary hover:text-white hover:border-primary"
-          >
-            {/* Эффект блеска на кнопке */}
-            <div 
-              className="absolute inset-0 transition-all duration-700 opacity-0 group-hover:opacity-100"
-              style={{
-                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-                left: '-100%',
-                top: '0',
-                animation: 'shine 2s infinite linear',
-              }}
-            ></div>
-            
-            <span className="mr-2 relative z-10 transition-all duration-300 group-hover:translate-x-1">Смотреть все услуги</span>
-            <ArrowRight size={18} className="transition-all duration-500 relative z-10 group-hover:translate-x-2" />
-          </Link>
         </div>
         
         {/* Плавающие элементы фона с анимацией */}

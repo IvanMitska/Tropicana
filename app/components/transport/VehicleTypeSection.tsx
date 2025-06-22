@@ -12,7 +12,7 @@ const vehicleTypes = [
     title: 'Автомобили',
     description: 'Широкий выбор автомобилей для любых целей',
     icon: <Car className="w-10 h-10 text-primary" />,
-    image: '/images/transport/car-category.jpg',
+    image: '/images/placeholder-category.jpg',
     count: 120,
     link: '/transport/category/cars'
   },
@@ -20,7 +20,7 @@ const vehicleTypes = [
     title: 'Мотоциклы и скутеры',
     description: 'Идеально для быстрого передвижения по острову',
     icon: <Bike className="w-10 h-10 text-primary" />,
-    image: '/images/transport/bike-category.jpg',
+    image: '/images/placeholder-category.jpg',
     count: 85,
     link: '/transport/category/bikes'
   },
@@ -28,7 +28,7 @@ const vehicleTypes = [
     title: 'Водный транспорт',
     description: 'Яхты, катера и гидроциклы для водных развлечений',
     icon: <Ship className="w-10 h-10 text-primary" />,
-    image: '/images/transport/boat-category.jpg',
+    image: '/images/placeholder-category.jpg',
     count: 40,
     link: '/transport/category/boats'
   },
@@ -36,7 +36,7 @@ const vehicleTypes = [
     title: 'Авиа транспорт',
     description: 'Вертолеты и самолеты для экскурсий и перелетов',
     icon: <PlaneTakeoff className="w-10 h-10 text-primary" />,
-    image: '/images/transport/air-category.jpg',
+    image: '/images/placeholder-category.jpg',
     count: 15,
     link: '/transport/category/air'
   }

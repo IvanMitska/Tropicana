@@ -14,7 +14,6 @@ const navigation = [
   { name: 'Недвижимость', href: '/real-estate' },
   { name: 'Транспорт', href: '/transport' },
   { name: 'Туры', href: '/tours' },
-  { name: 'Контакты', href: '/contacts' },
 ];
 
 export const Header = () => {

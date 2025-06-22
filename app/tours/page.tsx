@@ -7,7 +7,6 @@ import ToursHero from '../components/tours/ToursHero';
 import TourSearch from '../components/tours/TourSearch';
 import PopularTours from '../components/tours/PopularTours';
 import TourTypeSection from '../components/tours/TourTypeSection';
-import TestimonialsSection from '../components/tours/TestimonialsSection';
 import UniversalFaqSection from '../components/ui/UniversalFaqSection';
 
 export default function ToursPage() {
@@ -25,7 +24,6 @@ export default function ToursPage() {
         <TourSearch />
         <PopularTours />
         <TourTypeSection />
-        <TestimonialsSection hasAnimated={hasAnimated} />
         <UniversalFaqSection 
           title="Часто задаваемые вопросы о турах"
           subtitle="ТУРЫ И ЭКСКУРСИИ"

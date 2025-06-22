@@ -18,7 +18,7 @@ const PropertyTypeSection: React.FC = () => {
       description: 'Роскошные виллы с бассейнами и территорией',
       icon: <Castle className="w-10 h-10 text-primary" />,
       count: 125,
-      backgroundImage: 'https://images.pexels.com/photos/1732414/pexels-photo-1732414.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      backgroundImage: '/images/placeholder-category.jpg',
       color: 'from-primary/80 to-primary/40',
     },
     {
@@ -27,7 +27,7 @@ const PropertyTypeSection: React.FC = () => {
       description: 'Современные апартаменты в жилых комплексах',
       icon: <Building className="w-10 h-10 text-secondary" />,
       count: 234,
-      backgroundImage: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      backgroundImage: '/images/placeholder-category.jpg',
       color: 'from-secondary/80 to-secondary/40',
     },
     {
@@ -36,7 +36,7 @@ const PropertyTypeSection: React.FC = () => {
       description: 'Уютные дома для комфортного проживания',
       icon: <Home className="w-10 h-10 text-accent" />,
       count: 86,
-      backgroundImage: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      backgroundImage: '/images/placeholder-category.jpg',
       color: 'from-accent/80 to-accent/40',
     },
     {
@@ -45,7 +45,7 @@ const PropertyTypeSection: React.FC = () => {
       description: 'Стильные бунгало рядом с пляжами',
       icon: <Warehouse className="w-10 h-10 text-primary" />,
       count: 54,
-      backgroundImage: 'https://images.pexels.com/photos/1488327/pexels-photo-1488327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+      backgroundImage: '/images/placeholder-category.jpg',
       color: 'from-primary/80 to-primary/40',
     },
   ];

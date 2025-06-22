@@ -110,10 +110,10 @@ const FaqSection: React.FC = () => {
             </div>
             
             <a
-              href="/contacts"
+              href="tel:+66994892917"
               className="bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-all flex-shrink-0 shadow-sm hover:shadow-md"
             >
-              Связаться с нами
+              Позвонить нам
             </a>
           </div>
         </div>

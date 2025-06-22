@@ -25,7 +25,7 @@ interface VehicleProps {
 const vehicles: VehicleProps[] = [
   {
     id: 'vehicle-1',
-    title: 'Honda Scoopy 2023',
+    title: 'Скутер эконом-класса',
     type: 'Скутер',
     price: 300,
     priceUnit: 'день',
@@ -35,11 +35,11 @@ const vehicles: VehicleProps[] = [
       passengers: 2,
       transmission: 'Автомат',
     },
-    image: '/images/transport/scooter1.jpg'
+    image: '/images/placeholder-vehicle.jpg'
   },
   {
     id: 'vehicle-2',
-    title: 'Toyota Fortuner',
+    title: 'Внедорожник комфорт',
     type: 'Внедорожник',
     price: 2500,
     priceUnit: 'день',
@@ -49,11 +49,11 @@ const vehicles: VehicleProps[] = [
       passengers: 7,
       transmission: 'Автомат',
     },
-    image: '/images/transport/car1.jpg'
+    image: '/images/placeholder-vehicle.jpg'
   },
   {
     id: 'vehicle-3',
-    title: 'Yamaha NVX 155',
+    title: 'Скутер премиум',
     type: 'Скутер',
     price: 450,
     priceUnit: 'день',
@@ -63,11 +63,11 @@ const vehicles: VehicleProps[] = [
       passengers: 2,
       transmission: 'Автомат',
     },
-    image: '/images/transport/scooter2.jpg'
+    image: '/images/placeholder-vehicle.jpg'
   },
   {
     id: 'vehicle-4',
-    title: 'Suzuki Swift',
+    title: 'Седан эконом',
     type: 'Седан',
     price: 1200,
     priceUnit: 'день',
@@ -77,7 +77,7 @@ const vehicles: VehicleProps[] = [
       passengers: 5,
       transmission: 'Автомат',
     },
-    image: '/images/transport/car2.jpg'
+    image: '/images/placeholder-vehicle.jpg'
   },
 ];
 

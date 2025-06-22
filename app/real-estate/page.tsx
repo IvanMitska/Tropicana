@@ -8,7 +8,6 @@ import FeaturedProperties from '../components/real-estate/FeaturedProperties';
 import PropertySearchSection from '../components/real-estate/PropertySearchSection';
 import PopularLocations from '../components/real-estate/PopularLocations';
 import PropertyTypeSection from '../components/real-estate/PropertyTypeSection';
-import TestimonialsSection from '../components/real-estate/TestimonialsSection';
 import UniversalFaqSection from '../components/ui/UniversalFaqSection';
 
 export default function RealEstatePage() {
@@ -27,7 +26,6 @@ export default function RealEstatePage() {
         <FeaturedProperties />
         <PropertyTypeSection />
         <PopularLocations />
-        <TestimonialsSection />
         <UniversalFaqSection 
           title="Часто задаваемые вопросы о недвижимости"
           subtitle="НЕДВИЖИМОСТЬ ПХУКЕТА"
@@ -73,7 +71,7 @@ export default function RealEstatePage() {
             }
           ]}
           ctaText="Получить консультацию"
-          ctaLink="/contacts"
+          ctaLink="tel:+66994892917"
         />
       </main>
     </MainLayout>

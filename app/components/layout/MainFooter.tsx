@@ -16,7 +16,8 @@ import {
   Car,
   Compass,
   Heart,
-  ChevronUp
+  ChevronUp,
+  Youtube
 } from 'lucide-react';
 
 const MainFooter = () => {
@@ -78,12 +79,13 @@ const MainFooter = () => {
                 </p>
                 
                 {/* Социальные сети */}
-                <div className="flex justify-center space-x-4">
-                  {[
-                    { icon: Facebook, href: "https://facebook.com", color: "hover:bg-[#22A699]" },
-                    { icon: Instagram, href: "https://instagram.com", color: "hover:bg-[#F2BE22]" },
-                    { icon: MessageCircle, href: "https://telegram.com", color: "hover:bg-[#22A699]" }
-                  ].map(({ icon: Icon, href, color }, index) => (
+                              <div className="flex justify-center space-x-4">
+                {[
+                  { icon: Facebook, href: "https://facebook.com", color: "hover:bg-[#1877F2]" },
+                  { icon: Instagram, href: "https://www.instagram.com/phuket.dream.online/", color: "hover:bg-[#E4405F]" },
+                  { icon: MessageCircle, href: "https://t.me/phuket_dream", color: "hover:bg-[#229ED9]" },
+                  { icon: Youtube, href: "https://www.youtube.com/@Phuket_dream.online/shorts", color: "hover:bg-[#FF0000]" }
+                ].map(({ icon: Icon, href, color }, index) => (
                     <a 
                       key={index}
                       href={href} 
@@ -135,8 +137,8 @@ const MainFooter = () => {
                     },
                     { 
                       icon: Phone, 
-                      text: "+66 12 345 67 89", 
-                      href: "tel:+66123456789",
+                      text: "+66 99 489 29 17", 
+                      href: "tel:+66994892917",
                       color: "text-[#F2BE22]",
                       bgColor: "bg-[#F2BE22]/20"
                     },
@@ -177,13 +179,13 @@ const MainFooter = () => {
 
               {/* CTA кнопка */}
               <div className="text-center">
-                <Link 
-                  href="/contacts" 
-                  className="inline-flex items-center justify-center space-x-2 bg-[#22A699] hover:bg-[#1C857A] text-white px-8 py-4 rounded-xl font-medium text-base transition-all duration-300 hover:scale-105 hover:shadow-lg group w-full"
-                >
-                  <span>Связаться с нами</span>
-                  <ArrowUp size={16} className="transform rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                </Link>
+                              <a 
+                href="tel:+66994892917" 
+                className="inline-flex items-center justify-center space-x-2 bg-[#22A699] hover:bg-[#1C857A] text-white px-8 py-4 rounded-xl font-medium text-base transition-all duration-300 hover:scale-105 hover:shadow-lg group w-full"
+              >
+                                  <span>Позвонить нам</span>
+                <ArrowUp size={16} className="transform rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+              </a>
               </div>
             </div>
           </div>
@@ -201,9 +203,10 @@ const MainFooter = () => {
               {/* Социальные сети с современным дизайном */}
               <div className="flex space-x-3 md:space-x-4 justify-center md:justify-start">
                 {[
-                  { icon: Facebook, href: "https://facebook.com", color: "hover:bg-[#22A699]" },
-                  { icon: Instagram, href: "https://instagram.com", color: "hover:bg-[#F2BE22]" },
-                  { icon: MessageCircle, href: "https://telegram.com", color: "hover:bg-[#22A699]" }
+                  { icon: Facebook, href: "https://facebook.com", color: "hover:bg-[#1877F2]" },
+                  { icon: Instagram, href: "https://www.instagram.com/phuket.dream.online/", color: "hover:bg-[#E4405F]" },
+                  { icon: MessageCircle, href: "https://t.me/phuket_dream", color: "hover:bg-[#229ED9]" },
+                  { icon: Youtube, href: "https://www.youtube.com/@Phuket_dream.online/shorts", color: "hover:bg-[#FF0000]" }
                 ].map(({ icon: Icon, href, color }, index) => (
                   <a 
                     key={index}
@@ -267,8 +270,8 @@ const MainFooter = () => {
                   },
                   { 
                     icon: Phone, 
-                    text: "+66 12 345 67 89", 
-                    href: "tel:+66123456789",
+                    text: "+66 99 489 29 17", 
+                    href: "tel:+66994892917",
                     color: "text-[#F2BE22]",
                     bgColor: "bg-[#F2BE22]/20"
                   },
@@ -307,13 +310,15 @@ const MainFooter = () => {
               </div>
 
               {/* CTA кнопка */}
-              <Link 
-                href="/contacts" 
+              <a 
+                href="https://t.me/phuket_dream" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center space-x-2 bg-[#22A699] hover:bg-[#1C857A] text-white px-4 md:px-6 py-3 md:py-3 rounded-xl font-medium text-sm md:text-base transition-all duration-300 hover:scale-105 hover:shadow-lg group w-full md:w-auto"
               >
-                <span>Связаться с нами</span>
+                <span>Написать в Telegram</span>
                 <ArrowUp size={14} className="md:w-4 md:h-4 transform rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-              </Link>
+              </a>
             </div>
           </div>
           

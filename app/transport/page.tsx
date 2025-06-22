@@ -7,7 +7,6 @@ import { VehicleSearchSection } from '@/app/components/transport/VehicleSearchSe
 import { FeaturedVehicles } from '@/app/components/transport/FeaturedVehicles';
 import { VehicleTypeSection } from '@/app/components/transport/VehicleTypeSection';
 import { RentalBenefits } from '@/app/components/transport/RentalBenefits';
-import { TestimonialsSection } from '@/app/components/transport/TestimonialsSection';
 import UniversalFaqSection from '@/app/components/ui/UniversalFaqSection';
 
 export default function TransportPage() {
@@ -25,7 +24,6 @@ export default function TransportPage() {
         <FeaturedVehicles hasAnimated={hasAnimated} />
         <VehicleTypeSection hasAnimated={hasAnimated} />
         <RentalBenefits hasAnimated={hasAnimated} />
-        <TestimonialsSection hasAnimated={hasAnimated} />
         <UniversalFaqSection 
           title="Часто задаваемые вопросы об аренде транспорта"
           subtitle="АРЕНДА ТРАНСПОРТА"

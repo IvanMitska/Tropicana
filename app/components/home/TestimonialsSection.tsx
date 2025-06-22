@@ -21,7 +21,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: 'Александр К.',
     location: 'Москва',
-    avatar: '/avatars/avatar-1.jpg',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Отличный сервис! Арендовали виллу на Пхукете через данный сайт, все прошло гладко. Менеджеры всегда на связи, оперативно решают любые вопросы. Рекомендую!',
     rating: 5,
     service: 'Аренда жилья',
@@ -31,7 +31,7 @@ const testimonials: Testimonial[] = [
     id: 2,
     name: 'Екатерина М.',
     location: 'Санкт-Петербург',
-    avatar: '/avatars/avatar-2.jpg',
+    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Брали в аренду скутер на неделю. Доставили вовремя, состояние отличное. Когда возникла небольшая техническая проблема, быстро привезли замену. Все четко и без обмана.',
     rating: 5,
     service: 'Аренда транспорта',
@@ -41,7 +41,7 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: 'Сергей В.',
     location: 'Новосибирск',
-    avatar: '/avatars/avatar-3.jpg',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Отдыхали семьей на Пхукете, бронировали апартаменты через этот сайт. Жилье полностью соответствовало описанию и фото. Отличное расположение, рядом магазины и пляж.',
     rating: 4,
     service: 'Аренда жилья',
@@ -51,7 +51,7 @@ const testimonials: Testimonial[] = [
     id: 4,
     name: 'Марина Д.',
     location: 'Казань',
-    avatar: '/avatars/avatar-4.jpg',
+    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Заказывали индивидуальную экскурсию по островам. Гид профессионал своего дела, показал места, о которых не пишут в путеводителях. Впечатления незабываемые!',
     rating: 5,
     service: 'Экскурсии',
@@ -61,7 +61,7 @@ const testimonials: Testimonial[] = [
     id: 5,
     name: 'Дмитрий П.',
     location: 'Екатеринбург',
-    avatar: '/avatars/avatar-5.jpg',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Арендовали автомобиль на 10 дней. Машина была в идеальном состоянии, чистая, с полным баком. Оформление заняло минимум времени. Возврат также прошел быстро и без проблем.',
     rating: 5,
     service: 'Аренда транспорта',
@@ -71,12 +71,42 @@ const testimonials: Testimonial[] = [
     id: 6,
     name: 'Ольга С.',
     location: 'Краснодар',
-    avatar: '/avatars/avatar-6.jpg',
+    avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Большое спасибо за помощь в подборе жилья! Консультант учел все наши пожелания и подобрал идеальный вариант. Бронирование и заселение прошли без проблем.',
     rating: 5,
     service: 'Аренда жилья',
     date: '12 июня 2023'
   },
+  {
+    id: 7,
+    name: 'Алексей С.',
+    location: 'Москва',
+    avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=150&h=150&fit=crop&crop=face&auto=format',
+    text: 'Экскурсия на острова Пхи-Пхи превзошла все ожидания! Прекрасная организация, внимательный гид и потрясающие виды. Однозначно рекомендую всем!',
+    rating: 5,
+    service: 'Экскурсии',
+    date: '15 мая 2023'
+  },
+  {
+    id: 8,
+    name: 'Елена П.',
+    location: 'Санкт-Петербург',
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face&auto=format',
+    text: 'Арендовали яхту для однодневной морской прогулки. Команда была очень профессиональной, всё прошло отлично. Рекомендую этот сервис всем!',
+    rating: 5,
+    service: 'Аренда транспорта',
+    date: '22 июля 2023'
+  },
+  {
+    id: 9,
+    name: 'Ирина С.',
+    location: 'Казань',
+    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face&auto=format',
+    text: 'Рафтинг и зиплайн в джунглях - это незабываемые впечатления! Адреналин и восторг! Инструкторы очень внимательные, все прошло безопасно.',
+    rating: 4,
+    service: 'Экскурсии',
+    date: '22 июня 2023'
+  }
 ];
 
 const TestimonialsSection: React.FC = () => {
@@ -303,14 +333,14 @@ const TestimonialsSection: React.FC = () => {
             <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-primary rounded-full transition-all duration-700 delay-500 ${inView ? 'w-32 opacity-100' : 'w-0 opacity-0'}`}></span>
           </h2>
           <p className={`text-gray-600 md:text-lg transition-all duration-700 delay-400 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-            Более 1000+ довольных клиентов поделились своими впечатлениями о нашем сервисе.
-            Мы ценим каждый отзыв и постоянно работаем над улучшением качества услуг.
+            Более 1000+ довольных клиентов поделились своими впечатлениями о наших услугах.
+            От аренды недвижимости до экскурсий — мы ценим каждый отзыв и постоянно улучшаем качество сервиса.
           </p>
           <div className={`flex items-center justify-center gap-2 mt-4 transition-all duration-700 delay-500 ${inView ? 'opacity-100' : 'opacity-0'}`}>
             <MessageSquare className="text-primary w-5 h-5" style={{
               animation: 'pulse 8s ease-in-out infinite'
             }} />
-            <span className="text-gray-500 text-sm">Реальные отзывы клиентов</span>
+            <span className="text-gray-500 text-sm">Реальные отзывы о всех наших услугах</span>
           </div>
         </div>
 
