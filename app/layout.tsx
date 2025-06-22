@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Пхукет | Аренда, экскурсии и транспорт',
+  title: 'Phuket Dream | Аренда, экскурсии и транспорт',
   description: 'Платформа для аренды недвижимости, транспорта и экскурсий на Пхукете',
 };
 

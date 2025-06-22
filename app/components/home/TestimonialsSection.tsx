@@ -257,10 +257,10 @@ const TestimonialsSection: React.FC = () => {
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
               animationName: 'floatParticle',
-              animationDuration: `${Math.random() * 15 + 10}s`,
-              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${Math.random() * 20 + 25}s`,
+              animationDelay: `${Math.random() * 10}s`,
               animationIterationCount: 'infinite',
-              animationTimingFunction: 'linear',
+              animationTimingFunction: 'ease-in-out',
               animationDirection: idx % 2 === 0 ? 'alternate' : 'alternate-reverse',
             }}
           ></div>
@@ -298,7 +298,7 @@ const TestimonialsSection: React.FC = () => {
               Что говорят 
             </span>
             <span className={`text-primary inline-block transition-all duration-700 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              &nbsp;о нас
+              &nbsp;клиенты
             </span>
             <span className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-primary rounded-full transition-all duration-700 delay-500 ${inView ? 'w-32 opacity-100' : 'w-0 opacity-0'}`}></span>
           </h2>
@@ -308,7 +308,7 @@ const TestimonialsSection: React.FC = () => {
           </p>
           <div className={`flex items-center justify-center gap-2 mt-4 transition-all duration-700 delay-500 ${inView ? 'opacity-100' : 'opacity-0'}`}>
             <MessageSquare className="text-primary w-5 h-5" style={{
-              animation: 'pulse 6s linear infinite'
+              animation: 'pulse 8s ease-in-out infinite'
             }} />
             <span className="text-gray-500 text-sm">Реальные отзывы клиентов</span>
           </div>
@@ -487,12 +487,11 @@ const TestimonialsSection: React.FC = () => {
           </div>
           
           {/* Кнопка просмотра всех отзывов */}
-          <div className={`mt-10 text-center transition-all duration-700 ${inView ? 'opacity-100 translate-y-0 delay-[800ms]' : 'opacity-0 translate-y-10'}`}>
+          {/* <div className={`mt-10 text-center transition-all duration-700 ${inView ? 'opacity-100 translate-y-0 delay-[800ms]' : 'opacity-0 translate-y-10'}`}>
             <a 
               href="/testimonials" 
               className="group inline-flex items-center px-8 py-3 bg-white border border-gray-200 rounded-xl text-dark font-medium shadow-sm hover:shadow-md relative overflow-hidden transition-all duration-500 hover:bg-primary hover:text-white hover:border-primary"
             >
-              {/* Эффект блеска на кнопке */}
               <div 
                 className="absolute inset-0 transition-all duration-700 opacity-0 group-hover:opacity-100"
                 style={{
@@ -505,7 +504,7 @@ const TestimonialsSection: React.FC = () => {
               <span className="mr-2 relative z-10 transition-all duration-300 group-hover:translate-x-1">Смотреть все отзывы</span>
               <ChevronRightIcon className="w-5 h-5 transition-all duration-500 relative z-10 group-hover:translate-x-2" />
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
       
@@ -524,14 +523,16 @@ const TestimonialsSection: React.FC = () => {
         }
         
         @keyframes pulse {
-          0% { transform: scale(1); opacity: 0.5; }
-          50% { transform: scale(1.2); opacity: 0.8; }
-          100% { transform: scale(1); opacity: 0.5; }
+          0% { transform: scale(1); opacity: 0.4; }
+          50% { transform: scale(1.1); opacity: 0.7; }
+          100% { transform: scale(1); opacity: 0.4; }
         }
         
         @keyframes floatParticle {
           0% { transform: translate(0, 0); }
-          50% { transform: translate(100px, 50px); }
+          25% { transform: translate(30px, 20px); }
+          50% { transform: translate(60px, 40px); }
+          75% { transform: translate(40px, 60px); }
           100% { transform: translate(0, 0); }
         }
         

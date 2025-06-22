@@ -338,7 +338,7 @@ const BenefitsSection = () => {
         <div className={`mt-16 text-center transition-all duration-700 ease-out
                     ${inView ? 'opacity-100 translate-y-0 delay-700' : 'opacity-0 translate-y-10'}`}>
           <Link 
-            href="/about" 
+                            href="/contacts" 
             className="group inline-flex items-center bg-primary hover:bg-primary/90 text-white hover:text-white font-medium py-4 px-8 rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl relative overflow-hidden"
           >
             {/* Эффект блеска на кнопке */}
@@ -352,7 +352,7 @@ const BenefitsSection = () => {
               }}
             ></div>
             
-            <span className="relative z-10">Узнать больше о нас</span>
+                            <span className="relative z-10">Связаться с нами</span>
             <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-2 transition-all duration-300 relative z-10" />
           </Link>
         </div>

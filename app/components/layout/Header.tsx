@@ -11,7 +11,6 @@ import { Dropdown, DropdownItem } from '../ui/Dropdown';
 
 const navigation = [
   { name: 'Главная', href: '/' },
-  { name: 'О компании', href: '/about' },
   { name: 'Недвижимость', href: '/real-estate' },
   { name: 'Транспорт', href: '/transport' },
   { name: 'Туры', href: '/tours' },
@@ -80,8 +79,8 @@ export const Header = () => {
           <Link href="/" className="flex items-center">
             <div className="relative h-16 w-52">
               <Image
-                src="/images/logo.png"
-                alt="Пхукет логотип"
+                src="/images/logo-header-dream.png"
+                alt="Phuket Dream логотип"
                 fill
                 sizes="(max-width: 768px) 100vw, 256px"
                 style={{ objectFit: 'contain' }}

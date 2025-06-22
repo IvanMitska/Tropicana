@@ -391,7 +391,8 @@ export default function UserExperienceSection() {
           ))}
         </div>
 
-        {/* Процесс бронирования */}
+        {/* Процесс бронирования - временно скрыт */}
+        {/*
         <div ref={stepsRef} className="mt-24">
           <div className={`text-center max-w-3xl mx-auto mb-16 transition-all duration-700 ease-out ${stepsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <span className="inline-block text-primary font-semibold tracking-wide uppercase mb-2 animate-pulse">Простой процесс</span>
@@ -410,7 +411,6 @@ export default function UserExperienceSection() {
           </div>
 
           <div className="relative">
-            {/* Анимированная соединительная линия */}
             <div 
               className={`hidden md:block absolute top-1/2 left-0 z-0 transition-all duration-1000 ease-in-out h-0.5 bg-gradient-to-r from-primary/10 via-primary/50 to-primary/10 ${
                 stepsInView ? 'right-0 opacity-100' : 'right-full opacity-0'
@@ -436,7 +436,6 @@ export default function UserExperienceSection() {
                   onMouseEnter={() => setHoveredStep(step.id)}
                   onMouseLeave={() => setHoveredStep(null)}
                 >
-                  {/* Анимированная рамка при наведении */}
                   <div 
                     className="absolute inset-0 rounded-xl transition-all duration-700 ease-out pointer-events-none"
                     style={{
@@ -447,7 +446,6 @@ export default function UserExperienceSection() {
                     }}
                   ></div>
                   
-                  {/* Верхняя анимированная полоса */}
                   <div 
                     className={`h-1 transition-all duration-500`}
                     style={{ 
@@ -458,7 +456,6 @@ export default function UserExperienceSection() {
                   ></div>
                   
                   <div className="p-6">
-                    {/* Номер шага с анимацией */}
                     <div 
                       className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-medium text-sm mb-4 relative overflow-hidden transition-all duration-500`}
                       style={{ 
@@ -467,7 +464,6 @@ export default function UserExperienceSection() {
                         transform: hoveredStep === step.id ? 'scale(1.1)' : 'scale(1)'
                       }}
                     >
-                      {/* Эффект свечения для номера */}
                       {hoveredStep === step.id && (
                         <div 
                           className="absolute inset-0 transition-all duration-500"
@@ -498,7 +494,6 @@ export default function UserExperienceSection() {
                       {step.description}
                     </p>
                     
-                    {/* Иконка с анимацией */}
                     <div 
                       className={`flex items-center gap-2 text-sm transition-all duration-300`}
                       style={{
@@ -518,7 +513,6 @@ export default function UserExperienceSection() {
                     </div>
                   </div>
                   
-                  {/* Эффект блеска при наведении */}
                   <div 
                     className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0 transition-all duration-700"
                     style={{
@@ -532,13 +526,11 @@ export default function UserExperienceSection() {
               </div>
         </div>
 
-          {/* CTA кнопка */}
           <div className={`mt-16 text-center transition-all duration-700 ${stepsInView ? 'opacity-100 translate-y-0 delay-[800ms]' : 'opacity-0 translate-y-10'}`}>
             <Link 
               href="/book-now" 
               className="group inline-flex items-center bg-primary hover:bg-primary/90 text-white font-medium py-4 px-8 rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl relative overflow-hidden"
             >
-              {/* Эффект блеска на кнопке */}
               <div 
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700"
                 style={{
@@ -554,6 +546,7 @@ export default function UserExperienceSection() {
             </Link>
           </div>
         </div>
+        */}
       </div>
       
       {/* CSS-анимации */}

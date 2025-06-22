@@ -11,6 +11,20 @@ const MainHeader = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { user, isLoading } = useAuth();
 
+  // Блокировка скролла при открытом меню
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Очистка при размонтировании компонента
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
   // Отслеживание скролла для изменения стиля шапки
   useEffect(() => {
     // Всегда показываем хэдер, независимо от положения скролла
@@ -26,202 +40,211 @@ const MainHeader = () => {
   }, []);
 
   return (
-    <header 
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 shadow-md py-2 backdrop-blur-sm"
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between">
-          {/* Логотип */}
-          <Link href="/" className="flex items-center">
-            <div className="relative w-36 sm:w-48 h-12 sm:h-16">
-              <Image 
-                src="/images/logo.png" 
-                alt="Пхукет" 
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
+    <>
+      <header 
+        className="fixed top-0 left-0 right-0 z-[9998] transition-all duration-300 bg-white/95 shadow-md py-3 backdrop-blur-sm"
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            {/* Логотип */}
+            <Link href="/" className="flex items-center flex-shrink-0">
+              <div className="relative w-36 sm:w-44 md:w-48 h-12 sm:h-14 md:h-16">
+                <Image 
+                  src="/images/logo-header-dream.png" 
+                  alt="Phuket Dream" 
+                  fill
+                  className="object-contain object-left"
+                  priority
+                />
+              </div>
+            </Link>
 
-          {/* Навигация для десктопа */}
-          <nav className="hidden md:flex items-center space-x-4 lg:space-x-8">
-            <Link 
-              href="/real-estate" 
-              className={`relative group py-2 transition-colors ${
-                isScrolled ? 'text-dark' : 'text-white'
-              }`}
-            >
-              <span>Недвижимость</span>
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link 
-              href="/transport" 
-              className={`relative group py-2 transition-colors ${
-                isScrolled ? 'text-dark' : 'text-white'
-              }`}
-            >
-              <span>Транспорт</span>
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link 
-              href="/tours" 
-              className={`relative group py-2 transition-colors ${
-                isScrolled ? 'text-dark' : 'text-white'
-              }`}
-            >
-              <span>Экскурсии</span>
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link 
-              href="/blog" 
-              className={`relative group py-2 transition-colors ${
-                isScrolled ? 'text-dark' : 'text-white'
-              }`}
-            >
-              <span>Блог</span>
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link 
-              href="/about" 
-              className={`relative group py-2 transition-colors ${
-                isScrolled ? 'text-dark' : 'text-white'
-              }`}
-            >
-              <span>О нас</span>
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </nav>
-
-          {/* Иконки и кнопки */}
-          <div className="hidden md:flex items-center space-x-6">
-            <button className={`hover:text-primary transition-colors ${
-              isScrolled ? 'text-dark' : 'text-white'
-            }`}>
-              <Search size={20} />
-            </button>
-            
-            <Link href="/favorites" className={`hover:text-primary transition-colors ${
-              isScrolled ? 'text-dark' : 'text-white'
-            }`}>
-              <Heart size={20} />
-            </Link>
-            
-            <div className="relative">
-              <Link href="/account/bookings" className={`hover:text-primary transition-colors ${
-                isScrolled ? 'text-dark' : 'text-white'
-              }`}>
-                <ShoppingCart size={20} />
-                <span className="absolute -top-1 -right-1 bg-secondary text-dark text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  2
-                </span>
+            {/* Навигация для десктопа - по центру */}
+            <nav className="hidden md:flex items-center space-x-4 lg:space-x-8 flex-1 justify-center">
+              <Link 
+                href="/" 
+                className={`relative group py-2 transition-colors ${
+                  isScrolled ? 'text-dark' : 'text-white'
+                }`}
+              >
+                <span>Главная</span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
-            </div>
-            
-            {!isLoading && (
-              user ? (
-                <Link 
-                  href="/account" 
-                  className={`flex items-center hover:text-primary transition-colors ${
-                    isScrolled ? 'text-dark' : 'text-white'
-                  }`}
-                >
-                  <User size={20} className="mr-1" />
-                  <span className="hidden lg:inline-block">{user.name}</span>
-                </Link>
-              ) : (
-                <Link 
-                  href="/auth/login" 
-                  className={`${
-                    isScrolled 
-                      ? 'bg-primary text-white hover:bg-primary-dark' 
-                      : 'bg-white/10 text-white backdrop-blur-sm hover:bg-white/20'
-                  } py-2 px-4 rounded-lg transition-all border border-transparent`}
-                >
-                  Войти
-                </Link>
-              )
-            )}
-          </div>
+              <Link 
+                href="/real-estate" 
+                className={`relative group py-2 transition-colors ${
+                  isScrolled ? 'text-dark' : 'text-white'
+                }`}
+              >
+                <span>Недвижимость</span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              <Link 
+                href="/transport" 
+                className={`relative group py-2 transition-colors ${
+                  isScrolled ? 'text-dark' : 'text-white'
+                }`}
+              >
+                <span>Транспорт</span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+              <Link 
+                href="/tours" 
+                className={`relative group py-2 transition-colors ${
+                  isScrolled ? 'text-dark' : 'text-white'
+                }`}
+              >
+                <span>Экскурсии</span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            </nav>
 
-          {/* Мобильное меню */}
-          <button
-            className={`md:hidden hover:text-primary ${
-              isScrolled ? 'text-dark' : 'text-white'
-            }`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Меню"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Пустое место для балансировки макета */}
+            <div className="hidden md:block w-36 sm:w-44 md:w-48"></div>
+
+            {/* Анимированная кнопка бургера */}
+            <button
+              className={`md:hidden p-2 rounded-lg hover:bg-gray-100 transition-all duration-300 ${
+                isScrolled ? 'text-dark' : 'text-white'
+              }`}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Меню"
+            >
+              <div className="relative w-6 h-6">
+                {/* Анимированные линии бургера */}
+                <span className={`absolute left-0 top-1 w-6 h-0.5 bg-current transition-all duration-300 transform origin-center ${
+                  isMenuOpen ? 'rotate-45 translate-y-2' : 'rotate-0 translate-y-0'
+                }`}></span>
+                <span className={`absolute left-0 top-3 w-6 h-0.5 bg-current transition-all duration-300 ${
+                  isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+                }`}></span>
+                <span className={`absolute left-0 top-5 w-6 h-0.5 bg-current transition-all duration-300 transform origin-center ${
+                  isMenuOpen ? '-rotate-45 -translate-y-2' : 'rotate-0 translate-y-0'
+                }`}></span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Мобильная навигация - боковое меню */}
+      <div 
+        className={`md:hidden fixed inset-0 z-[99999] transition-all duration-300 ${
+          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+      >
+        {/* Темный overlay */}
+        <div 
+          className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${
+            isMenuOpen ? 'opacity-100' : 'opacity-0'
+          }`}
+          onClick={() => setIsMenuOpen(false)}
+        />
+        
+        {/* Боковая панель */}
+        <div 
+          className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transform transition-transform duration-300 ease-out ${
+            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+          {/* Заголовок меню */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-white">
+            <div className="flex items-center">
+              <div className="relative w-8 h-8 mr-3">
+                <Image 
+                  src="/images/logo-header-dream.png" 
+                  alt="Phuket Dream" 
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-dark">Phuket Dream</h3>
+                <p className="text-xs text-gray-600">Ваш отдых на Пхукете</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              <X size={20} className="text-gray-600" />
+            </button>
+          </div>
+          
+          {/* Навигационные ссылки - обновлено */}
+          <nav className="p-4 flex-1">
+            <div className="space-y-0">
+              {[
+                { 
+                  href: '/', 
+                  label: 'Главная', 
+                  icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+                },
+                { 
+                  href: '/real-estate', 
+                  label: 'Недвижимость', 
+                  icon: <Building className="w-5 h-5" />
+                },
+                { 
+                  href: '/transport', 
+                  label: 'Транспорт', 
+                  icon: <Car className="w-5 h-5" />
+                },
+                { 
+                  href: '/tours', 
+                  label: 'Экскурсии', 
+                  icon: <Compass className="w-5 h-5" />
+                }
+              ].map((item, index) => (
+                <React.Fragment key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="group flex items-center p-4 hover:bg-primary/5 transition-all duration-200 relative"
+                  >
+                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-200 mr-3">
+                      {item.icon}
+                    </div>
+                    <span className="text-base font-medium text-gray-800 group-hover:text-primary transition-colors duration-200 flex-1">
+                      {item.label}
+                    </span>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </Link>
+                  {index < 3 && (
+                    <div className="border-b border-gray-200 mx-4"></div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </nav>
+          
+          {/* Контактная информация внизу - улучшенная */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100">
+            <div className="text-center">
+              <div className="text-sm font-semibold text-gray-700 mb-3">Связаться с нами</div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-center text-xs text-gray-600">
+                  <svg className="w-3 h-3 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  info@phuketdream.com
+                </div>
+                <div className="flex items-center justify-center text-xs text-gray-600">
+                  <svg className="w-3 h-3 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  +66 123 456 789
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Мобильная навигация */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-lg mt-2 fixed top-[60px] left-0 right-0 max-h-[85vh] overflow-y-auto z-50 pb-safe">
-          <div className="container mx-auto px-4 py-4">
-            <nav className="flex flex-col space-y-4">
-              {/* Мобильные ссылки меню */}
-              <Link href="/real-estate" className="text-dark hover:text-primary py-3 border-b border-gray-100 flex items-center" onClick={() => setIsMenuOpen(false)}>
-                <Building className="mr-3 w-5 h-5 text-primary" />
-                <span>Недвижимость</span>
-              </Link>
-              <Link href="/transport" className="text-dark hover:text-primary py-3 border-b border-gray-100 flex items-center" onClick={() => setIsMenuOpen(false)}>
-                <Car className="mr-3 w-5 h-5 text-primary" />
-                <span>Транспорт</span>
-              </Link>
-              <Link href="/tours" className="text-dark hover:text-primary py-3 border-b border-gray-100 flex items-center" onClick={() => setIsMenuOpen(false)}>
-                <Compass className="mr-3 w-5 h-5 text-primary" />
-                <span>Экскурсии</span>
-              </Link>
-              <Link href="/blog" className="text-dark hover:text-primary py-3 border-b border-gray-100 flex items-center" onClick={() => setIsMenuOpen(false)}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 w-5 h-5 text-primary" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-                <span>Блог</span>
-              </Link>
-              <Link href="/about" className="text-dark hover:text-primary py-3 border-b border-gray-100 flex items-center" onClick={() => setIsMenuOpen(false)}>
-                <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 w-5 h-5 text-primary" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                <span>О нас</span>
-              </Link>
-              
-              <div className="flex flex-wrap items-center gap-4 pt-4 mt-2 border-t border-gray-100">
-                <Link href="/favorites" className="flex items-center text-dark hover:text-primary transition-colors">
-                  <Heart size={22} className="mr-2" />
-                  <span>Избранное</span>
-                </Link>
-                
-                <Link href="/account/bookings" className="flex items-center text-dark hover:text-primary transition-colors">
-                  <ShoppingCart size={22} className="mr-2" />
-                  <span>Бронирования</span>
-                </Link>
-                
-                {!isLoading && (
-                  user ? (
-                    <Link 
-                      href="/account" 
-                      className="w-full mt-3 bg-primary text-white py-3 px-4 rounded-lg hover:bg-primary-dark transition-all text-center flex items-center justify-center"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <User size={18} className="mr-2" />
-                      Личный кабинет
-                    </Link>
-                  ) : (
-                    <Link 
-                      href="/auth/login" 
-                      className="w-full mt-3 bg-primary text-white py-3 px-4 rounded-lg hover:bg-primary-dark transition-all text-center flex items-center justify-center"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 w-5 h-5" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-                      Войти
-                    </Link>
-                  )
-                )}
-              </div>
-            </nav>
-          </div>
-        </div>
-      )}
-    </header>
+    </>
   );
 };
 

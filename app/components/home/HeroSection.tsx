@@ -152,45 +152,41 @@ const HeroSection = () => {
       ))}
       
       {/* Основной контент с асимметричной компоновкой */}
-      <div className="container mx-auto px-4 relative z-10 h-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-10 h-full items-center py-10 md:py-20">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-10 h-full items-center py-16 sm:py-10 md:py-20">
           {/* Левая колонка - текст и информация */}
-          <div className="lg:col-span-6 lg:col-start-1 flex flex-col justify-center">
+          <div className="lg:col-span-6 lg:col-start-1 flex flex-col justify-center text-center sm:text-left">
             <h1 className={`text-3xl sm:text-4xl lg:text-7xl font-bold text-white leading-tight mb-4 md:mb-6 transition-all duration-700 ease-out ${hasAnimated ? 'opacity-100' : 'opacity-0'}`}>
-              {/* Wrapper for "Пхукет" and its underline, for animation and block layout */}
+              {/* Wrapper for "Phuket Dream" and its underline, for animation and block layout */}
               <span className={`block relative transition-all duration-700 delay-300 ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                <span className="text-primary">Пхукет</span>
-                {/* Underline for "Пхукет", relative to the span above */}
-                <span className="absolute -bottom-3 left-0 w-24 md:w-32 h-1 bg-primary/60 rounded-full"></span>
+                <span className="text-white">Phuket Dream</span>
+                {/* Underline for "Phuket Dream", relative to the span above */}
+                <span className="absolute -bottom-3 left-1/2 sm:left-0 transform -translate-x-1/2 sm:translate-x-0 w-24 md:w-32 h-1 bg-primary/60 rounded-full"></span>
               </span>
 
-              {/* Wrapper for "на ладони", for animation and block layout */}
-              <span className={`block transition-all duration-700 delay-[450ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                {/* text-white is inherited from h1 */}
-                на ладони
-              </span>
+
             </h1>
             
-            <p className={`text-base sm:text-xl text-light/90 max-w-xl mb-6 sm:mb-10 transition-all duration-700 delay-[800ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            <p className={`text-base sm:text-xl text-light/90 max-w-xl mx-auto sm:mx-0 mb-5 sm:mb-8 transition-all duration-700 delay-[800ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
               Аренда недвижимости, транспорта и экскурсии в одном месте для комфортного отдыха на острове
             </p>
             
             {/* Слайдер переключения услуг в карточках */}
-            <div className={`flex flex-wrap gap-2 mb-6 sm:mb-10 transition-all duration-700 delay-[1000ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            <div className={`flex flex-col xs:flex-row sm:flex-row sm:flex-wrap gap-2 sm:gap-2 mb-5 sm:mb-8 transition-all duration-700 delay-[1000ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
               {slides.map((slide, index) => (
                 <button
                   key={slide.id}
                   onClick={() => setActiveSlide(index)}
-                  className={`relative px-3 sm:px-5 py-2 sm:py-3 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+                  className={`relative px-4 sm:px-5 py-3 sm:py-3 rounded-lg text-sm sm:text-sm font-medium transition-all ${
                     index === activeSlide 
                       ? 'bg-white/10 backdrop-blur-sm text-white' 
                       : 'bg-transparent text-white/60 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <span className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ${
+                  <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-2">
+                    <span className={`w-8 h-8 sm:w-8 sm:h-8 rounded-full flex items-center justify-center ${
                       index === activeSlide
-                        ? `bg-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'}/20`
+                        ? 'bg-primary/20'
                         : 'bg-white/10'
                     }`}>
                       {slide.icon}
@@ -205,37 +201,30 @@ const HeroSection = () => {
             </div>
             
             {/* Динамическая статистика */}
-            <div className={`grid grid-cols-1 xs:grid-cols-3 gap-2 sm:gap-4 mb-6 sm:mb-10 transition-all duration-700 delay-[1200ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            <div className={`grid grid-cols-3 gap-2 xs:gap-3 sm:gap-4 mb-5 sm:mb-8 transition-all duration-700 delay-[1200ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
               {currentSlide.stats.map((stat, idx) => (
               <div 
                 key={idx} 
-                  className={`bg-white/10 backdrop-blur-sm p-3 sm:p-4 rounded-xl transition-all duration-300 hover:bg-white/15`}
+                  className={`bg-white/10 backdrop-blur-sm p-3 xs:p-4 sm:p-4 rounded-lg xs:rounded-xl transition-all duration-300 hover:bg-white/15 text-center`}
                 >
                   <div 
-                    className="text-xl sm:text-2xl font-bold text-white" 
+                    className="text-lg xs:text-xl sm:text-2xl font-bold text-white" 
                   >
                     {stat.value}
                   </div>
-                  <div className="text-xs sm:text-sm text-white font-medium">{stat.label}</div>
+                  <div className="text-xs xs:text-sm sm:text-sm text-white font-medium">{stat.label}</div>
                 </div>
               ))}
             </div>
             
             {/* Кнопки действий */}
-            <div className={`flex flex-wrap gap-3 sm:gap-4 transition-all duration-700 delay-[1400ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            <div className={`flex flex-col xs:flex-row sm:flex-row sm:flex-wrap gap-3 sm:gap-4 transition-all duration-700 delay-[1400ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
               <Link 
                 href={currentSlide.ctaLink}
-                className="group inline-flex items-center bg-primary hover:bg-primary/90 text-white hover:text-white font-medium py-2.5 sm:py-3 px-6 sm:px-8 text-sm sm:text-base rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl"
+                className="group inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white hover:text-white font-medium py-3 sm:py-3 px-8 sm:px-8 text-base sm:text-base rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl"
               >
                 <span>{currentSlide.ctaText}</span>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              
-              <Link 
-                href="/about"
-                className="inline-flex items-center bg-transparent border border-white/30 text-white hover:text-white hover:bg-white/10 font-medium py-2.5 sm:py-3 px-6 sm:px-8 text-sm sm:text-base rounded-md transition-all"
-              >
-                О компании
+                <ArrowRight className="w-5 h-5 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
@@ -266,14 +255,14 @@ const HeroSection = () => {
                     <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${slide.image}')` }}></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-dark to-transparent"></div>
                     <div className="absolute top-4 right-4">
-                      <span className={`bg-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'}/80 text-white text-xs font-bold px-3 py-1 rounded-full`}>
+                      <span className="bg-primary/80 text-white text-xs font-bold px-3 py-1 rounded-full">
                         {slide.stats[1].value}
                       </span>
                     </div>
                   </div>
                   <div className="p-6">
                     <div className="flex items-center mb-4">
-                      <span className={`bg-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'}/20 w-12 h-12 rounded-full flex items-center justify-center mr-4`}>
+                      <span className="bg-primary/20 w-12 h-12 rounded-full flex items-center justify-center mr-4">
                         {slide.icon}
                       </span>
                       <div>
@@ -284,7 +273,7 @@ const HeroSection = () => {
                     <p className="text-white/80 mb-6">{slide.description}</p>
                     <Link 
                       href={slide.ctaLink}
-                      className={`flex items-center text-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'} hover:underline`}
+                      className="flex items-center text-primary hover:underline"
                     >
                       <span>{slide.ctaText}</span>
                       <ArrowRight className="w-4 h-4 ml-2" />
@@ -306,7 +295,7 @@ const HeroSection = () => {
               onClick={() => setActiveSlide(index)}
               className={`w-3 h-3 rounded-full transition-all ${
                 index === activeSlide 
-                  ? `bg-${slide.accentColor === 'primary' ? 'primary' : slide.accentColor === 'secondary' ? 'secondary' : 'accent'} scale-110`
+                  ? 'bg-primary scale-110'
                   : 'bg-white/30 hover:bg-white/50'
               }`}
               aria-label={`Перейти к слайду ${slide.title}`}
