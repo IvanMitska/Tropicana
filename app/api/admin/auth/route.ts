@@ -4,6 +4,8 @@ import bcrypt from 'bcryptjs';
 import { connectToDatabase } from '@/lib/mongodb';
 import User from '@/app/models/User';
 
+export const dynamic = 'force-dynamic';
+
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 export async function POST(request: NextRequest) {

@@ -3,6 +3,8 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { requireAdmin } from '@/app/lib/admin-auth';
 
+export const dynamic = 'force-dynamic';
+
 const QUICK_IMAGES_FILE = join(process.cwd(), 'data', 'quick-images.json');
 
 const defaultQuickImages = [

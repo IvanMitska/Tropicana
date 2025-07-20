@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
+// Указываем, что эта страница должна рендериться динамически
+export const dynamic = 'force-dynamic';
 import AdminLayout from '@/app/components/admin/AdminLayout';
 import QuickImageReplace from '@/app/components/admin/QuickImageReplace';
 import { Button } from '@/app/components/ui/Button';

@@ -1,6 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
+// Указываем, что эта страница должна рендериться динамически
+export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { useAdmin } from '@/app/hooks/useAdmin';
 import ImageUpload from '@/app/components/admin/ImageUpload';

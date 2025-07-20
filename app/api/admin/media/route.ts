@@ -3,6 +3,8 @@ import { readdir, stat } from 'fs/promises';
 import { join } from 'path';
 import { requireAdmin } from '@/app/lib/admin-auth';
 
+export const dynamic = 'force-dynamic';
+
 async function handleGET(request: NextRequest) {
   try {
     const uploadDir = join(process.cwd(), 'public/uploads');

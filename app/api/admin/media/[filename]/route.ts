@@ -3,6 +3,8 @@ import { unlink } from 'fs/promises';
 import { join } from 'path';
 import { requireAdmin } from '@/app/lib/admin-auth';
 
+export const dynamic = 'force-dynamic';
+
 async function handleDELETE(
   request: NextRequest,
   { params }: { params: { filename: string } }

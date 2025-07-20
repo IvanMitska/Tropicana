@@ -3,6 +3,8 @@ import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { requireAdmin } from '@/app/lib/admin-auth';
 
+export const dynamic = 'force-dynamic';
+
 async function handlePOST(request: NextRequest) {
   try {
     const formData = await request.formData();

@@ -3,6 +3,8 @@ import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { requireAdmin } from '@/app/lib/admin-auth';
 
+export const dynamic = 'force-dynamic';
+
 const CONTENT_FILE = join(process.cwd(), 'data', 'site-content.json');
 
 const defaultContent = {

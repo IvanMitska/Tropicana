@@ -3,6 +3,8 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Tour } from '@/app/models/Tour';
 import { requireAdmin } from '@/app/lib/admin-auth';
 
+export const dynamic = 'force-dynamic';
+
 async function handleGET(request: NextRequest) {
   try {
     await connectToDatabase();
