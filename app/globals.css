@@ -458,6 +458,18 @@
   width: 100%;
 }
 
+/* Мобильные исправления для скролла */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  body {
+    position: relative;
+  }
+}
+
 /* Дополнительные мобильные классы */
 .mobile-full-width {
   width: 100% !important;

@@ -9,7 +9,7 @@ import {
   Mail, 
   Clock, 
   Facebook, 
-  Instagram, 
+  Instagram,
   MessageCircle,
   ArrowUp,
   Building,
@@ -176,17 +176,6 @@ const MainFooter = () => {
                   ))}
                 </div>
               </div>
-
-              {/* CTA кнопка */}
-              <div className="text-center">
-                              <a 
-                href="tel:+66994892917" 
-                className="inline-flex items-center justify-center space-x-2 bg-[#22A699] hover:bg-[#1C857A] text-white px-8 py-4 rounded-xl font-medium text-base transition-all duration-300 hover:scale-105 hover:shadow-lg group w-full"
-              >
-                                  <span>Позвонить нам</span>
-                <ArrowUp size={16} className="transform rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-              </a>
-              </div>
             </div>
           </div>
 
@@ -308,17 +297,6 @@ const MainFooter = () => {
                   </div>
                 ))}
               </div>
-
-              {/* CTA кнопка */}
-              <a 
-                href="https://t.me/phuket_dream" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center space-x-2 bg-[#22A699] hover:bg-[#1C857A] text-white px-4 md:px-6 py-3 md:py-3 rounded-xl font-medium text-sm md:text-base transition-all duration-300 hover:scale-105 hover:shadow-lg group w-full md:w-auto"
-              >
-                <span>Написать в Telegram</span>
-                <ArrowUp size={14} className="md:w-4 md:h-4 transform rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-              </a>
             </div>
           </div>
           

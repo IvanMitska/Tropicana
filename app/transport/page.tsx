@@ -3,10 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import MainLayout from '@/app/components/layout/MainLayout';
 import { TransportHero } from '@/app/components/transport/TransportHero';
-import { VehicleSearchSection } from '@/app/components/transport/VehicleSearchSection';
-import { FeaturedVehicles } from '@/app/components/transport/FeaturedVehicles';
-import { VehicleTypeSection } from '@/app/components/transport/VehicleTypeSection';
-import { RentalBenefits } from '@/app/components/transport/RentalBenefits';
+import AllVehiclesSection from '@/app/components/transport/AllVehiclesSection';
 import UniversalFaqSection from '@/app/components/ui/UniversalFaqSection';
 
 export default function TransportPage() {
@@ -18,12 +15,9 @@ export default function TransportPage() {
 
   return (
     <MainLayout>
-      <main>
+      <main className="min-h-screen">
         <TransportHero hasAnimated={hasAnimated} />
-        <VehicleSearchSection hasAnimated={hasAnimated} />
-        <FeaturedVehicles hasAnimated={hasAnimated} />
-        <VehicleTypeSection hasAnimated={hasAnimated} />
-        <RentalBenefits hasAnimated={hasAnimated} />
+        <AllVehiclesSection hasAnimated={hasAnimated} />
         <UniversalFaqSection 
           title="Часто задаваемые вопросы об аренде транспорта"
           subtitle="АРЕНДА ТРАНСПОРТА"

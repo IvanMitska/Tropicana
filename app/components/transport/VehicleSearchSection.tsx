@@ -57,14 +57,7 @@ export const VehicleSearchSection: React.FC<VehicleSearchSectionProps> = ({ hasA
   };
 
   return (
-    <section id="vehicle-search" className="py-20 relative overflow-hidden bg-light">
-      <div 
-        className="absolute inset-0 bg-[url('/images/transport/search-bg.jpg')] bg-cover bg-center opacity-20"
-      ></div>
-      
-      <div className="absolute inset-0 bg-gradient-to-r from-light/90 via-light/80 to-light/40"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-light via-light/80 to-light/90"></div>
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-light to-transparent"></div>
+    <section id="vehicle-search" className="py-20 relative overflow-hidden bg-gray-50">
       
       <div className="container mx-auto px-4 relative z-10">
         <div ref={ref} className={`transition-all duration-700 ${sectionInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -77,8 +70,8 @@ export const VehicleSearchSection: React.FC<VehicleSearchSectionProps> = ({ hasA
             </p>
           </div>
           
-          <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-lg">
-            <div className="flex flex-wrap md:flex-nowrap gap-4 mb-6">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-gray-200 shadow-lg">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap gap-3 sm:gap-4 mb-6">
               <button
                 onClick={() => setActiveVehicleType('car')}
                 className={`flex-1 p-3 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${
@@ -110,7 +103,7 @@ export const VehicleSearchSection: React.FC<VehicleSearchSectionProps> = ({ hasA
               </button>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
               <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
                 <label className="block text-gray-700 text-sm mb-1">Локация</label>
                 <div className="relative">

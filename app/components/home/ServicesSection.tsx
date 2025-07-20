@@ -29,7 +29,7 @@ const ServicesSection = () => {
       title: 'Аренда недвижимости',
       description: 'Широкий выбор апартаментов, вилл и домов для краткосрочной и долгосрочной аренды на Пхукете',
       icon: <Building size={24} />,
-      image: '/images/hero-real-estate.jpg',
+      image: 'https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&dpr=2',
       accentColor: 'primary',
       link: '/real-estate',
       stats: '500+ объектов'
@@ -39,7 +39,7 @@ const ServicesSection = () => {
       title: 'Аренда транспорта',
       description: 'Автомобили, мотоциклы, скутеры и водный транспорт для комфортного передвижения по острову',
       icon: <Car size={24} />,
-      image: '/images/hero-transport.jpg',
+      image: 'https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&dpr=2',
       accentColor: 'primary',
       link: '/transport',
       stats: '50+ моделей'
@@ -49,7 +49,7 @@ const ServicesSection = () => {
       title: 'Экскурсии',
       description: 'Увлекательные экскурсии по Пхукету и соседним островам с опытными русскоговорящими гидами',
       icon: <Compass size={24} />,
-      image: '/images/hero-bg-3.jpg',
+      image: 'https://images.pexels.com/photos/1320684/pexels-photo-1320684.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&dpr=2',
       accentColor: 'primary',
       link: '/tours',
       stats: '30+ направлений'
@@ -59,7 +59,7 @@ const ServicesSection = () => {
       title: 'Трансферы',
       description: 'Комфортные трансферы из аэропорта в отель и обратно, а также между различными точками острова',
       icon: <Plane size={24} />,
-      image: '/images/transfer-bg.jpg',
+      image: 'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&dpr=2',
       accentColor: 'primary',
       link: '/transfer',
       stats: 'От 900฿'
@@ -78,7 +78,7 @@ const ServicesSection = () => {
   };
 
   return (
-    <section id="services" className="py-16 md:py-24 bg-light relative overflow-hidden overflow-fix" ref={ref}>
+    <section id="services" className="py-16 md:py-24 bg-light relative overflow-hidden" ref={ref}>
       {/* Анимированные декоративные элементы */}
       <div 
         className={`absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl transition-all duration-[2000ms] ease-in-out ${
@@ -177,7 +177,7 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {services.map((service, index) => (
               <Link
                 key={service.id}
@@ -192,67 +192,144 @@ const ServicesSection = () => {
                 onMouseLeave={() => setHoveredService(null)}
               >
                 <div 
-                  className="relative overflow-hidden rounded-xl h-full transition-all duration-500 border border-gray-200 shadow-md hover:shadow-xl cursor-pointer"
+                  className="relative overflow-hidden rounded-2xl h-full transition-all duration-500 bg-white border border-gray-100 shadow-lg hover:shadow-2xl cursor-pointer backdrop-blur-sm"
                   style={{
-                    transform: hoveredService === service.id ? 'translateY(-8px)' : 'translateY(0)',
-                    boxShadow: hoveredService === service.id ? `0 8px 30px -5px ${getColorClass(service.accentColor, 20)}` : ''
+                    transform: hoveredService === service.id ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+                    boxShadow: hoveredService === service.id ? `0 20px 40px -10px ${getColorClass(service.accentColor, 25)}` : '0 4px 20px -2px rgba(0,0,0,0.1)'
                   }}
                 >
-                  {/* Анимированная рамка при наведении */}
+                  {/* Современный градиентный фон */}
                   <div 
-                    className="absolute inset-0 rounded-xl transition-all duration-700 ease-out pointer-events-none"
+                    className="absolute inset-0 transition-all duration-700 ease-out"
                     style={{
-                      borderWidth: hoveredService === service.id ? '2px' : '0px',
-                      borderStyle: 'solid',
-                      borderColor: getColorClass(service.accentColor, 50),
+                      background: hoveredService === service.id 
+                        ? `linear-gradient(135deg, ${getColorClass(service.accentColor, 8)} 0%, ${getColorClass(service.accentColor, 3)} 50%, transparent 100%)`
+                        : 'linear-gradient(135deg, rgba(0,0,0,0.02) 0%, transparent 100%)',
+                    }}
+                  ></div>
+                  
+                  {/* Светящийся border эффект */}
+                  <div 
+                    className="absolute inset-0 rounded-2xl transition-all duration-700 ease-out pointer-events-none"
+                    style={{
+                      background: hoveredService === service.id 
+                        ? `linear-gradient(135deg, ${getColorClass(service.accentColor, 20)}, transparent, ${getColorClass(service.accentColor, 20)})`
+                        : 'transparent',
                       opacity: hoveredService === service.id ? 1 : 0,
-                      boxSizing: 'border-box',
+                      padding: '1px',
+                      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                      WebkitMaskComposite: 'exclude',
+                      maskComposite: 'exclude'
                     }}
                   ></div>
                   
-                  {/* Фоновое изображение с улучшенной анимацией */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
-                    style={{
-                      backgroundImage: `url('${service.image}')`,
-                      opacity: hoveredService === service.id ? 0.9 : 0.15,
-                      transform: hoveredService === service.id ? 'scale(1.1) rotate(1deg)' : 'scale(1) rotate(0deg)'
-                    }}
-                  ></div>
-                  
-                  {/* Цветной градиент в зависимости от accentColor */}
-                  <div 
-                    className="absolute inset-0 transition-all duration-700" 
-                    style={{
-                      background: `linear-gradient(145deg, ${getColorClass(service.accentColor, hoveredService === service.id ? 25 : 15)}, transparent)`,
-                      opacity: hoveredService === service.id ? 1 : 0.8
-                    }}
-                  ></div>
-                  
-                  {/* Контент карточки */}
-                  <div className="p-5 md:p-6">
-                    <div className="flex items-start mb-4">
-                      <div className="mr-4 flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
-                        {service.icon}
+                  {/* Контент карточки с улучшенной структурой */}
+                  <div className="relative p-6 md:p-8 h-full flex flex-col">
+                    {/* Мини фотография с иконкой */}
+                    <div className="mb-6 relative">
+                      {/* Фоновое изображение */}
+                      <div 
+                        className="w-full h-32 rounded-2xl overflow-hidden relative transition-all duration-500"
+                        style={{
+                          transform: hoveredService === service.id ? 'scale(1.05)' : 'scale(1)',
+                        }}
+                      >
+                        <div 
+                          className="absolute inset-0 bg-cover bg-center transition-all duration-700"
+                          style={{
+                            backgroundImage: `url('${service.image}')`,
+                            filter: hoveredService === service.id ? 'brightness(1.1) saturate(1.2)' : 'brightness(0.9) saturate(1)',
+                          }}
+                        ></div>
+                        
+                        {/* Градиентный overlay */}
+                        <div 
+                          className="absolute inset-0 transition-all duration-500"
+                          style={{
+                            background: hoveredService === service.id 
+                              ? `linear-gradient(135deg, ${getColorClass(service.accentColor, 30)} 0%, ${getColorClass(service.accentColor, 10)} 50%, transparent 100%)`
+                              : 'linear-gradient(135deg, rgba(var(--color-primary), 0.4) 0%, rgba(var(--color-primary), 0.1) 50%, transparent 100%)',
+                          }}
+                        ></div>
+                        
+                        {/* Иконка поверх изображения */}
+                        <div 
+                          className="absolute top-4 left-4 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 backdrop-blur-sm z-10"
+                          style={{
+                            background: hoveredService === service.id 
+                              ? 'rgba(var(--color-primary), 0.9)'
+                              : 'rgba(255, 255, 255, 0.9)',
+                            transform: hoveredService === service.id ? 'scale(1.1) rotate(5deg)' : 'scale(1) rotate(0deg)',
+                            boxShadow: hoveredService === service.id ? '0 8px 25px -5px rgba(var(--color-primary), 0.4)' : '0 4px 15px rgba(0,0,0,0.1)'
+                          }}
+                        >
+                          <div 
+                            className="transition-all duration-500 z-20 relative"
+                            style={{
+                              color: hoveredService === service.id ? 'white' : 'rgb(var(--color-primary))',
+                              transform: hoveredService === service.id ? 'scale(1.1)' : 'scale(1)'
+                            }}
+                          >
+                            {service.icon}
+                          </div>
+                        </div>
                       </div>
-                      <h3 className="text-lg md:text-xl font-bold text-dark">{service.title}</h3>
                     </div>
                     
-                    <p className="text-sm md:text-base text-gray-600 mb-4">
+                    {/* Заголовок с улучшенной типографикой */}
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 leading-tight">
+                      {service.title}
+                    </h3>
+                    
+                    {/* Описание с лучшим контрастом */}
+                    <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
                       {service.description}
                     </p>
                     
+                    {/* Нижняя часть с статистикой и кнопкой */}
                     <div className="flex items-center justify-between mt-auto">
-                      <span className="text-xs md:text-sm font-medium text-primary bg-primary/10 py-1 px-3 rounded-full">
+                      <span 
+                        className="inline-flex items-center px-3 py-2 rounded-xl text-sm font-semibold transition-all duration-300"
+                        style={{
+                          backgroundColor: hoveredService === service.id 
+                            ? getColorClass(service.accentColor, 15)
+                            : 'rgba(var(--color-primary), 0.1)',
+                          color: hoveredService === service.id 
+                            ? getColorClass(service.accentColor, 80)
+                            : 'rgb(var(--color-primary))'
+                        }}
+                      >
                         {service.stats}
                       </span>
                       
-                      <span className="text-primary hover:text-primary-dark transition-colors flex items-center text-sm md:text-base">
+                      <div 
+                        className="inline-flex items-center text-sm font-semibold transition-all duration-300 group-hover:gap-2 gap-1"
+                        style={{
+                          color: hoveredService === service.id 
+                            ? getColorClass(service.accentColor, 80)
+                            : 'rgb(var(--color-primary))'
+                        }}
+                      >
                         Подробнее 
-                        <ArrowRight className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                      </span>
+                        <ArrowRight 
+                          className="w-4 h-4 transition-all duration-300"
+                          style={{
+                            transform: hoveredService === service.id ? 'translateX(4px) scale(1.1)' : 'translateX(0) scale(1)'
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
+                  
+                  {/* Декоративные элементы */}
+                  <div 
+                    className="absolute top-0 right-0 w-20 h-20 transition-all duration-700 ease-out"
+                    style={{
+                      background: `radial-gradient(circle, ${getColorClass(service.accentColor, 15)} 0%, transparent 70%)`,
+                      opacity: hoveredService === service.id ? 1 : 0,
+                      transform: hoveredService === service.id ? 'scale(1) translate(25%, -25%)' : 'scale(0.5) translate(50%, -50%)'
+                    }}
+                  ></div>
                 </div>
               </Link>
           ))}

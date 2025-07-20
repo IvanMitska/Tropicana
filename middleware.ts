@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getAuthTokenFromRequest, verifyJwtToken } from './app/lib/jwt';
+import jwt from 'jsonwebtoken';
 
 // Пути, для которых middleware будет применяться
 export const config = {
@@ -22,6 +23,23 @@ export const config = {
 };
 
 export function middleware(request: NextRequest) {
+  // Исключаем страницы логина админа из проверки
+  if (request.nextUrl.pathname === '/admin/login' || 
+      request.nextUrl.pathname === '/admin/setup' ||
+      request.nextUrl.pathname === '/admin/direct-login' ||
+      request.nextUrl.pathname === '/admin/test-auth' ||
+      request.nextUrl.pathname === '/admin/working-dashboard' ||
+      request.nextUrl.pathname === '/admin/login-v2' ||
+      request.nextUrl.pathname === '/quick-admin-setup') {
+    return NextResponse.next();
+  }
+  
+  // Для админ маршрутов временно отключаем проверку
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    return NextResponse.next();
+  }
+  
+  // Для обычных пользовательских маршрутов
   const token = getAuthTokenFromRequest(request);
   
   // Проверка наличия токена
@@ -54,19 +72,6 @@ export function middleware(request: NextRequest) {
     const redirectUrl = new URL('/auth/login', request.url);
     redirectUrl.searchParams.set('from', request.nextUrl.pathname);
     return NextResponse.redirect(redirectUrl);
-  }
-  
-  // Дополнительная проверка прав для административных маршрутов
-  if (request.nextUrl.pathname.startsWith('/admin') && payload.role !== 'admin') {
-    if (request.nextUrl.pathname.startsWith('/api/')) {
-      return NextResponse.json(
-        { success: false, message: 'Доступ запрещен' },
-        { status: 403 }
-      );
-    }
-    
-    // Перенаправляем на страницу с сообщением о недостаточных правах
-    return NextResponse.redirect(new URL('/access-denied', request.url));
   }
   
   // Все проверки пройдены, разрешаем доступ

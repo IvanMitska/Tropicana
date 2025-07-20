@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Vehicle, VehicleType } from '@/app/models/Vehicle';
-import { generateMockVehicles } from './mock-data';
+import { connectToDatabase } from '@/lib/mongodb';
+import { Vehicle } from '@/app/models/Vehicle';
 
 // Указываем, что этот маршрут должен рендериться динамически
 export const dynamic = 'force-dynamic';
@@ -155,8 +155,8 @@ function paginateResults(vehicles: Vehicle[], page: number, limit: number) {
 
 export async function GET(request: NextRequest) {
   try {
-    // Генерация тестовых данных
-    const allVehicles = generateMockVehicles();
+    // Подключение к базе данных
+    await connectToDatabase();
     
     // Получение параметров запроса
     const searchParams = request.nextUrl.searchParams;
@@ -179,43 +179,59 @@ export async function GET(request: NextRequest) {
     const availableTo = searchParams.get('availableTo') || undefined;
     
     // Параметры сортировки и пагинации
-    const sortOption = searchParams.get('sort') || 'popularity';
+    const sortOption = searchParams.get('sort') || 'newest';
     const page = Number(searchParams.get('page')) || 1;
     const limit = Number(searchParams.get('limit')) || 12;
     
-    // Применение фильтров
-    const filteredVehicles = applyFilters(allVehicles, {
-      type,
-      make,
-      model,
-      minYear,
-      maxYear,
-      minPrice,
-      maxPrice,
-      minCapacity,
-      maxCapacity,
-      transmission,
-      fuelType,
-      features,
-      location,
-      availableFrom,
-      availableTo,
-    });
+    const skip = (page - 1) * limit;
+
+    // Построение MongoDB фильтра
+    const filter: any = { status: 'available' };
     
-    // Применение сортировки
-    const sortedVehicles = applySortOption(filteredVehicles, sortOption);
-    
-    // Вычисление общего количества страниц
-    const totalItems = sortedVehicles.length;
-    const totalPages = Math.ceil(totalItems / limit);
-    
-    // Применение пагинации
-    const paginatedVehicles = paginateResults(sortedVehicles, page, limit);
+    if (type) filter.type = type;
+    if (make) filter.make = make;
+    if (model) filter.model = { $regex: model, $options: 'i' };
+    if (minYear) filter.year = { ...filter.year, $gte: minYear };
+    if (maxYear) filter.year = { ...filter.year, $lte: maxYear };
+    if (minPrice) filter['pricing.daily'] = { ...filter['pricing.daily'], $gte: minPrice };
+    if (maxPrice) filter['pricing.daily'] = { ...filter['pricing.daily'], $lte: maxPrice };
+    if (minCapacity) filter['specifications.capacity'] = { ...filter['specifications.capacity'], $gte: minCapacity };
+    if (maxCapacity) filter['specifications.capacity'] = { ...filter['specifications.capacity'], $lte: maxCapacity };
+    if (transmission) filter['specifications.transmission'] = transmission;
+    if (fuelType) filter['specifications.fuelType'] = fuelType;
+    if (features) filter.features = { $all: features };
+    if (location) filter['location.city'] = { $regex: location, $options: 'i' };
+
+    // Построение сортировки
+    let sort: any = { createdAt: -1 }; // по умолчанию
+    switch (sortOption) {
+      case 'price_asc':
+        sort = { 'pricing.daily': 1 };
+        break;
+      case 'price_desc':
+        sort = { 'pricing.daily': -1 };
+        break;
+      case 'newest':
+        sort = { createdAt: -1 };
+        break;
+    }
+
+    // Получение данных из базы
+    const [vehicles, total] = await Promise.all([
+      Vehicle.find(filter)
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+      Vehicle.countDocuments(filter)
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
     
     // Формирование ответа
     const response = {
-      vehicles: paginatedVehicles,
-      total: totalItems,
+      vehicles,
+      total,
       page,
       limit,
       totalPages,

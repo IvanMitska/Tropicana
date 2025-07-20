@@ -9,7 +9,6 @@ type Testimonial = {
   id: number;
   name: string;
   location: string;
-  avatar: string;
   text: string;
   rating: number;
   service: 'Аренда жилья' | 'Аренда транспорта' | 'Экскурсии';
@@ -21,7 +20,6 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: 'Александр К.',
     location: 'Москва',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Отличный сервис! Арендовали виллу на Пхукете через данный сайт, все прошло гладко. Менеджеры всегда на связи, оперативно решают любые вопросы. Рекомендую!',
     rating: 5,
     service: 'Аренда жилья',
@@ -31,7 +29,6 @@ const testimonials: Testimonial[] = [
     id: 2,
     name: 'Екатерина М.',
     location: 'Санкт-Петербург',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Брали в аренду скутер на неделю. Доставили вовремя, состояние отличное. Когда возникла небольшая техническая проблема, быстро привезли замену. Все четко и без обмана.',
     rating: 5,
     service: 'Аренда транспорта',
@@ -41,7 +38,6 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: 'Сергей В.',
     location: 'Новосибирск',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Отдыхали семьей на Пхукете, бронировали апартаменты через этот сайт. Жилье полностью соответствовало описанию и фото. Отличное расположение, рядом магазины и пляж.',
     rating: 4,
     service: 'Аренда жилья',
@@ -51,7 +47,6 @@ const testimonials: Testimonial[] = [
     id: 4,
     name: 'Марина Д.',
     location: 'Казань',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Заказывали индивидуальную экскурсию по островам. Гид профессионал своего дела, показал места, о которых не пишут в путеводителях. Впечатления незабываемые!',
     rating: 5,
     service: 'Экскурсии',
@@ -61,7 +56,6 @@ const testimonials: Testimonial[] = [
     id: 5,
     name: 'Дмитрий П.',
     location: 'Екатеринбург',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Арендовали автомобиль на 10 дней. Машина была в идеальном состоянии, чистая, с полным баком. Оформление заняло минимум времени. Возврат также прошел быстро и без проблем.',
     rating: 5,
     service: 'Аренда транспорта',
@@ -71,7 +65,6 @@ const testimonials: Testimonial[] = [
     id: 6,
     name: 'Ольга С.',
     location: 'Краснодар',
-    avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Большое спасибо за помощь в подборе жилья! Консультант учел все наши пожелания и подобрал идеальный вариант. Бронирование и заселение прошли без проблем.',
     rating: 5,
     service: 'Аренда жилья',
@@ -81,7 +74,6 @@ const testimonials: Testimonial[] = [
     id: 7,
     name: 'Алексей С.',
     location: 'Москва',
-    avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Экскурсия на острова Пхи-Пхи превзошла все ожидания! Прекрасная организация, внимательный гид и потрясающие виды. Однозначно рекомендую всем!',
     rating: 5,
     service: 'Экскурсии',
@@ -91,7 +83,6 @@ const testimonials: Testimonial[] = [
     id: 8,
     name: 'Елена П.',
     location: 'Санкт-Петербург',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Арендовали яхту для однодневной морской прогулки. Команда была очень профессиональной, всё прошло отлично. Рекомендую этот сервис всем!',
     rating: 5,
     service: 'Аренда транспорта',
@@ -101,7 +92,6 @@ const testimonials: Testimonial[] = [
     id: 9,
     name: 'Ирина С.',
     location: 'Казань',
-    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face&auto=format',
     text: 'Рафтинг и зиплайн в джунглях - это незабываемые впечатления! Адреналин и восторг! Инструкторы очень внимательные, все прошло безопасно.',
     rating: 4,
     service: 'Экскурсии',
@@ -187,22 +177,22 @@ const TestimonialsSection: React.FC = () => {
     return indicators;
   };
 
-  // Автопрокрутка
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (activeIndex < maxIndex) {
-        nextSlide();
-      } else {
-        setSlideDirection('right');
-        setTimeout(() => {
-          setActiveIndex(0);
-          setSlideDirection(null);
-        }, 300);
-      }
-    }, 6000);
+  // Автопрокрутка отключена
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (activeIndex < maxIndex) {
+  //       nextSlide();
+  //     } else {
+  //       setSlideDirection('right');
+  //       setTimeout(() => {
+  //         setActiveIndex(0);
+  //         setSlideDirection(null);
+  //       }, 300);
+  //     }
+  //   }, 6000);
 
-    return () => clearInterval(interval);
-  }, [activeIndex, maxIndex]);
+  //   return () => clearInterval(interval);
+  // }, [activeIndex, maxIndex]);
 
   // Функция для отрисовки звездочек рейтинга
   const renderStars = (rating: number) => {
@@ -374,27 +364,6 @@ const TestimonialsSection: React.FC = () => {
                 ></div>
                 
                 <div className="flex items-center gap-3 mb-4">
-                  <div className={`relative w-12 h-12 rounded-full overflow-hidden border-2 transition-all duration-300 ${
-                    hoveredCard === testimonial.id ? 'border-primary scale-110' : 'border-white scale-100'
-                  }`}>
-                    <Image 
-                      src={testimonial.avatar} 
-                      alt={testimonial.name} 
-                      width={48} 
-                      height={48} 
-                      className="object-cover" 
-                    />
-                    {/* Эффект свечения для аватара */}
-                    {hoveredCard === testimonial.id && (
-                      <div 
-                        className="absolute inset-0 transition-all duration-500"
-                        style={{
-                          background: `radial-gradient(circle at center, rgba(var(--color-primary), 0.3) 0%, transparent 70%)`,
-                          animation: 'pulse 2s infinite ease-in-out'
-                        }}
-                      ></div>
-                    )}
-                  </div>
                   <div className="flex-1">
                     <h4 
                       className="font-semibold text-gray-900 transition-all duration-300"

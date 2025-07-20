@@ -12,52 +12,61 @@ const MainHeader = () => {
   const [headerHeight, setHeaderHeight] = useState(80);
   const { user, isLoading } = useAuth();
 
-  // Блокировка скролла при открытом меню
+  // Блокировка скролла при открытом меню только на мобильных устройствах
   useEffect(() => {
-    if (isMenuOpen) {
+    if (isMenuOpen && window.innerWidth < 768) {
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
     }
     
     // Очистка при размонтировании компонента
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
     };
   }, [isMenuOpen]);
 
   // Отслеживание скролла для изменения стиля шапки
   useEffect(() => {
-    // Всегда показываем хэдер, независимо от положения скролла
-    setIsScrolled(true);
-    
     const handleScroll = () => {
-      // Хэдер всегда виден, меняется только стиль
-      setIsScrolled(true);
+      setIsScrolled(window.scrollY > 0);
     };
+
+    // Проверяем начальное состояние
+    handleScroll();
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Получение реальной высоты хедера
+  // Получение реальной высоты хедера и закрытие меню при ресайзе
   useEffect(() => {
     const updateHeaderHeight = () => {
       const header = document.querySelector('header');
       if (header) {
         setHeaderHeight(header.offsetHeight);
       }
+      // Закрываем меню при переходе на десктоп
+      if (window.innerWidth >= 768 && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
     };
 
     updateHeaderHeight();
     window.addEventListener('resize', updateHeaderHeight);
     return () => window.removeEventListener('resize', updateHeaderHeight);
-  }, []);
+  }, [isMenuOpen]);
 
   return (
     <>
       <header 
-        className="fixed top-0 left-0 right-0 z-[9998] transition-all duration-300 bg-white/95 shadow-md py-3 backdrop-blur-sm"
+        className="fixed top-0 left-0 right-0 z-[9998] transition-all duration-300 bg-white/95 py-3 backdrop-blur-sm"
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
@@ -78,50 +87,51 @@ const MainHeader = () => {
             <nav className="hidden md:flex items-center space-x-4 lg:space-x-8 flex-1 justify-center">
               <Link 
                 href="/" 
-                className={`relative group py-2 transition-colors ${
-                  isScrolled ? 'text-dark' : 'text-white'
-                }`}
+                className="relative group py-2 transition-colors text-gray-800 hover:text-primary"
               >
                 <span>Главная</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link 
                 href="/real-estate" 
-                className={`relative group py-2 transition-colors ${
-                  isScrolled ? 'text-dark' : 'text-white'
-                }`}
+                className="relative group py-2 transition-colors text-gray-800 hover:text-primary"
               >
                 <span>Недвижимость</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link 
                 href="/transport" 
-                className={`relative group py-2 transition-colors ${
-                  isScrolled ? 'text-dark' : 'text-white'
-                }`}
+                className="relative group py-2 transition-colors text-gray-800 hover:text-primary"
               >
                 <span>Транспорт</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
               <Link 
                 href="/tours" 
-                className={`relative group py-2 transition-colors ${
-                  isScrolled ? 'text-dark' : 'text-white'
-                }`}
+                className="relative group py-2 transition-colors text-gray-800 hover:text-primary"
               >
                 <span>Экскурсии</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
             </nav>
 
-            {/* Пустое место для балансировки макета */}
-            <div className="hidden md:block w-36 sm:w-44 md:w-48"></div>
+            {/* Кнопка админ панели для десктопа */}
+            <div className="hidden md:flex items-center justify-end w-36 sm:w-44 md:w-48">
+              <Link 
+                href="/admin/login" 
+                className="group p-2 rounded-lg hover:bg-gray-100/10 transition-all duration-300"
+                title="Админ панель"
+              >
+                <svg className="w-5 h-5 text-gray-600 hover:text-primary transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </Link>
+            </div>
 
             {/* Анимированная кнопка бургера */}
             <button
-              className={`md:hidden p-2 rounded-lg hover:bg-gray-100 transition-all duration-300 ${
-                isScrolled ? 'text-dark' : 'text-white'
-              }`}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-all duration-300 text-gray-700"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Меню"
             >
@@ -188,6 +198,11 @@ const MainHeader = () => {
                   href: '/tours', 
                   label: 'Экскурсии', 
                   icon: <Compass className="w-5 h-5" />
+                },
+                { 
+                  href: '/admin/login', 
+                  label: 'Админ панель', 
+                  icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                 }
               ].map((item, index) => (
                 <React.Fragment key={item.href}>
@@ -208,7 +223,7 @@ const MainHeader = () => {
                       </svg>
                     </div>
                   </Link>
-                  {index < 3 && (
+                  {index < 4 && (
                     <div className="border-b border-gray-200 mx-4"></div>
                   )}
                 </React.Fragment>

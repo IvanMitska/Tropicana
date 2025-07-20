@@ -4,9 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import MainLayout from '../components/layout/MainLayout';
 import ToursHero from '../components/tours/ToursHero';
-import TourSearch from '../components/tours/TourSearch';
-import PopularTours from '../components/tours/PopularTours';
-import TourTypeSection from '../components/tours/TourTypeSection';
+import AllToursSection from '../components/tours/AllToursSection';
 import UniversalFaqSection from '../components/ui/UniversalFaqSection';
 
 export default function ToursPage() {
@@ -21,9 +19,7 @@ export default function ToursPage() {
     <MainLayout>
       <main className="min-h-screen">
         <ToursHero hasAnimated={hasAnimated} />
-        <TourSearch />
-        <PopularTours />
-        <TourTypeSection />
+        <AllToursSection hasAnimated={hasAnimated} />
         <UniversalFaqSection 
           title="Часто задаваемые вопросы о турах"
           subtitle="ТУРЫ И ЭКСКУРСИИ"

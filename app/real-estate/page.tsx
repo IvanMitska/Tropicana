@@ -4,10 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import MainLayout from '../components/layout/MainLayout';
 import RealEstateHero from '../components/real-estate/RealEstateHero';
-import FeaturedProperties from '../components/real-estate/FeaturedProperties';
-import PropertySearchSection from '../components/real-estate/PropertySearchSection';
-import PopularLocations from '../components/real-estate/PopularLocations';
-import PropertyTypeSection from '../components/real-estate/PropertyTypeSection';
+import AllPropertiesSection from '../components/real-estate/AllPropertiesSection';
 import UniversalFaqSection from '../components/ui/UniversalFaqSection';
 
 export default function RealEstatePage() {
@@ -22,10 +19,7 @@ export default function RealEstatePage() {
     <MainLayout>
       <main className="min-h-screen">
         <RealEstateHero hasAnimated={hasAnimated} />
-        <PropertySearchSection />
-        <FeaturedProperties />
-        <PropertyTypeSection />
-        <PopularLocations />
+        <AllPropertiesSection hasAnimated={hasAnimated} />
         <UniversalFaqSection 
           title="Часто задаваемые вопросы о недвижимости"
           subtitle="НЕДВИЖИМОСТЬ ПХУКЕТА"

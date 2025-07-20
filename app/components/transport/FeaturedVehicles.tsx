@@ -366,7 +366,7 @@ export const FeaturedVehicles: React.FC<FeaturedVehiclesProps> = ({ hasAnimated 
           inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
           <Link
-            href="/transport/catalog"
+            href="/catalog"
             className="inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all font-medium relative overflow-hidden group"
           >
             <span className="relative z-10 flex items-center">

@@ -4,16 +4,22 @@ import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Search, MapPin, BedDouble, Bath, Wallet, Home, Grid, Grid2X2, Calendar } from 'lucide-react';
 
-const PropertySearchSection: React.FC = () => {
+interface PropertySearchSectionProps {
+  hasAnimated: boolean;
+}
+
+const PropertySearchSection: React.FC<PropertySearchSectionProps> = ({ hasAnimated }) => {
   const [activeTab, setActiveTab] = useState<'rent' | 'buy'>('rent');
   const [numBedrooms, setNumBedrooms] = useState<string>('any');
   const [priceRange, setPriceRange] = useState<[number, number]>([15000, 100000]);
   const [location, setLocation] = useState<string>('');
   
-  const { ref, inView } = useInView({
-    triggerOnce: false,
-    threshold: 0.2,
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
   });
+
+  const sectionInView = inView && hasAnimated;
 
   const bedroomOptions = [
     { value: 'any', label: 'Любое' },
@@ -57,96 +63,72 @@ const PropertySearchSection: React.FC = () => {
   };
 
   return (
-    <section 
-      id="property-search"
-      ref={ref}
-      className="py-20 bg-gradient-to-b from-dark via-dark/95 to-dark/90 relative overflow-hidden"
-    >
-      {/* Декоративные элементы */}
-      <div className="absolute -top-32 -right-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
+    <section id="property-search" className="py-20 relative overflow-hidden bg-gray-50">
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className={`text-center max-w-3xl mx-auto mb-12 transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Найдите идеальный вариант <span className="text-primary">для проживания</span>
-          </h2>
-          <p className="text-light/70 text-lg">
-            Используйте наш удобный фильтр для поиска недвижимости, соответствующей вашим требованиям
-          </p>
-        </div>
-        
-        <div className={`bg-white/5 backdrop-blur-md rounded-xl shadow-xl overflow-hidden transition-all duration-700 delay-300 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="p-6">
-            {/* Переключатель типа */}
-            <div className="flex justify-center mb-8">
-              <div className="bg-white/10 backdrop-blur-sm rounded-full p-1 inline-flex">
-                <button
-                  onClick={() => setActiveTab('rent')}
-                  className={`rounded-full px-6 py-2 text-sm font-medium transition-all ${
-                    activeTab === 'rent' 
-                      ? 'bg-primary text-white shadow-md' 
-                      : 'text-white/70 hover:text-white'
-                  }`}
-                >
-                  Аренда
-                </button>
-                <button
-                  onClick={() => setActiveTab('buy')}
-                  className={`rounded-full px-6 py-2 text-sm font-medium transition-all ${
-                    activeTab === 'buy' 
-                      ? 'bg-primary text-white shadow-md' 
-                      : 'text-white/70 hover:text-white'
-                  }`}
-                >
-                  Покупка
-                </button>
-              </div>
+        <div ref={ref} className={`transition-all duration-700 ${sectionInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-dark mb-4">
+              Найдите идеальный вариант <span className="text-primary">для проживания</span>
+            </h2>
+            <p className="text-dark/70 text-lg">
+              Используйте наш удобный фильтр для поиска недвижимости, соответствующей вашим требованиям
+            </p>
+          </div>
+          
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-gray-200 shadow-lg">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap lg:flex-nowrap gap-3 sm:gap-4 mb-6">
+              <button
+                onClick={() => setActiveTab('rent')}
+                className={`flex-1 p-3 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${
+                  activeTab === 'rent' ? 'bg-primary text-white font-medium' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <Home className={`w-5 h-5 ${activeTab === 'rent' ? 'animate-bounce' : ''}`} style={{animationDuration: '2s'}} />
+                <span>Аренда</span>
+              </button>
+              
+              <button
+                onClick={() => setActiveTab('buy')}
+                className={`flex-1 p-3 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 transform hover:scale-105 ${
+                  activeTab === 'buy' ? 'bg-primary text-white font-medium' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <Wallet className={`w-5 h-5 ${activeTab === 'buy' ? 'animate-bounce' : ''}`} style={{animationDuration: '2s'}} />
+                <span>Покупка</span>
+              </button>
             </div>
             
-            {/* Форма поиска */}
-            <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Локация */}
-              <div className="space-y-2">
-                <label className="block text-white text-sm font-medium mb-2 flex items-center">
-                  <MapPin className="w-4 h-4 mr-2 text-primary" />
-                  Район
-                </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                <label className="block text-gray-700 text-sm mb-1">Район</label>
                 <div className="relative">
-                  <select
+                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 transition-colors duration-300 group-hover:text-primary" />
+                  <select 
+                    className="w-full bg-white border border-gray-300 text-gray-700 py-2 pl-10 pr-3 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300 group"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="block w-full bg-white/10 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent appearance-none"
                   >
                     <option value="">Любой район</option>
                     {locationOptions.map((loc) => (
-                      <option key={loc} value={loc} className="bg-dark text-white">{loc}</option>
+                      <option key={loc} value={loc}>{loc}</option>
                     ))}
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
                 </div>
               </div>
               
-              {/* Количество спален */}
-              <div className="space-y-2">
-                <label className="block text-white text-sm font-medium mb-2 flex items-center">
-                  <BedDouble className="w-4 h-4 mr-2 text-primary" />
-                  Спальни
-                </label>
-                <div className="grid grid-cols-5 gap-2">
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                <label className="block text-gray-700 text-sm mb-1">Спальни</label>
+                <div className="grid grid-cols-5 gap-1">
                   {bedroomOptions.map((option) => (
                     <button
                       key={option.value}
                       type="button"
                       onClick={() => setNumBedrooms(option.value)}
-                      className={`py-2 rounded-lg text-sm transition-all ${
+                      className={`py-1 px-2 rounded text-xs transition-all duration-300 ${
                         numBedrooms === option.value
                           ? 'bg-primary text-white'
-                          : 'bg-white/10 text-white/70 hover:bg-white/20'
+                          : 'bg-white text-gray-700 hover:bg-gray-100'
                       }`}
                     >
                       {option.label}
@@ -155,62 +137,78 @@ const PropertySearchSection: React.FC = () => {
                 </div>
               </div>
               
-              {/* Ценовой диапазон */}
-              <div className="space-y-2">
-                <label className="block text-white text-sm font-medium mb-2 flex items-center">
-                  <Wallet className="w-4 h-4 mr-2 text-primary" />
-                  Бюджет (฿ в месяц)
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="relative">
-                    <input
-                      type="number"
-                      name="min"
-                      value={priceRange[0]}
-                      onChange={handlePriceChange}
-                      placeholder="Мин."
-                      className="block w-full bg-white/10 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent"
-                    />
-                  </div>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      name="max"
-                      value={priceRange[1]}
-                      onChange={handlePriceChange}
-                      placeholder="Макс."
-                      className="block w-full bg-white/10 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent"
-                    />
-                  </div>
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                <label className="block text-gray-700 text-sm mb-1">Бюджет (฿)</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="number"
+                    name="min"
+                    value={priceRange[0]}
+                    onChange={handlePriceChange}
+                    placeholder="Мин."
+                    className="w-full bg-white border border-gray-300 text-gray-700 py-1 px-2 rounded text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300"
+                  />
+                  <input
+                    type="number"
+                    name="max"
+                    value={priceRange[1]}
+                    onChange={handlePriceChange}
+                    placeholder="Макс."
+                    className="w-full bg-white border border-gray-300 text-gray-700 py-1 px-2 rounded text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300"
+                  />
                 </div>
               </div>
               
-              {/* Кнопка поиска */}
-              <div className="flex items-end">
-                <button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all flex items-center justify-center group"
-                >
-                  <Search className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                  Найти
-                </button>
-              </div>
-            </form>
-            
-            {/* Дополнительные фильтры (скрытые) */}
-            <div className="mt-6 pt-6 border-t border-white/10">
-              <button 
-                className="text-white/70 hover:text-white text-sm flex items-center transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  <Grid2X2 className="w-4 h-4" />
-                  <span>Дополнительные фильтры</span>
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+                <label className="block text-gray-700 text-sm mb-1">Дополнительно</label>
+                <div className="relative">
+                  <Grid2X2 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 transition-colors duration-300 group-hover:text-primary" />
+                  <select 
+                    className="w-full bg-white border border-gray-300 text-gray-700 py-2 pl-10 pr-3 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300 group"
+                  >
+                    <option value="">Все опции</option>
+                    <option value="pool">Бассейн</option>
+                    <option value="gym">Спортзал</option>
+                    <option value="parking">Парковка</option>
+                    <option value="security">Охрана</option>
+                  </select>
                 </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-center">
+              <button 
+                onClick={handleSearch}
+                className="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-lg transition-all flex items-center group hover:scale-105 duration-300 shadow-lg relative overflow-hidden"
+              >
+                <span className="relative z-10 flex items-center">
+                  <Search className="w-5 h-5 mr-2 transition-transform group-hover:rotate-12 duration-300" />
+                  <span>Найти недвижимость</span>
+                </span>
+                <span className="absolute top-0 left-0 w-full h-0 bg-white/20 transition-height duration-300 group-hover:h-full"></span>
               </button>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Плавающие декоративные элементы */}
+      <div className="absolute -bottom-10 right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl" 
+           style={{ animation: 'pulse 8s infinite ease-in-out' }}></div>
+      <div className="absolute -top-10 left-10 w-32 h-32 bg-primary/5 rounded-full blur-2xl"
+           style={{ animation: 'pulse 6s infinite ease-in-out' }}></div>
+           
+      {/* CSS для анимаций */}
+      <style jsx global>{`
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .transition-height {
+          transition-property: height;
+        }
+      `}</style>
     </section>
   );
 };
