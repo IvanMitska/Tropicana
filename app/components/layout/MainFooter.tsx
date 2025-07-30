@@ -81,20 +81,18 @@ const MainFooter = () => {
                 {/* Социальные сети */}
                               <div className="flex justify-center space-x-4">
                 {[
-                  { icon: Facebook, href: "https://facebook.com", color: "hover:bg-[#1877F2]" },
-                  { icon: Instagram, href: "https://www.instagram.com/phuket.dream.online/", color: "hover:bg-[#E4405F]" },
-                  { icon: MessageCircle, href: "https://t.me/phuket_dream", color: "hover:bg-[#229ED9]" },
-                  { icon: Youtube, href: "https://www.youtube.com/@Phuket_dream.online/shorts", color: "hover:bg-[#FF0000]" }
-                ].map(({ icon: Icon, href, color }, index) => (
-                    <a 
+                  { icon: Facebook, name: "Facebook" },
+                  { icon: Instagram, name: "Instagram" },
+                  { icon: MessageCircle, name: "Telegram" },
+                  { icon: Youtube, name: "YouTube" }
+                ].map(({ icon: Icon, name }, index) => (
+                    <div 
                       key={index}
-                      href={href} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className={`w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg ${color} group`}
+                      className="w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center transition-all duration-300 opacity-50 cursor-not-allowed group"
+                      title={`${name} - скоро будет доступно`}
                     >
-                      <Icon size={20} className="text-white group-hover:scale-110 transition-transform duration-300" />
-                    </a>
+                      <Icon size={20} className="text-white/60" />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -185,20 +183,18 @@ const MainFooter = () => {
               {/* Социальные сети с современным дизайном */}
               <div className="flex space-x-3 md:space-x-4 justify-center md:justify-start">
                 {[
-                  { icon: Facebook, href: "https://facebook.com", color: "hover:bg-[#1877F2]" },
-                  { icon: Instagram, href: "https://www.instagram.com/phuket.dream.online/", color: "hover:bg-[#E4405F]" },
-                  { icon: MessageCircle, href: "https://t.me/phuket_dream", color: "hover:bg-[#229ED9]" },
-                  { icon: Youtube, href: "https://www.youtube.com/@Phuket_dream.online/shorts", color: "hover:bg-[#FF0000]" }
-                ].map(({ icon: Icon, href, color }, index) => (
-                  <a 
+                  { icon: Facebook, name: "Facebook" },
+                  { icon: Instagram, name: "Instagram" },
+                  { icon: MessageCircle, name: "Telegram" },
+                  { icon: Youtube, name: "YouTube" }
+                ].map(({ icon: Icon, name }, index) => (
+                  <div 
                     key={index}
-                    href={href} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className={`w-11 h-11 md:w-12 md:h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg ${color} group`}
+                    className="w-11 h-11 md:w-12 md:h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center transition-all duration-300 opacity-50 cursor-not-allowed group"
+                    title={`${name} - скоро будет доступно`}
                   >
-                    <Icon size={18} className="md:w-5 md:h-5 text-white group-hover:scale-110 transition-transform duration-300" />
-                  </a>
+                    <Icon size={18} className="md:w-5 md:h-5 text-white/60" />
+                  </div>
                 ))}
               </div>
             </div>

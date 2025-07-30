@@ -14,12 +14,12 @@ const SimilarTours: React.FC<SimilarToursProps> = () => {
       <p className="text-gray-600">
         Свяжитесь с нами для получения информации о других экскурсиях.
       </p>
-      <a 
-        href="https://wa.me/66994892917" 
-        className="inline-block mt-4 bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors"
+      <div 
+        className="inline-block mt-4 bg-primary/50 text-white/60 px-6 py-2 rounded-lg transition-colors opacity-50 cursor-not-allowed"
+        title="Контакты - скоро будет доступно"
       >
-        Написать в WhatsApp
-      </a>
+        Связаться с нами
+      </div>
     </div>
   );
 };

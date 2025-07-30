@@ -43,12 +43,12 @@ const TourBookingWidget: React.FC<TourBookingWidgetProps> = ({ tour }) => {
         </div>
       </div>
 
-      <a 
-        href="https://wa.me/66994892917?text=Здравствуйте! Хотел бы забронировать экскурсию"
-        className="block w-full bg-primary hover:bg-primary-dark text-white text-center py-3 rounded-lg transition-colors font-medium"
+      <div 
+        className="block w-full bg-primary/50 text-white/60 text-center py-3 rounded-lg transition-colors font-medium opacity-50 cursor-not-allowed"
+        title="Бронирование - скоро будет доступно"
       >
-        Забронировать в WhatsApp
-      </a>
+        Забронировать
+      </div>
 
       <div className="mt-4 text-xs text-gray-500 text-center">
         Бесплатная отмена за 24 часа до начала

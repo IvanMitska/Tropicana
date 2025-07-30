@@ -258,12 +258,12 @@ export default function CatamaransPage() {
                     )}
                   </div>
                   
-                  <Link 
-                    href={`https://wa.me/66994892917?text=Здравствуйте! Интересует ${boat.title}`}
-                    className="block w-full bg-primary hover:bg-primary-dark text-white text-center py-2.5 rounded-lg transition-all duration-300 font-medium text-sm"
+                  <div 
+                    className="block w-full bg-primary/50 text-white/60 text-center py-2.5 rounded-lg transition-all duration-300 font-medium text-sm opacity-50 cursor-not-allowed"
+                    title="Подробности - скоро будет доступно"
                   >
                     Подробнее
-                  </Link>
+                  </div>
                 </div>
               </div>
             ))}
@@ -310,12 +310,12 @@ export default function CatamaransPage() {
                     </div>
                   )}
                   
-                  <Link 
-                    href={`https://wa.me/66994892917?text=Здравствуйте! Интересует ${boat.title}`}
-                    className="block w-full bg-primary hover:bg-primary-dark text-white text-center py-2.5 rounded-lg transition-all duration-300 font-medium text-sm"
+                  <div 
+                    className="block w-full bg-primary/50 text-white/60 text-center py-2.5 rounded-lg transition-all duration-300 font-medium text-sm opacity-50 cursor-not-allowed"
+                    title="Подробности - скоро будет доступно"
                   >
                     Подробнее
-                  </Link>
+                  </div>
                 </div>
               </div>
             ))}
@@ -367,12 +367,12 @@ export default function CatamaransPage() {
             Забронируйте катамаран уже сегодня и откройте для себя красоту Андаманского моря
           </p>
           <div className="flex justify-center">
-            <a 
-              href="https://wa.me/66994892917" 
-              className="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg transition-all duration-300 font-medium inline-flex items-center gap-2"
+            <div 
+              className="bg-white/50 text-primary/60 px-8 py-3 rounded-lg transition-all duration-300 font-medium inline-flex items-center gap-2 opacity-50 cursor-not-allowed"
+              title="Контакты - скоро будет доступно"
             >
-              Написать в WhatsApp
-            </a>
+              Связаться с нами
+            </div>
           </div>
         </div>
       </section>
