@@ -380,24 +380,12 @@ const FaqSection = () => {
               ></div>
               <span className="relative z-10 transition-all duration-300 group-hover:translate-x-1">Все вопросы и ответы</span>
             </a>
-            <a 
-              href="https://t.me/phuket_dream" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-md shadow-lg transition-all hover:shadow-primary/20 hover:shadow-xl relative overflow-hidden group"
+            <div 
+              className="inline-flex items-center bg-primary/50 text-white/60 font-medium py-3 px-8 rounded-md shadow-lg transition-all relative overflow-hidden opacity-50 cursor-not-allowed"
+              title="Контакты - скоро будет доступно"
             >
-              {/* Эффект блеска на кнопке */}
-              <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-700"
-                style={{
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
-                  left: '-100%',
-                  top: '0',
-                  animation: 'shine 2s infinite linear',
-                }}
-              ></div>
-              <span className="relative z-10 transition-all duration-300 group-hover:translate-x-1">Написать в Telegram</span>
-            </a>
+              <span className="relative z-10">Связаться с нами</span>
+            </div>
           </div>
         </div>
       </div>

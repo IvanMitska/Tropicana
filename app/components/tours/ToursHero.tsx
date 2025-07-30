@@ -93,14 +93,12 @@ const ToursHero: React.FC<ToursHeroProps> = ({ hasAnimated }) => {
               </svg>
             </a>
             
-            <a 
-              href="https://t.me/phuket_dream"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center bg-transparent border border-white/30 text-white hover:bg-white/10 font-medium py-3 px-8 rounded-md transition-all"
+            <div 
+              className="inline-flex items-center bg-transparent border border-white/30 text-white/50 font-medium py-3 px-8 rounded-md transition-all opacity-50 cursor-not-allowed"
+              title="Контакты - скоро будет доступно"
             >
-              Написать в Telegram
-            </a>
+              Связаться с нами
+            </div>
           </div>
           
           {/* Преимущества в одну строку для мобильных */}
