@@ -3,14 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '@/app/hooks/useAuth';
 import { MapPin, Menu, X, User, Search, ShoppingCart, Heart, Building, Car, Compass } from 'lucide-react';
 
 const MainHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(80);
-  const { user, isLoading } = useAuth();
 
   // Блокировка скролла при открытом меню только на мобильных устройствах
   useEffect(() => {
@@ -74,8 +72,8 @@ const MainHeader = () => {
             <Link href="/" className="flex items-center flex-shrink-0">
               <div className="relative w-36 sm:w-44 md:w-48 h-12 sm:h-14 md:h-16">
                 <Image 
-                  src="/images/logo-header-dream.png" 
-                  alt="Phuket Dream" 
+                  src="/favicon.png" 
+                  alt="Tropicana" 
                   fill
                   className="object-contain object-left"
                   priority
@@ -240,7 +238,7 @@ const MainHeader = () => {
                   <svg className="w-3 h-3 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  info@phuketdream.com
+                  info@tropicana.com
                 </div>
                 <div className="flex items-center justify-center text-xs text-gray-600">
                   <svg className="w-3 h-3 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">

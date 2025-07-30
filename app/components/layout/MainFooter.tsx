@@ -144,8 +144,8 @@ const MainFooter = () => {
                     },
                     { 
                       icon: Mail, 
-                      text: "info@phuketdream.com", 
-                      href: "mailto:info@phuketdream.com",
+                      text: "info@tropicana.com", 
+                      href: "mailto:info@tropicana.com",
                       color: "text-[#22A699]",
                       bgColor: "bg-[#22A699]/20"
                     },
@@ -266,7 +266,7 @@ const MainFooter = () => {
                   },
                   { 
                     icon: Mail, 
-                                      text: "info@phuketdream.com",
+                                      text: "info@tropicana.com",
                   href: "mailto:info@phuketdream.com",
                     color: "text-[#22A699]",
                     bgColor: "bg-[#22A699]/20"
@@ -306,7 +306,7 @@ const MainFooter = () => {
           {/* Нижняя секция футера */}
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
             <div className="flex items-center justify-center space-x-2 text-gray-400 text-xs md:text-sm text-center">
-                              <span>© {new Date().getFullYear()} Phuket Dream. Создано с</span>
+                              <span>© {new Date().getFullYear()} Tropicana. Создано с</span>
               <Heart size={14} className="md:w-4 md:h-4 text-red-500 animate-pulse" />
               <span>для вашего комфорта</span>
             </div>

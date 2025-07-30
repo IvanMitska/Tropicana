@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, User, LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useAuth } from '@/app/hooks/useAuth';
 import { Button } from '../ui/Button';
 import { Dropdown, DropdownItem } from '../ui/Dropdown';
 
@@ -20,7 +19,6 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const { user, logout } = useAuth();
 
   // Обработка скролла для изменения стиля хедера
   useEffect(() => {
@@ -44,25 +42,6 @@ export const Header = () => {
     setIsMenuOpen(false);
   };
 
-  const userMenuItems: DropdownItem[] = [
-    {
-      id: 'profile',
-      label: 'Профиль',
-      icon: <User className="h-4 w-4 mr-2" />,
-      href: '/profile',
-    },
-    {
-      id: 'bookings',
-      label: 'Мои бронирования',
-      href: '/profile/bookings',
-    },
-    {
-      id: 'logout',
-      label: 'Выйти',
-      icon: <LogOut className="h-4 w-4 mr-2" />,
-      onClick: () => logout(),
-    },
-  ];
 
   return (
     <header
@@ -78,8 +57,8 @@ export const Header = () => {
           <Link href="/" className="flex items-center">
             <div className="relative h-16 w-52">
               <Image
-                src="/images/logo-header-dream.png"
-                alt="Phuket Dream логотип"
+                src="/favicon.png"
+                alt="Tropicana логотип"
                 fill
                 sizes="(max-width: 768px) 100vw, 256px"
                 style={{ objectFit: 'contain' }}
@@ -104,34 +83,6 @@ export const Header = () => {
             ))}
           </nav>
 
-          {/* Кнопки авторизации или профиль пользователя */}
-          <div className="hidden md:flex items-center space-x-3">
-            {user ? (
-              <Dropdown 
-                items={userMenuItems}
-                align="right"
-                trigger={
-                  <Button variant="outline" size="sm">
-                    <User className="h-4 w-4 mr-2" />
-                    {user.name || user.email}
-                  </Button>
-                }
-              />
-            ) : (
-              <>
-                <Link href="/login">
-                  <Button variant="outline" size="sm">
-                    Войти
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button variant="default" size="sm">
-                    Регистрация
-                  </Button>
-                </Link>
-              </>
-            )}
-          </div>
 
           {/* Мобильное меню */}
           <button 
@@ -167,52 +118,6 @@ export const Header = () => {
                   {item.name}
                 </Link>
               ))}
-              
-              {/* Мобильные кнопки авторизации */}
-              {user ? (
-                <>
-                  <Link 
-                    id='profile-mobile'
-                    href="/profile"
-                    className="flex items-center text-base py-2 border-b border-gray-100"
-                    onClick={closeMenu}
-                  >
-                    <User className="h-5 w-5 mr-2" />
-                    Профиль
-                  </Link>
-                  <Link 
-                    id='bookings-mobile'
-                    href="/profile/bookings"
-                    className="text-base py-2 border-b border-gray-100"
-                    onClick={closeMenu}
-                  >
-                    Мои бронирования
-                  </Link>
-                  <button 
-                    className="flex items-center text-base py-2 text-red-600"
-                    onClick={() => {
-                      logout();
-                      closeMenu();
-                    }}
-                  >
-                    <LogOut className="h-5 w-5 mr-2" />
-                    Выйти
-                  </button>
-                </>
-              ) : (
-                <div className="flex flex-col space-y-3 pt-3">
-                  <Link href="/login">
-                    <Button variant="outline" size="sm" className="w-full">
-                      Войти
-                    </Button>
-                  </Link>
-                  <Link href="/register">
-                    <Button variant="default" size="sm" className="w-full">
-                      Регистрация
-                    </Button>
-                  </Link>
-                </div>
-              )}
             </nav>
           </div>
         </div>

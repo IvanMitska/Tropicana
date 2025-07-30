@@ -56,7 +56,7 @@ const HeroSection = () => {
           {/* Заголовок и описание */}
           <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 transition-all duration-700 ease-out ${hasAnimated ? 'opacity-100' : 'opacity-0'}`}>
             <span className={`inline-block relative transition-all duration-700 delay-300 ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              Phuket Dream
+              Tropicana
             </span>
           </h1>
           

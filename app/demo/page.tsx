@@ -31,7 +31,7 @@ export default function DemoPage() {
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-dark mb-4">Демонстрация компонентов</h1>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-              Страница демонстрирует работу новых компонентов для "Phuket Dream"
+              Страница демонстрирует работу новых компонентов для "Tropicana"
             </p>
           </div>
           
