@@ -12,35 +12,36 @@ module.exports = {
       },
       colors: {
         primary: {
-          DEFAULT: '#22A699',
-          light: '#4DC0B5',
-          dark: '#1C857A',
-          foreground: 'hsl(var(--primary-foreground))',
+          DEFAULT: '#4FB0A5',      // Бирюзово-зелёный
+          light: '#6FC0B5',        // Светлый вариант
+          dark: '#235F5A',         // Тёмно-бирюзовый
+          foreground: '#FFFFFF',   // Белый текст на primary
         },
         secondary: {
-          DEFAULT: '#F2BE22',
-          light: '#F7D056',
-          dark: '#D9A50E',
-          foreground: 'hsl(var(--secondary-foreground))',
+          DEFAULT: '#235F5A',      // Тёмно-бирюзовый
+          light: '#357570',        // Светлый вариант
+          dark: '#1A4945',         // Тёмный вариант
+          foreground: '#FFFFFF',   // Белый текст на secondary
         },
         dark: {
-          DEFAULT: '#333333',
-          light: '#4D4D4D',
-          dark: '#222222',
+          DEFAULT: '#1E1E1E',      // Основной текст
+          light: '#3E3E3E',        // Светлый вариант
+          dark: '#0E0E0E',         // Тёмный вариант
         },
         light: {
-          DEFAULT: '#F5F5F5',
-          dark: '#E0E0E0',
-          darker: '#CCCCCC',
+          DEFAULT: '#F5F5F5',      // Светло-серый
+          dark: '#E5E5E5',         // Серый
+          darker: '#D5D5D5',       // Более тёмный серый
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          dark: '#B45309',
-          light: '#FCD34D',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: '#5C4531',      // Тёплый серо-коричневый
+          dark: '#453526',         // Тёмный вариант
+          light: '#6D5540',        // Светлый вариант
+          foreground: '#FFFFFF',   // Белый текст на accent
         },
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        background: '#FFFFFF',     // Белый фон
+        foreground: '#1E1E1E',     // Основной текст
+        surface: '#F5F5F5',        // Светло-серый для карточек
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',

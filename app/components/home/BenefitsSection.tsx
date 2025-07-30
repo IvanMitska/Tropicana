@@ -220,7 +220,7 @@ const BenefitsSection = () => {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden bg-light">
+    <section className="py-24 relative overflow-hidden bg-white">
       {/* Анимированные декоративные элементы */}
       <div 
         className={`absolute top-0 right-0 w-96 h-96 rounded-full bg-primary/5 blur-3xl transition-all duration-[2000ms] ease-in-out ${

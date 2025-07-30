@@ -78,7 +78,7 @@ const ServicesSection = () => {
   };
 
   return (
-    <section id="services" className="py-16 md:py-24 bg-light relative overflow-hidden" ref={ref}>
+    <section id="services" className="py-16 md:py-24 bg-gray-50 relative overflow-hidden" ref={ref}>
       {/* Анимированные декоративные элементы */}
       <div 
         className={`absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl transition-all duration-[2000ms] ease-in-out ${

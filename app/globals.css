@@ -3,25 +3,31 @@
 @tailwind utilities;
 
 :root {
-  --primary: #22a699;
-  --primary-light: #4dc0b5;
-  --primary-dark: #1c857a;
+  /* Tropicana Color Palette */
+  --primary: #4FB0A5;        /* Бирюзово-зелёный - основной цвет */
+  --primary-light: #6FC0B5;  /* Светлый вариант */
+  --primary-dark: #235F5A;   /* Тёмно-бирюзовый - secondary */
 
-  --secondary: #f2be22;
-  --secondary-light: #f7d056;
-  --secondary-dark: #d9a50e;
+  --secondary: #235F5A;      /* Тёмно-бирюзовый */
+  --secondary-light: #357570;
+  --secondary-dark: #1A4945;
 
-  --dark: #333333;
-  --dark-light: #4d4d4d;
-  --dark-dark: #222222;
+  --background: #FFFFFF;     /* Белый - фон */
+  --surface: #F5F5F5;        /* Светло-серый - карточки */
+  
+  --text-primary: #1E1E1E;   /* Тёмно-серый/чёрный - основной текст */
+  --text-secondary: #5C4531; /* Тёплый серо-коричневый - второстепенный */
+  
+  --accent: #5C4531;         /* Тёплый серо-коричневый - акценты */
+  
+  --white: #FFFFFF;
+  --light: #F5F5F5;
+  --light-dark: #E5E5E5;
+  --light-darker: #D5D5D5;
 
-  --light: #f5f5f5;
-  --light-dark: #e0e0e0;
-  --light-darker: #cccccc;
-
-  --background: white;
-  --text-primary: #333333;
-  --text-secondary: #ffffff;
+  --dark: #1E1E1E;
+  --dark-light: #3E3E3E;
+  --dark-dark: #0E0E0E;
 }
 
 @layer base {
@@ -92,7 +98,8 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background-color: #FFFFFF;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
@@ -533,4 +540,12 @@ body {
   textarea {
     font-size: 16px !important;
   }
+}
+
+/* Стили для текста с тропической тенью */
+.text-shadow-tropical {
+  text-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(79, 176, 165, 0.3),
+    0 12px 32px rgba(0, 0, 0, 0.3);
 }

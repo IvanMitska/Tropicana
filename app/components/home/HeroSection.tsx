@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Building, Car, Compass, Users } from 'lucide-react';
+import { Building, Car, Compass, Users, Waves } from 'lucide-react';
 import Link from 'next/link';
 
 const HeroSection = () => {
@@ -36,14 +36,14 @@ const HeroSection = () => {
         ></div>
         
         {/* Градиенты и эффекты */}
-        <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/50"></div>
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-dark to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40"></div>
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent"></div>
         
         {/* Декоративные элементы */}
         <div 
           className="absolute top-1/4 right-0 w-96 h-96 rounded-full blur-3xl"
           style={{ 
-            background: 'rgb(var(--color-primary) / 15%)',
+            background: 'rgba(255, 255, 255, 0.05)',
             opacity: heroInView ? 1 : 0,
             transition: 'opacity 1.5s ease-in-out'
           }}
@@ -54,25 +54,35 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 relative z-10 h-full">
         <div className="flex flex-col justify-center items-center min-h-screen py-20 text-center">
           {/* Заголовок и описание */}
-          <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6 transition-all duration-700 ease-out ${hasAnimated ? 'opacity-100' : 'opacity-0'}`}>
-            <span className={`inline-block relative transition-all duration-700 delay-300 ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h1 className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight mb-6 transition-all duration-700 ease-out ${hasAnimated ? 'opacity-100' : 'opacity-0'}`}>
+            <span className={`inline-block relative transition-all duration-700 delay-300 text-primary text-shadow-tropical ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               Tropicana
             </span>
           </h1>
           
-          <p className={`text-lg sm:text-xl text-light/90 max-w-2xl mb-10 transition-all duration-700 delay-[800ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-            Аренда недвижимости, транспорта и экскурсии в одном месте для комфортного отдыха на острове
+          <p className={`text-xl sm:text-2xl md:text-2xl text-white/90 max-w-3xl mb-10 transition-all duration-700 delay-[800ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
+            Морская рыбалка, аренда катамаранов, транспорта и экскурсии для незабываемого отдыха на острове
           </p>
           
           {/* Кнопки сервисов */}
           <div className={`grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 w-full max-w-4xl transition-all duration-700 delay-[1000ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
             <Link
-              href="/real-estate"
+              href="/fishing"
               className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary/50 hover:text-white py-4 px-6 rounded-xl transition-all duration-300 hover:scale-105"
             >
               <div className="flex items-center justify-center gap-3 group-hover:text-white">
-                <Building className="w-6 h-6" />
-                <span className="font-medium">Аренда жилья</span>
+                <Waves className="w-6 h-6" />
+                <span className="font-medium">Морская рыбалка</span>
+              </div>
+            </Link>
+            
+            <Link
+              href="/catamarans"
+              className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary/50 hover:text-white py-4 px-6 rounded-xl transition-all duration-300 hover:scale-105"
+            >
+              <div className="flex items-center justify-center gap-3 group-hover:text-white">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                <span className="font-medium">Аренда катамаранов</span>
               </div>
             </Link>
             
@@ -83,16 +93,6 @@ const HeroSection = () => {
               <div className="flex items-center justify-center gap-3 group-hover:text-white">
                 <Car className="w-6 h-6" />
                 <span className="font-medium">Аренда транспорта</span>
-              </div>
-            </Link>
-            
-            <Link
-              href="/tours"
-              className="group bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-primary hover:border-primary/50 hover:text-white py-4 px-6 rounded-xl transition-all duration-300 hover:scale-105"
-            >
-              <div className="flex items-center justify-center gap-3 group-hover:text-white">
-                <Compass className="w-6 h-6" />
-                <span className="font-medium">Экскурсии</span>
               </div>
             </Link>
           </div>
@@ -122,12 +122,12 @@ const HeroSection = () => {
           {/* Преимущества в одну строку для мобильных */}
           <div className={`grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 w-full max-w-4xl transition-all duration-700 delay-[1400ms] ${hasAnimated ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <div className="flex flex-col items-center">
-              <Building className="w-8 h-8 text-primary mb-2" />
-              <span className="text-white/80 text-sm text-center">Недвижимость</span>
+              <Waves className="w-8 h-8 text-primary mb-2" />
+              <span className="text-white/80 text-sm text-center">Рыбалка</span>
             </div>
             <div className="flex flex-col items-center">
-              <Car className="w-8 h-8 text-primary mb-2" />
-              <span className="text-white/80 text-sm text-center">Транспорт</span>
+              <svg className="w-8 h-8 text-primary mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              <span className="text-white/80 text-sm text-center">Катамараны</span>
             </div>
             <div className="flex flex-col items-center">
               <Compass className="w-8 h-8 text-primary mb-2" />

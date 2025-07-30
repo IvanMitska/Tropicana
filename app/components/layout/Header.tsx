@@ -10,7 +10,8 @@ import { Dropdown, DropdownItem } from '../ui/Dropdown';
 
 const navigation = [
   { name: 'Главная', href: '/' },
-  { name: 'Недвижимость', href: '/real-estate' },
+  { name: 'Рыбалка', href: '/fishing' },
+  { name: 'Катамараны', href: '/catamarans' },
   { name: 'Транспорт', href: '/transport' },
   { name: 'Туры', href: '/tours' },
 ];
@@ -75,7 +76,7 @@ export const Header = () => {
                 className={`text-sm font-medium transition-colors 
                   ${pathname === item.href 
                     ? 'text-primary' 
-                    : scrolled ? 'text-gray-800 hover:text-primary' : 'text-gray-800 hover:text-primary'
+                    : scrolled ? 'text-secondary hover:text-primary' : 'text-secondary hover:text-primary'
                   }`}
               >
                 {item.name}
@@ -86,7 +87,7 @@ export const Header = () => {
 
           {/* Мобильное меню */}
           <button 
-            className="md:hidden text-gray-800"
+            className="md:hidden text-secondary"
             onClick={toggleMenu}
             aria-label={isMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
           >
@@ -108,10 +109,10 @@ export const Header = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-base py-2 border-b border-gray-100 
+                  className={`text-base py-2 border-b border-accent/20 
                     ${pathname === item.href 
                       ? 'text-primary font-medium' 
-                      : 'text-gray-800'
+                      : 'text-secondary'
                     }`}
                   onClick={closeMenu}
                 >

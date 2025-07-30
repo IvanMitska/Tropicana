@@ -39,13 +39,13 @@ const MainFooter = () => {
   return (
     <footer className="relative overflow-hidden">
       {/* Градиентный фон в фирменных цветах */}
-      <div className="absolute inset-0 bg-gradient-to-br from-dark via-dark-light to-dark"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-secondary via-secondary-light to-secondary"></div>
       
       {/* Декоративные элементы в фирменных цветах */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-[#22A699]/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#F2BE22]/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#22A699]/5 rounded-full blur-2xl"></div>
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 rounded-full blur-2xl"></div>
       </div>
         
       {/* Анимированные частицы */}
@@ -53,7 +53,7 @@ const MainFooter = () => {
         {[...Array(15)].map((_, idx) => (
           <div
             key={`particle-${idx}`}
-            className="absolute bg-[#22A699]/20 rounded-full animate-float"
+            className="absolute bg-primary/20 rounded-full animate-float"
             style={{
               width: `${Math.random() * 4 + 2}px`,
               height: `${Math.random() * 4 + 2}px`,
@@ -73,7 +73,7 @@ const MainFooter = () => {
             <div className="max-w-sm mx-auto space-y-8">
               {/* Описание компании */}
               <div className="text-center space-y-6">
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-white/80 text-sm leading-relaxed">
                   Мы создаем незабываемые впечатления на Пхукете, предлагая лучшую недвижимость, 
                   надежный транспорт и захватывающие экскурсии для вашего идеального отдыха.
                 </p>
@@ -114,7 +114,7 @@ const MainFooter = () => {
                     <Link 
                       key={index}
                       href={item.href} 
-                      className="block bg-white/5 hover:bg-white/10 text-white hover:text-[#22A699] py-3 px-4 rounded-lg transition-all duration-300 font-medium text-sm"
+                      className="block bg-white/5 hover:bg-white/10 text-white hover:text-primary py-3 px-4 rounded-lg transition-all duration-300 font-medium text-sm"
                     >
                       {item.text}
                     </Link>
@@ -132,28 +132,21 @@ const MainFooter = () => {
                     { 
                       icon: MapPin, 
                       text: "Таиланд, Пхукет, Патонг Бич", 
-                      color: "text-[#22A699]",
-                      bgColor: "bg-[#22A699]/20"
-                    },
-                    { 
-                      icon: Phone, 
-                      text: "+66 99 489 29 17", 
-                      href: "tel:+66994892917",
-                      color: "text-[#F2BE22]",
-                      bgColor: "bg-[#F2BE22]/20"
+                      color: "text-primary",
+                      bgColor: "bg-primary/20"
                     },
                     { 
                       icon: Mail, 
                       text: "info@tropicana.com", 
                       href: "mailto:info@tropicana.com",
-                      color: "text-[#22A699]",
-                      bgColor: "bg-[#22A699]/20"
+                      color: "text-primary",
+                      bgColor: "bg-primary/20"
                     },
                     { 
                       icon: Clock, 
                       text: "Ежедневно: 09:00 - 21:00", 
-                      color: "text-[#F2BE22]",
-                      bgColor: "bg-[#F2BE22]/20"
+                      color: "text-accent",
+                      bgColor: "bg-accent/20"
                     }
                   ].map((item, index) => (
                     <div key={index} className="flex items-center space-x-3 group">
@@ -164,12 +157,12 @@ const MainFooter = () => {
                         {item.href ? (
                           <a 
                             href={item.href} 
-                            className="text-gray-300 hover:text-white transition-colors duration-300 text-sm block"
+                            className="text-white/80 hover:text-white transition-colors duration-300 text-sm block"
                           >
                             {item.text}
                           </a>
                         ) : (
-                          <span className="text-gray-300 text-sm block">{item.text}</span>
+                          <span className="text-white/80 text-sm block">{item.text}</span>
                         )}
                       </div>
                     </div>
@@ -258,13 +251,6 @@ const MainFooter = () => {
                     bgColor: "bg-[#22A699]/20"
                   },
                   { 
-                    icon: Phone, 
-                    text: "+66 99 489 29 17", 
-                    href: "tel:+66994892917",
-                    color: "text-[#F2BE22]",
-                    bgColor: "bg-[#F2BE22]/20"
-                  },
-                  { 
                     icon: Mail, 
                                       text: "info@tropicana.com",
                   href: "mailto:info@phuketdream.com",
@@ -286,12 +272,12 @@ const MainFooter = () => {
                       {item.href ? (
                         <a 
                           href={item.href} 
-                          className="text-gray-300 hover:text-white transition-colors duration-300 whitespace-pre-line text-sm md:text-base block"
+                          className="text-white/80 hover:text-white transition-colors duration-300 whitespace-pre-line text-sm md:text-base block"
                         >
                           {item.text}
                         </a>
                       ) : (
-                        <span className="text-gray-300 whitespace-pre-line text-sm md:text-base block">{item.text}</span>
+                        <span className="text-white/80 whitespace-pre-line text-sm md:text-base block">{item.text}</span>
                       )}
                     </div>
                   </div>
@@ -305,7 +291,7 @@ const MainFooter = () => {
           
           {/* Нижняя секция футера */}
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
-            <div className="flex items-center justify-center space-x-2 text-gray-400 text-xs md:text-sm text-center">
+            <div className="flex items-center justify-center space-x-2 text-white/60 text-xs md:text-sm text-center">
                               <span>© {new Date().getFullYear()} Tropicana. Создано с</span>
               <Heart size={14} className="md:w-4 md:h-4 text-red-500 animate-pulse" />
               <span>для вашего комфорта</span>
