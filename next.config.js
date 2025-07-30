@@ -1,6 +1,11 @@
-// Загружаем переменные окружения по умолчанию для Netlify
-if (process.env.NODE_ENV === 'production' || process.env.NETLIFY) {
-  require('./netlify-env.js');
+// Загружаем переменные окружения по умолчанию для Netlify (если файл существует)
+try {
+  if (process.env.NODE_ENV === 'production' || process.env.NETLIFY) {
+    require('./netlify-env.js');
+  }
+} catch (error) {
+  // Файл netlify-env.js не найден, продолжаем без него
+  console.log('netlify-env.js not found, continuing without it');
 }
 
 /** @type {import('next').NextConfig} */
