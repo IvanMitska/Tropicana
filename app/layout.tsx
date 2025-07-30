@@ -9,12 +9,12 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Phuket Dream | Аренда, экскурсии и транспорт на Пхукете',
-  description: 'Phuket Dream - ваш надежный партнер на Пхукете. Аренда недвижимости, транспорта, организация экскурсий и туров. Лучшие предложения и качественный сервис.',
-  keywords: 'Пхукет, аренда, недвижимость, транспорт, экскурсии, туры, Таиланд, Phuket Dream',
-  authors: [{ name: 'Phuket Dream' }],
-  creator: 'Phuket Dream',
-  publisher: 'Phuket Dream',
+  title: 'Tropicana | Аренда, экскурсии и транспорт на Пхукете',
+  description: 'Tropicana - ваш надежный партнер на Пхукете. Аренда недвижимости, транспорта, организация экскурсий и туров. Лучшие предложения и качественный сервис.',
+  keywords: 'Пхукет, аренда, недвижимость, транспорт, экскурсии, туры, Таиланд, Tropicana',
+  authors: [{ name: 'Tropicana' }],
+  creator: 'Tropicana',
+  publisher: 'Tropicana',
   robots: 'index, follow',
   icons: {
     icon: [
@@ -26,10 +26,10 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: 'Phuket Dream | Аренда, экскурсии и транспорт на Пхукете',
-    description: 'Phuket Dream - ваш надежный партнер на Пхукете. Аренда недвижимости, транспорта, организация экскурсий и туров.',
-    url: 'https://phuketdream.com',
-    siteName: 'Phuket Dream',
+    title: 'Tropicana | Аренда, экскурсии и транспорт на Пхукете',
+    description: 'Tropicana - ваш надежный партнер на Пхукете. Аренда недвижимости, транспорта, организация экскурсий и туров.',
+    url: 'https://tropicana.com',
+    siteName: 'Tropicana',
     locale: 'ru_RU',
     type: 'website',
   },
